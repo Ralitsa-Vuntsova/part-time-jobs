@@ -1,0 +1,11 @@
+echo "Running pre-commit hook"
+cd api
+echo "Formatting files on the server"
+npm run format
+echo "Linting files on the server"
+npm run lint
+cd ../client
+echo "Formatting files on the client"
+npm run format
+echo "Linting files on the client"
+npm run lint
