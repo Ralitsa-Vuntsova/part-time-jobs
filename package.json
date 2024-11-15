@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "husky": "^9.1.6"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "cd api && prettier --write"
+    }
+  }
+}
