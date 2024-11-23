@@ -1,4 +1,4 @@
-import { userService } from "./user-service";
+import { userService } from './user-service';
 
 interface HttpRequestConfig {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

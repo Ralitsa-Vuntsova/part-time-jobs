@@ -1,4 +1,4 @@
-import { UserDto } from "@shared/data-objects";
+import { UserDto } from '@shared/data-objects';
 
 export interface UserToken {
   user: Partial<UserDto>;

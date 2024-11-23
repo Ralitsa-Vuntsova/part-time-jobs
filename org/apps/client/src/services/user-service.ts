@@ -37,10 +37,13 @@ export class UserService {
   }
 
   async login(user: LoginUserDto, abortSignal: AbortSignal) {
-    const { user: result, access_token } = await this.http.post<UserToken>('auth/login', {
-      body: user,
-      abortSignal,
-    });
+    const { user: result, access_token } = await this.http.post<UserToken>(
+      'auth/login',
+      {
+        body: user,
+        abortSignal,
+      }
+    );
 
     this.storage.set({ user: result, access_token });
     this.handler?.(result);

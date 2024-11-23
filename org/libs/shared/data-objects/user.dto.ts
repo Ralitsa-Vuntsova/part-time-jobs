@@ -49,7 +49,4 @@ export class CreateUserDto extends OmitType(User, [
   'updatedBy',
 ]) {}
 
-export class LoginUserDto extends PickType(User, [
-  'username',
-  'password',
-]) {}
+export class LoginUserDto extends PickType(User, ['username', 'password']) {}

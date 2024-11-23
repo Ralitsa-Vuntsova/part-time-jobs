@@ -3,18 +3,23 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { userService } from '../../services/user-service';
-import { userLoginSchema, UserLoginSchema } from '../../validation-schemas/user-login-schema';
+import {
+  userLoginSchema,
+  UserLoginSchema,
+} from '../../validation-schemas/user-login-schema';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
   const navigate = useNavigate();
 
   // TODO: Handle loading and errors
-  const { trigger } = useAsyncAction(async ({ signal }, user: UserLoginSchema) => {
-    await userService.login(user, signal);
+  const { trigger } = useAsyncAction(
+    async ({ signal }, user: UserLoginSchema) => {
+      await userService.login(user, signal);
 
-    navigate('/');
-  });
+      navigate('/');
+    }
+  );
 
   const form = useForm<UserLoginSchema>({
     defaultValues: {
@@ -33,13 +38,26 @@ export function Login() {
         <Controller
           name="username"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="Username" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              label="Username"
+              {...field}
+              helperText={error?.message}
+            />
+          )}
         />
 
         <Controller
           name="password"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="Password" type="password" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              label="Password"
+              type="password"
+              {...field}
+              helperText={error?.message}
+            />
+          )}
         />
 
         <Button type="submit">Login</Button>

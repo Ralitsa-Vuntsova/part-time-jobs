@@ -13,14 +13,18 @@ import { PrivateRoute } from './components/private-route';
 export function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/'>
-        <Route index path='/' element={
+      <Route path="/">
+        <Route
+          index
+          path="/"
+          element={
             <UserProvider>
               <PrivateRoute>
-                <Home/>
+                <Home />
               </PrivateRoute>
             </UserProvider>
-        }/>
+          }
+        />
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

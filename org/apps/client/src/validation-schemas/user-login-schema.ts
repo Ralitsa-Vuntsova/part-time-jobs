@@ -14,5 +14,5 @@ export function toCreateUserDto(user: UserLoginSchema): LoginUserDto {
   return {
     username: user.username,
     password: user.password,
-  }
+  };
 }

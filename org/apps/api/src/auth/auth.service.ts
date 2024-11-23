@@ -19,12 +19,12 @@ export class AuthService {
 
     if (user) {
       const isMatch = await compare(pass, user.password);
-      
+
       if (isMatch) {
         return {
           _id: user._id.toString(),
           username: user.username,
-          email: user.email
+          email: user.email,
         };
       }
     }
@@ -37,7 +37,7 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload),
-      user
+      user,
     };
   }
 }

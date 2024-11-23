@@ -15,16 +15,18 @@ export function Register() {
   const navigate = useNavigate();
 
   // TODO: Handle loading and errors
-  const { data: userNames } = useAsync(async ({ signal }) =>
-    userService.getAllUsernames(signal),
+  const { data: userNames } = useAsync(
+    async ({ signal }) => userService.getAllUsernames(signal),
     []
   );
 
-  const { trigger } = useAsyncAction(async ({ signal }, user: UserCreationSchema) => {
-    await userService.createUser(toCreateUserDto(user), signal);
+  const { trigger } = useAsyncAction(
+    async ({ signal }, user: UserCreationSchema) => {
+      await userService.createUser(toCreateUserDto(user), signal);
 
-    navigate('/login');
-  });
+      navigate('/login');
+    }
+  );
 
   const form = useForm<UserCreationSchema>({
     defaultValues: {
@@ -33,12 +35,14 @@ export function Register() {
       lastName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     },
-    resolver: zodResolver(userCreationSchema.refine((data) => !userNames?.includes(data.username), {
-      message: 'Username already taken',
-      path: ['username'],
-    })),
+    resolver: zodResolver(
+      userCreationSchema.refine((data) => !userNames?.includes(data.username), {
+        message: 'Username already taken',
+        path: ['username'],
+      })
+    ),
   });
 
   const onSubmit = form.handleSubmit(trigger);
@@ -50,37 +54,71 @@ export function Register() {
         <Controller
           name="username"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="Username" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              label="Username"
+              {...field}
+              helperText={error?.message}
+            />
+          )}
         />
 
         <Controller
           name="firstName"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="First Name" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              label="First Name"
+              {...field}
+              helperText={error?.message}
+            />
+          )}
         />
 
         <Controller
           name="lastName"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="Last Name" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              label="Last Name"
+              {...field}
+              helperText={error?.message}
+            />
+          )}
         />
 
         <Controller
           name="email"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="Email" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField label="Email" {...field} helperText={error?.message} />
+          )}
         />
 
         <Controller
           name="password"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="Password" type="password" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              label="Password"
+              type="password"
+              {...field}
+              helperText={error?.message}
+            />
+          )}
         />
 
         <Controller
           name="confirmPassword"
           control={form.control}
-          render={({ field, fieldState: { error } }) => <TextField label="Confirm Password" type="password" {...field} helperText={error?.message} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              label="Confirm Password"
+              type="password"
+              {...field}
+              helperText={error?.message}
+            />
+          )}
         />
 
         <Button type="submit">Register</Button>
