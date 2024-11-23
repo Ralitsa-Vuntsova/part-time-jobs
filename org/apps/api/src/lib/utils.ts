@@ -5,6 +5,7 @@ interface Constructable<T> {
   new (...args: any): T;
 }
 
+// TODO: Fix
 export async function dbToInstance<T extends object, D, G>(
   constructor: Constructable<T>,
   document: Query<D, G> | Promise<D>

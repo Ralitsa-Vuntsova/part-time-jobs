@@ -19,23 +19,25 @@ export class AuthService {
 
     if (user) {
       const isMatch = await compare(pass, user.password);
-
+      
       if (isMatch) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...result } = user;
-
-        return result;
+        return {
+          _id: user._id.toString(),
+          username: user.username,
+          email: user.email
+        };
       }
     }
 
     return null;
   }
 
-  login(user: UserDto) {
+  login(user: Partial<UserDto>) {
     const payload = { username: user.username, sub: user._id };
 
     return {
       access_token: this.jwtService.sign(payload),
+      user
     };
   }
 }

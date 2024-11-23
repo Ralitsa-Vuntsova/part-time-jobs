@@ -15,7 +15,11 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOne(username: string): Promise<UserDto> {
-    return dbToInstance(UserDto, this.userModel.find({ username }));
+    return (await this.userModel.findOne({ username }));
+  }
+
+  async getAllUsernames(): Promise<string[]> {
+    return (await this.userModel.find({}, 'username')).map((user) => user.username);
   }
 
   async create(user: CreateUserDto) {

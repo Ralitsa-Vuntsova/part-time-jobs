@@ -12,6 +12,7 @@ export class BaseDto {
   @IsISO8601()
   updatedAt?: string;
 
+  // TODO: Handle these
   @Prop({ type: String })
   @Type(() => UserDto['_id'])
   createdBy!: UserDto['_id'];

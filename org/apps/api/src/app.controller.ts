@@ -13,12 +13,6 @@ export class AppController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/logout')
-  async logout(@Request() req) {
-    return req.logout();
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {

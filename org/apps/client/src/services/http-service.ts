@@ -1,3 +1,5 @@
+import { userService } from "./user-service";
+
 interface HttpRequestConfig {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any;
@@ -36,6 +38,7 @@ export class HttpService {
     config: HttpRequestConfig
   ): Promise<T> {
     const queryParams = new URLSearchParams(config.query).toString();
+    const { authToken } = userService;
 
     const response = await fetch(
       `${this.baseUrl}/${path.replace(/^\//, '')}${
@@ -46,6 +49,7 @@ export class HttpService {
         body: config.body ? JSON.stringify(config.body) : undefined,
         signal: config.abortSignal,
         headers: {
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : undefined),
           ...(config.body ? { 'Content-Type': 'application/json' } : {}),
           ...(config.headers ?? {}),
         },

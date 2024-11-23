@@ -5,10 +5,27 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { Home } from './pages/home';
+import { UserProvider } from './hooks/use-current-user';
+import { Register } from './pages/register';
+import { Login } from './pages/login';
+import { PrivateRoute } from './components/private-route';
 
 export function App() {
   const router = createBrowserRouter(
-    createRoutesFromElements(<Route path="/" element={<Home />} />),
+    createRoutesFromElements(
+      <Route path='/'>
+        <Route index path='/' element={
+            <UserProvider>
+              <PrivateRoute>
+                <Home/>
+              </PrivateRoute>
+            </UserProvider>
+        }/>
+
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
+    ),
     {
       future: {
         v7_fetcherPersist: true,
