@@ -4,3 +4,4 @@ echo "Formatting files"
 npm run prettier:fix
 echo "Linting files"
 npm run eslint:fix
+git add .

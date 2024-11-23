@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import {
   toCreateUserDto,
@@ -10,6 +10,38 @@ import { useAsyncAction } from '../../hooks/use-async-action';
 import { userService } from '../../services/user-service';
 import { useAsync } from '../../hooks/use-async';
 import { useNavigate } from 'react-router-dom';
+import { makeStyles } from '../../libs/make-styles';
+
+const styles = makeStyles({
+  root: {
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: (theme) => theme.palette.primary.light,
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 2,
+    p: 5,
+    // TODO: Add to palette
+    background: '#E8E8E8',
+    borderRadius: '10px',
+    boxShadow: '0px 0px 3px 2px #002C77',
+  },
+  input: {
+    '&.valid': {
+      boxShadow: '3px 3px 4px #CCC8C8',
+    },
+  },
+  button: {
+    background: (theme) => theme.palette.primary.light,
+    width: '100%',
+  },
+});
 
 export function Register() {
   const navigate = useNavigate();
@@ -49,80 +81,106 @@ export function Register() {
 
   // TODO: Add button for Login
   return (
-    <FormProvider {...form}>
-      <Box component="form" onSubmit={onSubmit}>
-        <Controller
-          name="username"
-          control={form.control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              label="Username"
-              {...field}
-              helperText={error?.message}
-            />
-          )}
-        />
+    <Stack sx={styles.root}>
+      <FormProvider {...form}>
+        <Box component="form" onSubmit={onSubmit} sx={styles.content}>
+          <Controller
+            name="username"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="Username"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
 
-        <Controller
-          name="firstName"
-          control={form.control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              label="First Name"
-              {...field}
-              helperText={error?.message}
-            />
-          )}
-        />
+          <Controller
+            name="firstName"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="First Name"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
 
-        <Controller
-          name="lastName"
-          control={form.control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              label="Last Name"
-              {...field}
-              helperText={error?.message}
-            />
-          )}
-        />
+          <Controller
+            name="lastName"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="Last Name"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
 
-        <Controller
-          name="email"
-          control={form.control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField label="Email" {...field} helperText={error?.message} />
-          )}
-        />
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="Email"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
 
-        <Controller
-          name="password"
-          control={form.control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              label="Password"
-              type="password"
-              {...field}
-              helperText={error?.message}
-            />
-          )}
-        />
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="Password"
+                type="password"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
 
-        <Controller
-          name="confirmPassword"
-          control={form.control}
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              label="Confirm Password"
-              type="password"
-              {...field}
-              helperText={error?.message}
-            />
-          )}
-        />
+          <Controller
+            name="confirmPassword"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="Confirm Password"
+                type="password"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
 
-        <Button type="submit">Register</Button>
-      </Box>
-    </FormProvider>
+          <Button type="submit" variant="contained" sx={styles.button}>
+            Register
+          </Button>
+        </Box>
+      </FormProvider>
+    </Stack>
   );
 }

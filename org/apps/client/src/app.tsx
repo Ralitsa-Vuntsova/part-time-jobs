@@ -9,22 +9,24 @@ import { UserProvider } from './hooks/use-current-user';
 import { Register } from './pages/register';
 import { Login } from './pages/login';
 import { PrivateRoute } from './components/private-route';
+import { BaseLayout } from './components/base-layout';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './libs/theme';
 
 export function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
-        <Route
-          index
-          path="/"
-          element={
-            <UserProvider>
+        <Route element={<BaseLayout />}>
+          <Route
+            index
+            element={
               <PrivateRoute>
                 <Home />
               </PrivateRoute>
-            </UserProvider>
-          }
-        />
+            }
+          />
+        </Route>
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -42,11 +44,15 @@ export function App() {
   );
 
   return (
-    <RouterProvider
-      router={router}
-      future={{
-        v7_startTransition: true,
-      }}
-    />
+    <ThemeProvider theme={theme}>
+      <UserProvider>
+        <RouterProvider
+          router={router}
+          future={{
+            v7_startTransition: true,
+          }}
+        />
+      </UserProvider>
+    </ThemeProvider>
   );
 }
