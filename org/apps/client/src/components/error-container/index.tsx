@@ -26,7 +26,7 @@ function getErrorMessage(error: unknown): string {
 
   // While unknown errors should be avoided as much as possible they are still possible
   // Logging them will help capturing more specific errors
-   
+
   console.log(error);
 
   return 'Something went wrong';

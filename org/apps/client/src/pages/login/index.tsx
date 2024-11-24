@@ -6,7 +6,7 @@ import {
   userLoginSchema,
   UserLoginSchema,
 } from '../../validation-schemas/user-login-schema';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from '../../libs/make-styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { ErrorContainer } from '../../components/error-container';
@@ -54,7 +54,7 @@ export function Login() {
     async ({ signal }, user: UserLoginSchema) => {
       try {
         await authService.login(user, signal);
-      } catch (error) {
+      } catch {
         setLoginError(loginError);
         return;
       }
