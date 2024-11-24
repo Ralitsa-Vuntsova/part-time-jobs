@@ -3,7 +3,6 @@ import { makeStyles } from '../../libs/make-styles';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { useCurrentUser } from '../../hooks/use-current-user';
 import { UserMenu } from './user-menu';
-import { noop } from 'lodash';
 import { Breakpoint, useResponsive } from '../../hooks/use-responsive';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { userService } from '../../services/user-service';
