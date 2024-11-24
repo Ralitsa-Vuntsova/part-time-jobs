@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import {
   toCreateUserDto,
@@ -9,8 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { userService } from '../../services/user-service';
 import { useAsync } from '../../hooks/use-async';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from '../../libs/make-styles';
+import { Link as RouterLink } from 'react-router-dom';
+import { ErrorContainer } from '../../components/error-container';
 
 const styles = makeStyles({
   root: {
@@ -27,8 +29,7 @@ const styles = makeStyles({
     alignItems: 'center',
     gap: 2,
     p: 5,
-    // TODO: Add to palette
-    background: '#E8E8E8',
+    background: (theme) => theme.palette.background.paper,
     borderRadius: '10px',
     boxShadow: '0px 0px 3px 2px #002C77',
   },
@@ -45,9 +46,9 @@ const styles = makeStyles({
 
 export function Register() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
-  // TODO: Handle loading and errors
-  const { data: userNames } = useAsync(
+  const { data: userNames, error } = useAsync(
     async ({ signal }) => userService.getAllUsernames(signal),
     []
   );
@@ -56,7 +57,7 @@ export function Register() {
     async ({ signal }, user: UserCreationSchema) => {
       await userService.createUser(toCreateUserDto(user), signal);
 
-      navigate('/login');
+      navigate(state.path ?? '/login');
     }
   );
 
@@ -79,7 +80,10 @@ export function Register() {
 
   const onSubmit = form.handleSubmit(trigger);
 
-  // TODO: Add button for Login
+  if (localStorage.getItem('currentUser')) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <Stack sx={styles.root}>
       <FormProvider {...form}>
@@ -179,6 +183,15 @@ export function Register() {
           <Button type="submit" variant="contained" sx={styles.button}>
             Register
           </Button>
+
+          <Typography>
+            Already have an account?{' '}
+            <Link component={RouterLink} to="/login" underline="none">
+              Login
+            </Link>
+          </Typography>
+
+          {error ? <ErrorContainer>{error}</ErrorContainer> : null}
         </Box>
       </FormProvider>
     </Stack>

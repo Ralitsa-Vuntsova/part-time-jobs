@@ -1,4 +1,4 @@
-import { userService } from './user-service';
+import { authService } from './auth-service';
 
 interface HttpRequestConfig {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,7 +38,7 @@ export class HttpService {
     config: HttpRequestConfig
   ): Promise<T> {
     const queryParams = new URLSearchParams(config.query).toString();
-    const { authToken } = userService;
+    const { authToken } = authService;
 
     const response = await fetch(
       `${this.baseUrl}/${path.replace(/^\//, '')}${

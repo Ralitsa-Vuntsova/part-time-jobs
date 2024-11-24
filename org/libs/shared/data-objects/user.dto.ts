@@ -1,11 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { BaseDto } from './base.dto';
 import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import { OmitType, PickType } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
 
 @Schema({ collection: 'users', timestamps: true })
-export class User extends BaseDto {
+export class User {
   @IsNotEmpty()
   @IsMongoId()
   _id!: string;
@@ -41,12 +40,12 @@ export type UserDocument = HydratedDocument<User>;
 
 export class UserDto extends User {}
 
-export class CreateUserDto extends OmitType(User, [
-  '_id',
-  'createdAt',
-  'updatedAt',
-  'createdBy',
-  'updatedBy',
-]) {}
+export class CreateUserDto extends OmitType(User, ['_id']) {}
 
 export class LoginUserDto extends PickType(User, ['username', 'password']) {}
+
+export class ResultUserDto extends PickType(User, [
+  '_id',
+  'username',
+  'email',
+]) {}

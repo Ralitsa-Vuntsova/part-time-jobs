@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import {
   UserDocument,
   User,
@@ -9,13 +8,14 @@ import {
 } from '@shared/data-objects';
 import { dbToInstance } from '../lib/utils';
 import { genSalt, hash } from 'bcrypt';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOne(username: string): Promise<UserDto> {
-    return await this.userModel.findOne({ username });
+    return dbToInstance(UserDto, this.userModel.findOne({ username }));
   }
 
   async getAllUsernames(): Promise<string[]> {

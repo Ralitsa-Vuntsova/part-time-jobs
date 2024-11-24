@@ -2,6 +2,7 @@ import { createTheme, lighten } from '@mui/material/styles';
 import { fontStyleOptions } from './font-styles';
 import { palette } from './palette';
 import { variants } from './typography-variants';
+import { AdditionalColors } from './additional-colors';
 
 const baseTheme = createTheme({
   palette,
@@ -10,9 +11,6 @@ const baseTheme = createTheme({
     ...variants,
   },
 });
-
-// TODO: Create file with colors
-const lightGray = '#A5A5A5';
 
 export const theme = createTheme(baseTheme, {
   components: {
@@ -234,10 +232,10 @@ export const theme = createTheme(baseTheme, {
           fontWeight: baseTheme.typography.fontWeightRegular,
           letterSpacing: '0px',
           lineHeight: '14px',
-          backgroundColor: lightGray,
+          backgroundColor: AdditionalColors.LightGray,
         },
         arrow: {
-          color: lightGray,
+          color: AdditionalColors.LightGray,
         },
       },
     },

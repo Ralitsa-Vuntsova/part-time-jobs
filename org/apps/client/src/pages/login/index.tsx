@@ -1,14 +1,18 @@
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { Box, Link, Stack, TextField, Typography } from '@mui/material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAsyncAction } from '../../hooks/use-async-action';
-import { userService } from '../../services/user-service';
 import {
   userLoginSchema,
   UserLoginSchema,
 } from '../../validation-schemas/user-login-schema';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from '../../libs/make-styles';
+import { Link as RouterLink } from 'react-router-dom';
+import { ErrorContainer } from '../../components/error-container';
+import { LoadingButton } from '../../components/loading-button';
+import { useState } from 'react';
+import { authService } from '../../services/auth-service';
 
 const styles = makeStyles({
   root: {
@@ -25,8 +29,7 @@ const styles = makeStyles({
     alignItems: 'center',
     gap: 2,
     p: 5,
-    // TODO: Add to palette
-    background: '#E8E8E8',
+    background: (theme) => theme.palette.background.paper,
     borderRadius: '10px',
     boxShadow: '0px 0px 3px 2px #002C77',
   },
@@ -43,13 +46,20 @@ const styles = makeStyles({
 
 export function Login() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
-  // TODO: Handle loading and errors
-  const { trigger } = useAsyncAction(
+  const [loginError, setLoginError] = useState();
+
+  const { trigger, loading, error } = useAsyncAction(
     async ({ signal }, user: UserLoginSchema) => {
-      await userService.login(user, signal);
+      try {
+        await authService.login(user, signal);
+      } catch (error) {
+        setLoginError(loginError);
+        return;
+      }
 
-      navigate('/');
+      navigate(state.path ?? '/');
     }
   );
 
@@ -63,7 +73,10 @@ export function Login() {
 
   const onSubmit = form.handleSubmit(trigger);
 
-  // TODO: Add button for Register
+  if (localStorage.getItem('currentUser')) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <Stack sx={styles.root}>
       <FormProvider {...form}>
@@ -99,9 +112,27 @@ export function Login() {
             )}
           />
 
-          <Button type="submit" variant="contained" sx={styles.button}>
+          {loginError && (
+            <Typography color="error">Wrong credentials</Typography>
+          )}
+
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            sx={styles.button}
+            loading={loading}
+          >
             Login
-          </Button>
+          </LoadingButton>
+
+          <Typography>
+            Don't have an account?{' '}
+            <Link component={RouterLink} to="/register" underline="none">
+              Register
+            </Link>
+          </Typography>
+
+          {error ? <ErrorContainer>{error}</ErrorContainer> : null}
         </Box>
       </FormProvider>
     </Stack>

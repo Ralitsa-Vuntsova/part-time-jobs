@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { notEmpty } from './common';
 import { LoginUserDto } from '@shared/data-objects';
 
-// TODO: Add validation for wrong credentials
 export const userLoginSchema = z.object({
   username: notEmpty,
   password: notEmpty,

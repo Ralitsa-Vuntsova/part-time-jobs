@@ -53,7 +53,7 @@ export const palette = createPalette({
   },
   background: {
     default: 'rgba(240, 240, 240, 1)',
-    paper: 'rgba(255, 255, 255, 1)',
+    paper: 'rgba(232, 232, 232, 1)',
   },
   divider: 'rgba(32, 32, 32, 0.12)',
   contrastThreshold: 3,

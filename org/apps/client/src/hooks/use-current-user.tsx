@@ -1,27 +1,27 @@
-import React, {
+import {
   createContext,
   ReactNode,
   useContext,
   useEffect,
   useState,
 } from 'react';
-import { userService } from '../services/user-service';
-import { UserDto } from '@shared/data-objects';
+import { authService } from '../services/auth-service';
+import { ResultUserDto } from '@shared/data-objects';
 
-const UserContext = createContext<Partial<UserDto> | undefined>(undefined);
+const UserContext = createContext<ResultUserDto | undefined>(undefined);
 
 export interface UserProviderProps {
   children: ReactNode;
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useState(userService.persistedUser);
+  const [user, setUser] = useState(authService.persistedUser);
 
   useEffect(() => {
-    userService.setHandler(setUser);
+    authService.setHandler(setUser);
 
     return () => {
-      userService.setHandler(null);
+      authService.setHandler(null);
     };
   }, []);
 

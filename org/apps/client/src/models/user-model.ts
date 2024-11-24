@@ -1,6 +1,6 @@
-import { UserDto } from '@shared/data-objects';
+import { ResultUserDto } from '@shared/data-objects';
 
 export interface UserToken {
-  user: Partial<UserDto>;
+  user: ResultUserDto;
   access_token: string;
 }
