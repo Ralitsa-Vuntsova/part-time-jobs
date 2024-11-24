@@ -13,9 +13,14 @@ const styles = makeStyles({
   },
 });
 
-export function BaseLayout() {
+interface Props {
+  TopBar: JSX.Element;
+}
+
+export function BaseLayout({ TopBar }: Props) {
   return (
     <Stack sx={styles.root}>
+      {TopBar}
       <Stack component="main" sx={styles.content}>
         <Outlet />
       </Stack>

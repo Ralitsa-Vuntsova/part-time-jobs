@@ -12,12 +12,13 @@ import { PrivateRoute } from './components/private-route';
 import { BaseLayout } from './components/base-layout';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './libs/theme';
+import { TopBar } from './components/top-bar';
 
 export function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
-        <Route element={<BaseLayout />}>
+        <Route element={<BaseLayout TopBar={<TopBar />} />}>
           <Route
             index
             element={
