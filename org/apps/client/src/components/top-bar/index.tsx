@@ -11,7 +11,7 @@ import { authService } from '../../services/auth-service';
 
 const styles = makeStyles({
   root: {
-    background: (theme) => theme.palette.primary.light,
+    position: 'sticky',
   },
   toolbar: {
     display: 'flex',

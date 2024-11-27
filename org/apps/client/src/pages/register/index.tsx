@@ -1,4 +1,4 @@
-import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
+import { Button, Link, TextField, Typography } from '@mui/material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import {
   toCreateUserDto,
@@ -13,26 +13,10 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from '../../libs/make-styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { ErrorContainer } from '../../components/error-container';
+import { StyledFormControl } from '../../components/styled/form-control';
+import { StyledStack } from '../../components/styled/stack';
 
 const styles = makeStyles({
-  root: {
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: (theme) => theme.palette.primary.light,
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 2,
-    p: 5,
-    background: (theme) => theme.palette.background.paper,
-    borderRadius: '10px',
-    boxShadow: '0px 0px 3px 2px #002C77',
-  },
   input: {
     '&.valid': {
       boxShadow: '3px 3px 4px #CCC8C8',
@@ -85,9 +69,9 @@ export function Register() {
   }
 
   return (
-    <Stack sx={styles.root}>
+    <StyledStack>
       <FormProvider {...form}>
-        <Box component="form" onSubmit={onSubmit} sx={styles.content}>
+        <StyledFormControl onSubmit={onSubmit}>
           <Controller
             name="username"
             control={form.control}
@@ -192,8 +176,8 @@ export function Register() {
           </Typography>
 
           {error ? <ErrorContainer>{error}</ErrorContainer> : null}
-        </Box>
+        </StyledFormControl>
       </FormProvider>
-    </Stack>
+    </StyledStack>
   );
 }

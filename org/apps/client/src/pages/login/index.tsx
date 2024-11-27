@@ -1,4 +1,4 @@
-import { Box, Link, Stack, TextField, Typography } from '@mui/material';
+import { Link, TextField, Typography } from '@mui/material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAsyncAction } from '../../hooks/use-async-action';
@@ -13,33 +13,16 @@ import { ErrorContainer } from '../../components/error-container';
 import { LoadingButton } from '../../components/loading-button';
 import { useState } from 'react';
 import { authService } from '../../services/auth-service';
+import { StyledStack } from '../../components/styled/stack';
+import { StyledFormControl } from '../../components/styled/form-control';
 
 const styles = makeStyles({
-  root: {
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: (theme) => theme.palette.primary.light,
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 2,
-    p: 5,
-    background: (theme) => theme.palette.background.paper,
-    borderRadius: '10px',
-    boxShadow: '0px 0px 3px 2px #002C77',
-  },
   input: {
     '&.valid': {
       boxShadow: '3px 3px 4px #CCC8C8',
     },
   },
   button: {
-    background: (theme) => theme.palette.primary.light,
     width: '100%',
   },
 });
@@ -48,14 +31,14 @@ export function Login() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const [loginError, setLoginError] = useState();
+  const [loginError, setLoginError] = useState('');
 
   const { trigger, loading, error } = useAsyncAction(
     async ({ signal }, user: UserLoginSchema) => {
       try {
         await authService.login(user, signal);
       } catch {
-        setLoginError(loginError);
+        setLoginError('Wrong username or password');
         return;
       }
 
@@ -78,9 +61,9 @@ export function Login() {
   }
 
   return (
-    <Stack sx={styles.root}>
+    <StyledStack>
       <FormProvider {...form}>
-        <Box component="form" onSubmit={onSubmit} sx={styles.content}>
+        <StyledFormControl onSubmit={onSubmit}>
           <Controller
             name="username"
             control={form.control}
@@ -112,9 +95,7 @@ export function Login() {
             )}
           />
 
-          {loginError && (
-            <Typography color="error">Wrong credentials</Typography>
-          )}
+          {loginError && <Typography color="error">{loginError}</Typography>}
 
           <LoadingButton
             type="submit"
@@ -133,8 +114,8 @@ export function Login() {
           </Typography>
 
           {error ? <ErrorContainer>{error}</ErrorContainer> : null}
-        </Box>
+        </StyledFormControl>
       </FormProvider>
-    </Stack>
+    </StyledStack>
   );
 }

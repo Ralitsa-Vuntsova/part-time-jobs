@@ -32,6 +32,10 @@ export class AuthService {
       }
     );
 
+    if (!result) {
+      throw new Error('Wrong username or password');
+    }
+
     this.storage.set({ user: result, access_token });
     this.handler?.(result);
   }

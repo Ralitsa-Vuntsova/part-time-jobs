@@ -2,7 +2,6 @@ import { createTheme, lighten } from '@mui/material/styles';
 import { fontStyleOptions } from './font-styles';
 import { palette } from './palette';
 import { variants } from './typography-variants';
-import { AdditionalColors } from './additional-colors';
 
 const baseTheme = createTheme({
   palette,
@@ -232,10 +231,10 @@ export const theme = createTheme(baseTheme, {
           fontWeight: baseTheme.typography.fontWeightRegular,
           letterSpacing: '0px',
           lineHeight: '14px',
-          backgroundColor: AdditionalColors.LightGray,
+          backgroundColor: baseTheme.palette.text.secondary,
         },
         arrow: {
-          color: AdditionalColors.LightGray,
+          color: baseTheme.palette.text.secondary,
         },
       },
     },

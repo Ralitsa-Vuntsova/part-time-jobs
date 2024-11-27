@@ -13,6 +13,8 @@ import { BaseLayout } from './components/base-layout';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './libs/theme';
 import { TopBar } from './components/top-bar';
+import { SearchAdCreation } from './pages/search-ad-creation';
+import { OfferAdCreation } from './pages/offer-ad-creation';
 
 export function App() {
   const router = createBrowserRouter(
@@ -24,6 +26,24 @@ export function App() {
             element={
               <PrivateRoute>
                 <Home />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="create-search-ad"
+            element={
+              <PrivateRoute>
+                <SearchAdCreation />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="create-offer-ad"
+            element={
+              <PrivateRoute>
+                <OfferAdCreation />
               </PrivateRoute>
             }
           />

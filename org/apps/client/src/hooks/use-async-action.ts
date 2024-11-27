@@ -81,7 +81,6 @@ export function useAsyncAction<T, Args extends any[]>(
 
   const trigger = useCallback(
     (...args: Args) => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       perform(...args).catch(() => {});
     },
     [perform]

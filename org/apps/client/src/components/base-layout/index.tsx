@@ -4,11 +4,11 @@ import { makeStyles } from '../../libs/make-styles';
 
 const styles = makeStyles({
   root: {
-    height: '100%',
+    minHeight: '100vh',
   },
   content: {
     flexGrow: 1,
-    p: 1,
+    p: 3,
     backgroundColor: (theme) => theme.palette.background.default,
   },
 });

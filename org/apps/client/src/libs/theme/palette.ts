@@ -2,10 +2,10 @@ import createPalette from '@mui/material/styles/createPalette';
 
 export const palette = createPalette({
   primary: {
-    main: '#002C77',
-    light: '#0065AC',
-    dark: '#001F52',
-    contrastText: '#FFFFFF',
+    main: '#0065AC',
+    light: '#4586f5',
+    dark: '#002C77',
+    contrastText: '#FFFFFF', // white
   },
   secondary: {
     main: '#009de0',
@@ -16,46 +16,46 @@ export const palette = createPalette({
     contrastText: '#FFFFFF',
   },
   error: {
-    main: '#C53532',
+    main: '#C53532', // red
     light: '#EF4E45',
     dark: '#9A1C1F',
     contrastText: '#FFFFFF',
   },
   warning: {
-    main: '#FFBE00',
+    main: '#FFBE00', // yellow
     light: '#FFD240',
     dark: '#C98600',
-    contrastText: '#202020DE',
+    contrastText: '#FFFFFF',
   },
   info: {
-    main: '#8096B2',
+    main: '#8096B2', // gray-blue
     light: '#A2B7CD',
     dark: '#627798',
     contrastText: '#FFFFFF',
   },
   success: {
-    main: '#14853D',
+    main: '#14853D', // green
     light: '#00AC41',
     dark: '#275D38',
     contrastText: '#FFFFFF',
   },
   text: {
-    primary: 'rgba(32, 32, 32, 0.87)',
-    secondary: 'rgba(32, 32, 32, 0.54)',
-    disabled: 'rgba(32, 32, 32, 0.38)',
+    primary: '#202020DE', // gray-black
+    secondary: '#202028AE', // light gray
+    disabled: '#20202861', // light gray
   },
   action: {
-    active: 'rgba(32, 32, 32, 0.23)',
-    hover: 'rgba(32, 32, 32, 0.04)',
-    selected: 'rgba(32, 32, 32, 0.08)',
-    disabled: 'rgba(32, 32, 32, 0.26)',
-    disabledBackground: 'rgba(32, 32, 32, 0.12)',
+    active: '#2020203B', // light gray
+    hover: '#2020200A', // almost white
+    selected: '#20202014', // almost white
+    disabled: '#20202042', // light gray
+    disabledBackground: '#2020201F', // light gray
   },
   background: {
-    default: 'rgba(240, 240, 240, 1)',
-    paper: 'rgba(232, 232, 232, 1)',
+    default: '#F0F0F0', // almost white
+    paper: '#E8E8E8', // light gray
   },
-  divider: 'rgba(32, 32, 32, 0.12)',
+  divider: '#2020201F', // light gray
   contrastThreshold: 3,
   tonalOffset: 0.2,
 });
