@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { notEmpty } from './common';
+import { longString, notEmpty } from './common';
 import { CreateUserDto } from '@shared/data-objects';
 
 const passwordValidation = new RegExp(
@@ -8,17 +8,14 @@ const passwordValidation = new RegExp(
 
 export const userCreationSchema = z
   .object({
-    username: notEmpty,
-    password: z
-      .string()
-      .min(1, { message: 'Required' })
-      .regex(passwordValidation, {
-        message:
-          'Password must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character',
-      }),
+    username: longString,
+    password: z.string().regex(passwordValidation, {
+      message:
+        'Password must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character',
+    }),
     confirmPassword: notEmpty,
-    firstName: notEmpty,
-    lastName: notEmpty,
+    firstName: longString,
+    lastName: longString,
     email: z.string().email(),
   })
   .refine((data) => data.password === data.confirmPassword, {

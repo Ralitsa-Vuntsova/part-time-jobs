@@ -63,7 +63,7 @@ export function Login() {
   return (
     <StyledStack>
       <FormProvider {...form}>
-        <StyledFormControl onSubmit={onSubmit}>
+        <StyledFormControl onSubmit={onSubmit} component="form">
           <Controller
             name="username"
             control={form.control}

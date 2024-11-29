@@ -2,17 +2,15 @@ import createPalette from '@mui/material/styles/createPalette';
 
 export const palette = createPalette({
   primary: {
-    main: '#0065AC',
-    light: '#4586f5',
-    dark: '#002C77',
+    main: '#1167B1', // blue
+    light: '#187BCD',
+    dark: '#03254C',
     contrastText: '#FFFFFF', // white
   },
   secondary: {
-    main: '#009de0',
-    light: '#3BB8F0',
+    main: '#E3F2FD', // blue-gray
+    light: '#F5F5F5',
     dark: '#0065AC',
-    100: '#F5F5F5',
-    200: '#E3F2FD',
     contrastText: '#FFFFFF',
   },
   error: {

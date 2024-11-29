@@ -1,6 +1,6 @@
-import { FormControl, styled, useTheme } from '@mui/material';
+import { Box, styled, useTheme } from '@mui/material';
 
-export const StyledFormControl = styled(FormControl)(() => {
+export const StyledFormControl = styled(Box)<{ component: string }>(() => {
   const theme = useTheme();
 
   return {

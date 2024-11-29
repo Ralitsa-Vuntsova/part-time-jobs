@@ -57,7 +57,6 @@ export const theme = createTheme(baseTheme, {
         textSizeSmall: {
           color: baseTheme.palette.secondary.main,
           fontFamily: baseTheme.typography.fontFamily,
-          // fontSize: '0.813rem',
           fontWeight: baseTheme.typography.fontWeightBold,
           letterSpacing: '1.25px',
           lineHeight: '22px',
@@ -69,7 +68,6 @@ export const theme = createTheme(baseTheme, {
         textSizeLarge: {
           color: baseTheme.palette.secondary.main,
           fontFamily: baseTheme.typography.fontFamily,
-          // fontSize: '0.938rem',
           fontWeight: baseTheme.typography.fontWeightBold,
           letterSpacing: '1.25px',
           lineHeight: '26px',
@@ -82,14 +80,15 @@ export const theme = createTheme(baseTheme, {
         root: {
           height: '40px',
           alignContent: 'center',
+          '&.MuiInputBase-multiline': {
+            height: 'auto',
+          },
           '&.Mui-disabled': {
             backgroundColor: lighten(baseTheme.palette.info.main, 0.9),
           },
-
           '.MuiOutlinedInput-notchedOutline': {
             borderColor: baseTheme.palette.action.active,
           },
-
           '.MuiInputBase-input': {
             paddingTop: 0,
             paddingBottom: 0,
@@ -118,19 +117,8 @@ export const theme = createTheme(baseTheme, {
           '&.Mui-expanded': {
             margin: 0,
           },
-
           '&.inline': {
             boxShadow: 'none',
-          },
-          '&.read-only': {
-            boxShadow: 'none',
-            backgroundColor: 'transparent',
-            overflow: 'initial',
-
-            '.MuiCollapse-root': {
-              overflow: 'hidden',
-              backgroundColor: 'white',
-            },
           },
         },
       },
@@ -139,12 +127,14 @@ export const theme = createTheme(baseTheme, {
       styleOverrides: {
         root: {
           padding: '12px 45px 12px 45px',
+          backgroundColor: baseTheme.palette.primary.contrastText,
         },
       },
     },
     MuiAccordionSummary: {
       styleOverrides: {
         root: {
+          backgroundColor: baseTheme.palette.secondary.main,
           minHeight: '40px',
           '&.Mui-expanded': {
             minHeight: '40px',
@@ -180,7 +170,6 @@ export const theme = createTheme(baseTheme, {
         root: {
           color: baseTheme.palette.text.primary,
           fontFamily: baseTheme.typography.fontFamily,
-          // fontSize: '0.75rem',
           fontWeight: baseTheme.typography.fontWeightRegular,
           letterSpacing: '0px',
           lineHeight: '20px',
@@ -192,7 +181,6 @@ export const theme = createTheme(baseTheme, {
         root: {
           color: baseTheme.palette.text.primary,
           fontFamily: baseTheme.typography.fontFamily,
-          // fontSize: '1rem',
           fontWeight: baseTheme.typography.fontWeightRegular,
           letterSpacing: '0px',
           lineHeight: '19px',

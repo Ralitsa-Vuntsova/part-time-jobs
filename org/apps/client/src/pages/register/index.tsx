@@ -1,4 +1,10 @@
-import { Button, Link, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import {
   toCreateUserDto,
@@ -15,6 +21,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { ErrorContainer } from '../../components/error-container';
 import { StyledFormControl } from '../../components/styled/form-control';
 import { StyledStack } from '../../components/styled/stack';
+import { LoadingButton } from '../../components/loading-button';
+import { LOADING_PROPS } from '../../components/async-data-loader';
 
 const styles = makeStyles({
   input: {
@@ -32,18 +40,21 @@ export function Register() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const { data: userNames, error } = useAsync(
-    async ({ signal }) => userService.getAllUsernames(signal),
-    []
-  );
+  const {
+    data: userNames,
+    loading: userNamesLoading,
+    error: userNamesError,
+  } = useAsync(async ({ signal }) => userService.getAllUsernames(signal), []);
 
-  const { trigger } = useAsyncAction(
-    async ({ signal }, user: UserCreationSchema) => {
-      await userService.createUser(toCreateUserDto(user), signal);
+  const {
+    trigger,
+    loading: createUserLoading,
+    error: createUserError,
+  } = useAsyncAction(async ({ signal }, user: UserCreationSchema) => {
+    await userService.createUser(toCreateUserDto(user), signal);
 
-      navigate(state.path ?? '/login');
-    }
-  );
+    navigate(state.path ?? '/login');
+  });
 
   const form = useForm<UserCreationSchema>({
     defaultValues: {
@@ -68,10 +79,18 @@ export function Register() {
     return <Navigate to="/" />;
   }
 
+  if (userNamesLoading) {
+    return (
+      <Box sx={LOADING_PROPS.BLANK_PAGE.sx}>
+        <CircularProgress size={LOADING_PROPS.BLANK_PAGE.size} />
+      </Box>
+    );
+  }
+
   return (
     <StyledStack>
       <FormProvider {...form}>
-        <StyledFormControl onSubmit={onSubmit}>
+        <StyledFormControl onSubmit={onSubmit} component="form">
           <Controller
             name="username"
             control={form.control}
@@ -164,9 +183,14 @@ export function Register() {
             )}
           />
 
-          <Button type="submit" variant="contained" sx={styles.button}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={createUserLoading}
+            sx={styles.button}
+          >
             Register
-          </Button>
+          </LoadingButton>
 
           <Typography>
             Already have an account?{' '}
@@ -175,7 +199,12 @@ export function Register() {
             </Link>
           </Typography>
 
-          {error ? <ErrorContainer>{error}</ErrorContainer> : null}
+          {userNamesError ? (
+            <ErrorContainer>{userNamesError}</ErrorContainer>
+          ) : null}
+          {createUserError ? (
+            <ErrorContainer>{createUserError}</ErrorContainer>
+          ) : null}
         </StyledFormControl>
       </FormProvider>
     </StyledStack>

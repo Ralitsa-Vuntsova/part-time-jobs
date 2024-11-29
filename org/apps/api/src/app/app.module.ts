@@ -7,6 +7,7 @@ import { UsersModule } from '../users/users.module';
 import { config } from '../config';
 import { Connection } from 'mongoose';
 import { extendedModelPlugin } from '../lib/db-utils/extended-model-plugin';
+import { AdsModule } from '../ads/ads.module';
 
 const { host, name, schema } = config.get('db');
 
@@ -20,6 +21,7 @@ const { host, name, schema } = config.get('db');
     }),
     AuthModule,
     UsersModule,
+    AdsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
