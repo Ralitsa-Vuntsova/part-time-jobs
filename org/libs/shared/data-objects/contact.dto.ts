@@ -21,5 +21,5 @@ export class ContactDto {
   @Prop()
   @IsString()
   @IsNotEmpty()
-  location!: string;
+  address!: string;
 }

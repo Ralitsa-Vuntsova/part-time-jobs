@@ -69,7 +69,7 @@ export function Login() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Username"
+                label="Username*"
                 className={invalid ? '' : 'valid'}
                 {...field}
                 error={invalid}
@@ -84,7 +84,7 @@ export function Login() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Password"
+                label="Password*"
                 type="password"
                 {...field}
                 className={invalid ? '' : 'valid'}

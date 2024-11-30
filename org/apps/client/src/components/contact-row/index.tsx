@@ -24,7 +24,7 @@ export function ContactRow({ index }: Props) {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Name"
+            label="Name*"
             {...field}
             error={invalid}
             helperText={error?.message}
@@ -37,7 +37,7 @@ export function ContactRow({ index }: Props) {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Email"
+            label="Email*"
             {...field}
             error={invalid}
             helperText={error?.message}
@@ -50,7 +50,7 @@ export function ContactRow({ index }: Props) {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Phone Number"
+            label="Phone Number*"
             {...field}
             error={invalid}
             helperText={error?.message}
@@ -59,11 +59,11 @@ export function ContactRow({ index }: Props) {
       />
 
       <Controller
-        name={`contacts.${index}.location`}
+        name={`contacts.${index}.address`}
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Location"
+            label="Address*"
             {...field}
             error={invalid}
             helperText={error?.message}

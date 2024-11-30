@@ -1,4 +1,3 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import {
   IsMongoId,
   IsNotEmpty,
@@ -6,14 +5,12 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { OmitType } from '@nestjs/swagger';
-import { HydratedDocument } from 'mongoose';
 import { BaseDto } from './base.dto';
-import { ContactDto } from './contact.dto';
+import { Prop } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
+import { ContactDto } from './contact.dto';
 
-@Schema({ collection: 'ads', timestamps: true })
-export class Ad extends BaseDto {
+export class AdDto extends BaseDto {
   @IsNotEmpty()
   @IsMongoId()
   _id!: string;
@@ -33,16 +30,3 @@ export class Ad extends BaseDto {
   @Type(() => ContactDto)
   contacts!: ContactDto[];
 }
-
-export const AdSchema = SchemaFactory.createForClass(Ad);
-export type AdDocument = HydratedDocument<Ad>;
-
-export class AdDto extends Ad {}
-
-export class CreateAdDto extends OmitType(Ad, [
-  '_id',
-  'createdAt',
-  'updatedAt',
-  'createdBy',
-  'updatedBy',
-]) {}

@@ -38,19 +38,19 @@ export function CreateAdButton() {
       >
         <MenuItem
           onClick={() => {
-            navigate('create-search-ad');
+            navigate('offer-service');
             handleClose();
           }}
         >
-          Searching
+          Offering a service
         </MenuItem>
         <MenuItem
           onClick={() => {
-            navigate('create-offer-ad');
+            navigate('offer-job');
             handleClose();
           }}
         >
-          Offering
+          Offering a job
         </MenuItem>
       </Menu>
     </>

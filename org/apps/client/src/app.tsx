@@ -31,7 +31,7 @@ export function App() {
           />
 
           <Route
-            path="create-search-ad"
+            path="offer-service"
             element={
               <PrivateRoute>
                 <SearchAdCreation />
@@ -40,7 +40,7 @@ export function App() {
           />
 
           <Route
-            path="create-offer-ad"
+            path="offer-job"
             element={
               <PrivateRoute>
                 <OfferAdCreation />

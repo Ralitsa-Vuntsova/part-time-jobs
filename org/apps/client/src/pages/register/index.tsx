@@ -96,7 +96,7 @@ export function Register() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Username"
+                label="Username*"
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -111,7 +111,7 @@ export function Register() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="First Name"
+                label="First Name*"
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -126,7 +126,7 @@ export function Register() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Last Name"
+                label="Last Name*"
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -141,7 +141,7 @@ export function Register() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Email"
+                label="Email*"
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -156,7 +156,7 @@ export function Register() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Password"
+                label="Password*"
                 type="password"
                 {...field}
                 className={invalid ? '' : 'valid'}
@@ -172,7 +172,7 @@ export function Register() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Confirm Password"
+                label="Confirm Password*"
                 type="password"
                 {...field}
                 className={invalid ? '' : 'valid'}
