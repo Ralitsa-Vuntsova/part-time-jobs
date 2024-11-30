@@ -28,7 +28,7 @@ export function DateTime({ index }: Props) {
         <Controller
           name={`dateTime.${index}.date`}
           control={control}
-          render={({ field, fieldState: { error, invalid } }) => (
+          render={({ field }) => (
             <DatePicker
               label="Basic date picker"
               {...field}
@@ -41,7 +41,7 @@ export function DateTime({ index }: Props) {
         <Controller
           name={`dateTime.${index}.time`}
           control={control}
-          render={({ field, fieldState: { error, invalid } }) => (
+          render={({ field }) => (
             <TimePicker
               label="Basic time picker"
               {...field}

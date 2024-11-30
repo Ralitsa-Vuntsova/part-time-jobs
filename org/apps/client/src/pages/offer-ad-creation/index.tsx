@@ -3,7 +3,6 @@ import {
   AccordionDetails,
   Box,
   IconButton,
-  InputLabel,
   TextField,
   Typography,
 } from '@mui/material';
@@ -32,7 +31,6 @@ import { offerAdService } from '../../services/offer-ad-service';
 import { times } from 'lodash';
 import { DateTime } from './date-time';
 import { LabeledControl } from '../../components/labeled-control';
-import dayjs from 'dayjs';
 
 const styles = makeStyles({
   header: {
