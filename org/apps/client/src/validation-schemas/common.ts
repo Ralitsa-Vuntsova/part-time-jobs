@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { z } from 'zod';
 
 export const notEmpty = z.string().trim().min(1, { message: 'Required' });
+export const nonZero = z.number().refine((num) => num !== 0, 'Cannot be zero');
 export const longString = z
   .string()
   .trim()

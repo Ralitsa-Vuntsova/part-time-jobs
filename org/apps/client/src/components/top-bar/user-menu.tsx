@@ -13,7 +13,6 @@ import { ArrowDropDown } from '@mui/icons-material';
 const styles = makeStyles({
   container: {
     float: 'right',
-    paddingRight: '6px',
     height: '33px',
   },
   label: {
@@ -32,6 +31,7 @@ const styles = makeStyles({
     height: 32,
   },
   button: {
+    p: 0,
     '& .MuiButton-endIcon': {
       marginLeft: 0,
     },

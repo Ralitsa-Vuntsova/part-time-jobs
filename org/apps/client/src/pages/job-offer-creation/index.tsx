@@ -12,22 +12,26 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
-import {
-  adCreationSchema,
-  AdCreationSchema,
-  toCreateSearchAdDto,
-} from '../../validation-schemas/ad-creation-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AccordionSummaryWithLeftIcon } from '../../components/accordion-summary-with-left-icon';
 import { makeStyles } from '../../libs/make-styles';
 import { LoadingButton } from '../../components/loading-button';
 import { AddButton } from '../../components/add-button';
 import { useAsyncAction } from '../../hooks/use-async-action';
-import { adService } from '../../services/search-ad-service';
 import { useNavigate } from 'react-router-dom';
 import { ErrorContainer } from '../../components/error-container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ContactRow } from '../../components/contact-row';
+import {
+  defaultValues,
+  jobOfferCreationSchema,
+  JobOfferCreationSchema,
+  toCreateJobOfferDto,
+} from '../../validation-schemas/job-offer-creation-schema';
+import { times } from 'lodash';
+import { jobOfferService } from '../../services/job-offer-service';
+import { OfferInformationAccordion } from './offer-information-accordion';
+import { useCurrentUser } from '../../hooks/use-current-user';
 
 const styles = makeStyles({
   header: {
@@ -47,39 +51,31 @@ const styles = makeStyles({
     width: 'min-content',
     alignSelf: 'center',
   },
-  contactDetails: {
+  flexColumn: {
     display: 'flex',
     flexDirection: 'column',
     gap: 1,
   },
-  contactRow: {
+  flexRow: {
     display: 'flex',
-    gap: 1,
+    gap: 2,
   },
-  icon: {
-    '&.MuiSvgIcon-root': {
-      color: (theme) => theme.palette.primary.main,
+  iconButton: {
+    '&.Mui-disabled': {
+      svg: {
+        color: (theme) => theme.palette.action.disabled,
+      },
     },
   },
 });
 
-export function SearchAdCreation() {
+export function JobOfferCreation() {
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
 
-  const form = useForm<AdCreationSchema>({
-    defaultValues: {
-      description: '',
-      additionalInformation: '',
-      contacts: [
-        {
-          name: '',
-          email: '',
-          phoneNumber: '',
-          address: '',
-        },
-      ],
-    },
-    resolver: zodResolver(adCreationSchema),
+  const form = useForm<JobOfferCreationSchema>({
+    defaultValues: defaultValues(currentUser),
+    resolver: zodResolver(jobOfferCreationSchema),
   });
 
   const { append, remove } = useFieldArray({
@@ -89,8 +85,8 @@ export function SearchAdCreation() {
   const contacts = form.watch('contacts');
 
   const { trigger, loading, error } = useAsyncAction(
-    async ({ signal }, ad: AdCreationSchema) => {
-      await adService.createAd(toCreateSearchAdDto(ad), signal);
+    async ({ signal }, ad: JobOfferCreationSchema) => {
+      await jobOfferService.createAd(toCreateJobOfferDto(ad), signal);
 
       navigate('/');
     }
@@ -101,7 +97,7 @@ export function SearchAdCreation() {
   return (
     <FormProvider {...form}>
       <Typography variant="h3" sx={styles.header}>
-        What kind of services do you offer?
+        What kind of work do you offer?
       </Typography>
 
       <Box component="form" onSubmit={onSubmit} sx={styles.content}>
@@ -128,19 +124,24 @@ export function SearchAdCreation() {
           </AccordionDetails>
         </Accordion>
 
+        <OfferInformationAccordion />
+
         <Accordion defaultExpanded>
           <AccordionSummaryWithLeftIcon>
             <Typography>Contacts</Typography>
           </AccordionSummaryWithLeftIcon>
-          <AccordionDetails sx={styles.contactDetails}>
-            {contacts.map((c, index) => (
-              <Box key={`${c.name}-${c.email}-${index}`} sx={styles.contactRow}>
+          <AccordionDetails sx={styles.flexColumn}>
+            {times(contacts.length, (index) => (
+              <Box key={index} sx={styles.flexRow}>
                 <ContactRow index={index} />
-                {index !== 0 && (
-                  <IconButton onClick={() => remove(index)}>
-                    <DeleteIcon sx={styles.icon} />
-                  </IconButton>
-                )}
+
+                <IconButton
+                  onClick={() => remove(index)}
+                  sx={styles.iconButton}
+                  disabled={index === 0}
+                >
+                  <DeleteIcon />
+                </IconButton>
               </Box>
             ))}
 

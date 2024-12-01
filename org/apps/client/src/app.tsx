@@ -9,18 +9,17 @@ import { UserProvider } from './hooks/use-current-user';
 import { Register } from './pages/register';
 import { Login } from './pages/login';
 import { PrivateRoute } from './components/private-route';
-import { BaseLayout } from './components/base-layout';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './libs/theme';
-import { TopBar } from './components/top-bar';
-import { SearchAdCreation } from './pages/search-ad-creation';
-import { OfferAdCreation } from './pages/offer-ad-creation';
+import { ServiceOfferCreation } from './pages/service-offer-creation';
+import { JobOfferCreation } from './pages/job-offer-creation';
+import { DrawerLayout } from './components/drawer-layout';
 
 export function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
-        <Route element={<BaseLayout TopBar={<TopBar />} />}>
+        <Route element={<DrawerLayout />}>
           <Route
             index
             element={
@@ -34,7 +33,7 @@ export function App() {
             path="offer-service"
             element={
               <PrivateRoute>
-                <SearchAdCreation />
+                <ServiceOfferCreation />
               </PrivateRoute>
             }
           />
@@ -43,7 +42,7 @@ export function App() {
             path="offer-job"
             element={
               <PrivateRoute>
-                <OfferAdCreation />
+                <JobOfferCreation />
               </PrivateRoute>
             }
           />

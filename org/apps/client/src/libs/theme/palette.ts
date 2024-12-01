@@ -3,14 +3,14 @@ import createPalette from '@mui/material/styles/createPalette';
 export const palette = createPalette({
   primary: {
     main: '#1167B1', // blue
-    light: '#187BCD',
+    light: '#66B1F2',
     dark: '#03254C',
     contrastText: '#FFFFFF', // white
   },
   secondary: {
     main: '#E3F2FD', // blue-gray
     light: '#F5F5F5',
-    dark: '#0065AC',
+    dark: '#2B548A',
     contrastText: '#FFFFFF',
   },
   error: {

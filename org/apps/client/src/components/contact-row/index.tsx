@@ -1,11 +1,12 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { AdCreationSchema } from '../../validation-schemas/ad-creation-schema';
+import { ServiceOfferCreationSchema } from '../../validation-schemas/service-offer-creation-schema';
 import { Box, TextField } from '@mui/material';
 import { makeStyles } from '../../libs/make-styles';
 
 const styles = makeStyles({
   root: {
     display: 'flex',
+    flexDirection: ['column', 'row'],
     gap: 1,
   },
 });
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export function ContactRow({ index }: Props) {
-  const { control } = useFormContext<AdCreationSchema>();
+  const { control } = useFormContext<ServiceOfferCreationSchema>();
 
   return (
     <Box sx={styles.root}>

@@ -1,4 +1,4 @@
 export * from './user.dto';
 export * from './contact.dto';
-export * from './search-ad.dto';
-export * from './offer-ad.dto';
+export * from './service-offer.dto';
+export * from './job-offer.dto';

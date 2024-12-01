@@ -7,8 +7,8 @@ import { UsersModule } from '../users/users.module';
 import { config } from '../config';
 import { Connection } from 'mongoose';
 import { extendedModelPlugin } from '../lib/db-utils/extended-model-plugin';
-import { SearchAdsModule } from '../search-ads/search-ads.module';
-import { OfferAdsModule } from '../offer-ads/offer-ads.module';
+import { JobOffersModule } from '../job-offers/job-offers.module';
+import { ServiceOffersModule } from '../service-offers/service-offers.module';
 
 const { host, name, schema } = config.get('db');
 
@@ -22,8 +22,8 @@ const { host, name, schema } = config.get('db');
     }),
     AuthModule,
     UsersModule,
-    SearchAdsModule,
-    OfferAdsModule,
+    ServiceOffersModule,
+    JobOffersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

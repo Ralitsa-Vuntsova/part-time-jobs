@@ -5,6 +5,8 @@ import { CreateAdButton } from './create-ad-button';
 const styles = makeStyles({
   root: {
     display: 'flex',
+    flexDirection: ['column', 'row'],
+    gap: 1,
     justifyContent: 'space-between',
   },
 });

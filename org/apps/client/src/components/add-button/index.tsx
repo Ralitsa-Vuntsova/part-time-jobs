@@ -7,11 +7,6 @@ const styles = makeStyles({
     backgroundColor: (theme) => theme.palette.secondary.main,
     color: (theme) => theme.palette.primary.main,
   },
-  icon: {
-    '&.MuiSvgIcon-root': {
-      color: (theme) => theme.palette.primary.main,
-    },
-  },
 });
 
 interface Props extends ButtonProps {
@@ -24,7 +19,7 @@ export function AddButton({ rounded = true, sx, ...buttonProps }: Props) {
   return (
     <Button
       {...(rounded ? { variant: 'contained', className: 'rounded' } : {})}
-      startIcon={<Add sx={styles.icon} />}
+      startIcon={<Add />}
       sx={{
         width: buttonProps.fullWidth ? '100%' : 'fit-content',
         ...buttonStyle,

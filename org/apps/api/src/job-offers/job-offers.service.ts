@@ -3,19 +3,19 @@ import { InjectModel } from '@nestjs/mongoose';
 import { dbToInstance } from '../lib/utils';
 import { ExtendedModel } from '../lib/db-utils/extended-model';
 import {
-  CreateOfferAdDto,
-  OfferAd,
-  OfferAdDocument,
-  OfferAdDto,
+  CreateJobOfferDto,
+  JobOffer,
+  JobOfferDocument,
+  JobOfferDto,
 } from '@shared/data-objects';
 
 @Injectable()
-export class OfferAdsService {
+export class JobOffersService {
   constructor(
-    @InjectModel(OfferAd.name) private adModel: ExtendedModel<OfferAdDocument>
+    @InjectModel(JobOffer.name) private adModel: ExtendedModel<JobOfferDocument>
   ) {}
 
-  async create(ad: CreateOfferAdDto) {
-    return dbToInstance(OfferAdDto, this.adModel.create(ad));
+  async create(ad: CreateJobOfferDto) {
+    return dbToInstance(JobOfferDto, this.adModel.create(ad));
   }
 }

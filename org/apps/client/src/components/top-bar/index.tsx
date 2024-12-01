@@ -1,6 +1,5 @@
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar } from '@mui/material';
 import { makeStyles } from '../../libs/make-styles';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { useCurrentUser } from '../../hooks/use-current-user';
 import { UserMenu } from './user-menu';
 import { Breakpoint, useResponsive } from '../../hooks/use-responsive';
@@ -12,14 +11,16 @@ import { authService } from '../../services/auth-service';
 const styles = makeStyles({
   root: {
     position: 'sticky',
+    background: (theme) =>
+      `linear-gradient(90deg, ${theme.palette.primary.light} 50%, ${theme.palette.primary.main} 85%)`,
   },
   toolbar: {
     display: 'flex',
+    alignSelf: 'end',
     gap: 1,
   },
   heading: {
     color: (theme) => theme.palette.primary.contrastText,
-    flexGrow: 1,
   },
   flexBox: {
     display: 'flex',
@@ -41,10 +42,6 @@ export function TopBar() {
   return (
     <AppBar sx={styles.root}>
       <Toolbar sx={styles.toolbar}>
-        <WorkOutlineIcon />
-        <Typography variant="h6" sx={styles.heading}>
-          PartTimeJobs
-        </Typography>
         {user && (
           <Box sx={styles.flexBox}>
             <UserMenu

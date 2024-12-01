@@ -154,10 +154,7 @@ export const theme = createTheme(baseTheme, {
           '& .MuiSvgIcon-root': {
             height: '20px',
             width: '20px',
-            color: baseTheme.palette.secondary.main,
-            '&.disabled': {
-              color: baseTheme.palette.action.disabled,
-            },
+            color: baseTheme.palette.primary.main,
           },
           '& .MuiFormLabel-root': {
             maxWidth: 'calc(100% - 50px)',

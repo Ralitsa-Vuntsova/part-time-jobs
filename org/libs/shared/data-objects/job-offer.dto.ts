@@ -12,8 +12,8 @@ import {
 import { Type } from 'class-transformer';
 import { DateTimeDto } from './date-time.dto';
 
-@Schema({ collection: 'offer-ads', timestamps: true })
-export class OfferAd extends AdDto {
+@Schema({ collection: 'job-offers', timestamps: true })
+export class JobOffer extends AdDto {
   @Prop()
   @IsString()
   @IsNotEmpty()
@@ -51,12 +51,12 @@ export class OfferAd extends AdDto {
   dateTime!: DateTimeDto[];
 }
 
-export const OfferAdSchema = SchemaFactory.createForClass(OfferAd);
-export type OfferAdDocument = HydratedDocument<OfferAd>;
+export const JobOfferSchema = SchemaFactory.createForClass(JobOffer);
+export type JobOfferDocument = HydratedDocument<JobOffer>;
 
-export class OfferAdDto extends OfferAd {}
+export class JobOfferDto extends JobOffer {}
 
-export class CreateOfferAdDto extends OmitType(OfferAd, [
+export class CreateJobOfferDto extends OmitType(JobOffer, [
   '_id',
   'createdAt',
   'updatedAt',
