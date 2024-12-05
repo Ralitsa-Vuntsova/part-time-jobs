@@ -14,6 +14,7 @@ import { theme } from './libs/theme';
 import { ServiceOfferCreation } from './pages/service-offer-creation';
 import { JobOfferCreation } from './pages/job-offer-creation';
 import { DrawerLayout } from './components/drawer-layout';
+import { EditProfile } from './pages/edit-profile';
 
 export function App() {
   const router = createBrowserRouter(
@@ -25,6 +26,15 @@ export function App() {
             element={
               <PrivateRoute>
                 <Home />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="edit-profile"
+            element={
+              <PrivateRoute>
+                <EditProfile />
               </PrivateRoute>
             }
           />

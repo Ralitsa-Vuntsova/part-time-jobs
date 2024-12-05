@@ -1,8 +1,14 @@
 import { HttpService } from './http-service';
-import { CreateUserDto } from '@shared/data-objects';
+import { CreateUserDto, EditUserDto, UserProfile } from '@shared/data-objects';
 
 export class UserService {
   private http = new HttpService();
+
+  getById(id: string, abortSignal: AbortSignal) {
+    return this.http.get<UserProfile>(`users/${id}`, {
+      abortSignal,
+    });
+  }
 
   getAllUsernames(abortSignal: AbortSignal) {
     return this.http.get<string[]>('users/names', {
@@ -12,6 +18,13 @@ export class UserService {
 
   createUser(user: CreateUserDto, abortSignal: AbortSignal) {
     return this.http.post('users/register', {
+      body: user,
+      abortSignal,
+    });
+  }
+
+  editUser(id: string, user: Partial<EditUserDto>, abortSignal: AbortSignal) {
+    return this.http.patch(`users/${id}`, {
       body: user,
       abortSignal,
     });

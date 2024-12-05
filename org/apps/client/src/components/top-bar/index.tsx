@@ -34,10 +34,12 @@ export function TopBar() {
   const isSM = useResponsive() < Breakpoint.SM;
   const navigate = useNavigate();
 
-  const { trigger, error } = useAsyncAction(async () => {
-    authService.logout();
-    navigate('/login');
-  });
+  const { trigger: logoutTrigger, error: logoutError } = useAsyncAction(
+    async () => {
+      authService.logout();
+      navigate('/login');
+    }
+  );
 
   return (
     <AppBar sx={styles.root}>
@@ -46,9 +48,17 @@ export function TopBar() {
           <Box sx={styles.flexBox}>
             <UserMenu
               label={isSM ? '' : `Hi, ${user.username}`}
-              menuItems={[{ label: 'Logout', onClick: trigger }]}
+              menuItems={[
+                {
+                  label: 'Edit Profile',
+                  onClick: () => navigate('edit-profile'),
+                },
+                { label: 'Logout', onClick: logoutTrigger },
+              ]}
             />
-            {error ? <ErrorContainer>{error}</ErrorContainer> : null}
+            {logoutError ? (
+              <ErrorContainer>{logoutError}</ErrorContainer>
+            ) : null}
           </Box>
         )}
       </Toolbar>

@@ -5,6 +5,7 @@ import {
   User,
   UserDto,
   CreateUserDto,
+  UserProfile,
 } from '@shared/data-objects';
 import { dbToInstance } from '../lib/utils';
 import { genSalt, hash } from 'bcrypt';
@@ -16,6 +17,10 @@ export class UsersService {
 
   async findOne(username: string): Promise<UserDto> {
     return dbToInstance(UserDto, this.userModel.findOne({ username }));
+  }
+
+  async findById(id: string): Promise<UserDto> {
+    return dbToInstance(UserProfile, this.userModel.findOne({ _id: id }));
   }
 
   async getAllUsernames(): Promise<string[]> {
@@ -31,6 +36,15 @@ export class UsersService {
     return dbToInstance(
       UserDto,
       this.userModel.create({ ...user, password: hashedPassword })
+    );
+  }
+
+  async edit(user: UserDto) {
+    return dbToInstance(
+      UserDto,
+      this.userModel.findOneAndReplace({ _id: user._id }, user, {
+        returnDocument: 'after',
+      })
     );
   }
 }
