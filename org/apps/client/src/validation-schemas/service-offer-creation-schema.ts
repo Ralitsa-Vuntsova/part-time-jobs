@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { longString, multilineString, phoneNumber } from './common';
-import validator from 'validator';
 import { CreateServiceOfferDto, ResultUserDto } from '@shared/data-objects';
 
 const contactSchema = z.object({
