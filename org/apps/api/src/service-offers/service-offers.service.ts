@@ -16,7 +16,11 @@ export class ServiceOffersService {
     private adModel: ExtendedModel<ServiceOfferDocument>
   ) {}
 
-  async create(ad: CreateServiceOfferDto) {
+  list() {
+    return this.adModel.find();
+  }
+
+  create(ad: CreateServiceOfferDto) {
     return dbToInstance(ServiceOfferDto, this.adModel.create(ad));
   }
 }

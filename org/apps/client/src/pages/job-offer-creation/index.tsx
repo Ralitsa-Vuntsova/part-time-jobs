@@ -47,6 +47,9 @@ const styles = makeStyles({
   input: {
     width: '100%',
   },
+  smallInput: {
+    width: ['100%', '25%'],
+  },
   button: {
     width: 'min-content',
     alignSelf: 'center',
@@ -105,7 +108,21 @@ export function JobOfferCreation() {
           <AccordionSummaryWithLeftIcon>
             <Typography>Description</Typography>
           </AccordionSummaryWithLeftIcon>
-          <AccordionDetails>
+          <AccordionDetails sx={styles.flexColumn}>
+            <Controller
+              name="name"
+              control={form.control}
+              render={({ field, fieldState: { error, invalid } }) => (
+                <TextField
+                  label="Name*"
+                  {...field}
+                  error={invalid}
+                  helperText={error?.message}
+                  sx={styles.smallInput}
+                />
+              )}
+            />
+
             <Controller
               name="description"
               control={form.control}

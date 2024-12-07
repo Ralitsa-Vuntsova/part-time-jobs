@@ -6,7 +6,7 @@ import {
   userLoginSchema,
   UserLoginSchema,
 } from '../../validation-schemas/user-login-schema';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { makeStyles } from '../../libs/make-styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { ErrorContainer } from '../../components/error-container';
@@ -21,6 +21,7 @@ const styles = makeStyles({
     '&.valid': {
       boxShadow: '3px 3px 4px #CCC8C8',
     },
+    width: ['200px', '250px', '300px'],
   },
   button: {
     width: '100%',
@@ -28,10 +29,11 @@ const styles = makeStyles({
 });
 
 export function Login() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
+  const location = useLocation();
 
   const [loginError, setLoginError] = useState('');
+
+  const redirectTo = location.state?.from?.pathname ?? '/';
 
   const { trigger, loading, error } = useAsyncAction(
     async ({ signal }, user: UserLoginSchema) => {
@@ -41,8 +43,6 @@ export function Login() {
         setLoginError('Wrong username or password');
         return;
       }
-
-      navigate(state.path ?? '/');
     }
   );
 
@@ -57,7 +57,7 @@ export function Login() {
   const onSubmit = form.handleSubmit(trigger);
 
   if (localStorage.getItem('currentUser')) {
-    return <Navigate to="/" />;
+    return <Navigate to={redirectTo} />;
   }
 
   return (

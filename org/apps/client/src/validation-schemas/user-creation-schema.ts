@@ -34,3 +34,16 @@ export function toCreateUserDto(user: UserCreationSchema): CreateUserDto {
     email: user.email,
   };
 }
+
+export function defaultValues() {
+  return {
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phoneNumber: '',
+    address: '',
+  };
+}

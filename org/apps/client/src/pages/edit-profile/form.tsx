@@ -15,6 +15,7 @@ import {
 } from '../../validation-schemas/user-edit-schema';
 import { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
+import CheckIcon from '@mui/icons-material/Check';
 
 interface Props {
   userData: UserProfile;
@@ -27,17 +28,26 @@ const styles = makeStyles({
     gap: 2,
     alignItems: 'center',
   },
+  flexRow: {
+    display: 'flex',
+    gap: 2,
+  },
   input: {
-    width: '500px',
+    width: ['auto', '500px'],
+  },
+  icon: {
+    color: (theme) => theme.palette.success.main,
   },
 });
 
-// TODO: Consider adding phone number and address
-// TODO: Consider adding message for success
 export function EditProfileForm({ userData }: Props) {
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const { trigger, loading, error } = useAsyncAction(
     async ({ signal }, user: UserEditSchema) => {
       await userService.editUser(userData._id, toEditUserDto(user), signal);
+
+      setIsSuccess(true);
     }
   );
 
@@ -122,16 +132,50 @@ export function EditProfileForm({ userData }: Props) {
               />
             )}
           />
+
+          <Controller
+            name="phoneNumber"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="Phone Number"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
+
+          <Controller
+            name="address"
+            control={form.control}
+            render={({ field, fieldState: { error, invalid } }) => (
+              <TextField
+                label="Address"
+                {...field}
+                className={invalid ? '' : 'valid'}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            )}
+          />
         </Box>
 
-        <LoadingButton
-          type="submit"
-          variant="contained"
-          loading={loading}
-          disabled={!changed}
-        >
-          Save
-        </LoadingButton>
+        <Box sx={styles.flexRow}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={loading}
+            disabled={!changed}
+          >
+            Save
+          </LoadingButton>
+
+          {isSuccess && <CheckIcon sx={styles.icon} />}
+        </Box>
 
         {error ? <ErrorContainer>{error}</ErrorContainer> : null}
       </Box>

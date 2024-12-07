@@ -33,6 +33,16 @@ export class User {
   @IsString()
   @IsNotEmpty()
   email!: string;
+
+  @Prop()
+  @IsString()
+  @IsNotEmpty()
+  phoneNumber?: string;
+
+  @Prop()
+  @IsString()
+  @IsNotEmpty()
+  address?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

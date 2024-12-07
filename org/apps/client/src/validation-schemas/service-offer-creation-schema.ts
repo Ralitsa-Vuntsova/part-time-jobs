@@ -1,18 +1,19 @@
 import { z } from 'zod';
-import { longString, multilineString } from './common';
+import { longString, multilineString, phoneNumber } from './common';
 import validator from 'validator';
 import { CreateServiceOfferDto, ResultUserDto } from '@shared/data-objects';
 
 const contactSchema = z.object({
   name: longString,
   email: z.string().email(),
-  phoneNumber: z.string().refine(validator.isMobilePhone),
+  phoneNumber: phoneNumber,
   address: longString,
 });
 
 export type ContactSchema = z.infer<typeof contactSchema>;
 
 export const serviceOfferCreationSchema = z.object({
+  name: longString,
   description: multilineString,
   additionalInformation: z.ostring(),
   contacts: z.array(contactSchema),
@@ -26,6 +27,7 @@ export function toCreateServiceOfferDto(
   ad: ServiceOfferCreationSchema
 ): CreateServiceOfferDto {
   return {
+    name: ad.name,
     description: ad.description,
     additionalInformation: ad.additionalInformation,
     contacts: ad.contacts,
@@ -34,6 +36,7 @@ export function toCreateServiceOfferDto(
 
 export function defaultValues(currentUser: ResultUserDto | undefined) {
   return {
+    name: '',
     description: '',
     additionalInformation: '',
     contacts: currentUser

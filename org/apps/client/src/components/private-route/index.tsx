@@ -5,9 +5,5 @@ export function PrivateRoute({ children }: RouteProps) {
   const user = useCurrentUser();
   const location = useLocation();
 
-  return user ? (
-    children
-  ) : (
-    <Navigate to="/login" state={{ from: location.pathname }} />
-  );
+  return user ? children : <Navigate to="/login" state={{ from: location }} />;
 }

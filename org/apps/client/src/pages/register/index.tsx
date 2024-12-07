@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import {
+  defaultValues,
   toCreateUserDto,
   userCreationSchema,
   UserCreationSchema,
@@ -15,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { userService } from '../../services/user-service';
 import { useAsync } from '../../hooks/use-async';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { makeStyles } from '../../libs/make-styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { ErrorContainer } from '../../components/error-container';
@@ -29,16 +30,16 @@ const styles = makeStyles({
     '&.valid': {
       boxShadow: '3px 3px 4px #CCC8C8',
     },
+    width: ['200px', '250px', '300px'],
   },
   button: {
-    background: (theme) => theme.palette.primary.light,
+    background: (theme) => theme.palette.primary.main,
     width: '100%',
   },
 });
 
 export function Register() {
   const navigate = useNavigate();
-  const { state } = useLocation();
 
   const {
     data: userNames,
@@ -53,18 +54,11 @@ export function Register() {
   } = useAsyncAction(async ({ signal }, user: UserCreationSchema) => {
     await userService.createUser(toCreateUserDto(user), signal);
 
-    navigate(state.path ?? '/login');
+    navigate('/login');
   });
 
   const form = useForm<UserCreationSchema>({
-    defaultValues: {
-      username: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
+    defaultValues: defaultValues(),
     resolver: zodResolver(
       userCreationSchema.refine((data) => !userNames?.includes(data.username), {
         message: 'Username already taken',

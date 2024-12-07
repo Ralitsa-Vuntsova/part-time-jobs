@@ -1,4 +1,5 @@
-import { authService } from './auth-service';
+import { LocalStorage } from '../libs/local-storage';
+import { UserToken } from '../models/user-model';
 
 interface HttpRequestConfig {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,6 +12,8 @@ interface HttpRequestConfig {
 
 export class HttpService {
   constructor(private baseUrl = import.meta.env.VITE_REACT_APP_SERVER_URL) {}
+
+  private readonly storage = new LocalStorage<UserToken>('currentUser');
 
   async post<T>(path: string, config: HttpRequestConfig): Promise<T> {
     return this.request('POST', path, config);
@@ -38,7 +41,7 @@ export class HttpService {
     config: HttpRequestConfig
   ): Promise<T> {
     const queryParams = new URLSearchParams(config.query).toString();
-    const { authToken } = authService;
+    const authToken = this.storage.get()?.access_token;
 
     const response = await fetch(
       `${this.baseUrl}/${path.replace(/^\//, '')}${

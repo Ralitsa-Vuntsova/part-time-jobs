@@ -18,6 +18,11 @@ export class AdDto extends BaseDto {
   @Prop()
   @IsString()
   @IsNotEmpty()
+  name!: string;
+
+  @Prop()
+  @IsString()
+  @IsNotEmpty()
   description!: string;
 
   @Prop()

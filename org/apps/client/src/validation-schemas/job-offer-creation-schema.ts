@@ -26,6 +26,7 @@ export function toCreateJobOfferDto(
   ad: JobOfferCreationSchema
 ): CreateJobOfferDto {
   return {
+    name: ad.name,
     description: ad.description,
     additionalInformation: ad.additionalInformation,
     contacts: ad.contacts,
@@ -44,6 +45,7 @@ export function toCreateJobOfferDto(
 
 export function defaultValues(currentUser: ResultUserDto | undefined) {
   return {
+    name: '',
     description: '',
     additionalInformation: '',
     contacts: currentUser

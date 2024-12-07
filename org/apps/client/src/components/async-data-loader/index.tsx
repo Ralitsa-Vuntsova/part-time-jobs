@@ -37,7 +37,6 @@ export const LOADING_PROPS: Record<LoadingType, LoadingProps> = {
       textAlign: 'center',
     },
   },
-
   BLANK_PAGE_WITH_TOP_BAR: {
     size: 120,
     sx: {

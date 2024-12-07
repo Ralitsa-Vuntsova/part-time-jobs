@@ -15,7 +15,11 @@ export class JobOffersService {
     @InjectModel(JobOffer.name) private adModel: ExtendedModel<JobOfferDocument>
   ) {}
 
-  async create(ad: CreateJobOfferDto) {
+  list() {
+    return this.adModel.find();
+  }
+
+  create(ad: CreateJobOfferDto) {
     return dbToInstance(JobOfferDto, this.adModel.create(ad));
   }
 }

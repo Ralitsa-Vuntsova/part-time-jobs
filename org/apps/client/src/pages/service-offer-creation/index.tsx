@@ -46,16 +46,19 @@ const styles = makeStyles({
   input: {
     width: '100%',
   },
+  smallInput: {
+    width: ['100%', '25%'],
+  },
   button: {
     width: 'min-content',
     alignSelf: 'center',
   },
-  contactDetails: {
+  flexColumn: {
     display: 'flex',
     flexDirection: 'column',
     gap: 1,
   },
-  contactRow: {
+  flexRow: {
     display: 'flex',
     gap: 1,
   },
@@ -104,7 +107,21 @@ export function ServiceOfferCreation() {
           <AccordionSummaryWithLeftIcon>
             <Typography>Description</Typography>
           </AccordionSummaryWithLeftIcon>
-          <AccordionDetails>
+          <AccordionDetails sx={styles.flexColumn}>
+            <Controller
+              name="name"
+              control={form.control}
+              render={({ field, fieldState: { error, invalid } }) => (
+                <TextField
+                  label="Name*"
+                  {...field}
+                  error={invalid}
+                  helperText={error?.message}
+                  sx={styles.smallInput}
+                />
+              )}
+            />
+
             <Controller
               name="description"
               control={form.control}
@@ -127,9 +144,9 @@ export function ServiceOfferCreation() {
           <AccordionSummaryWithLeftIcon>
             <Typography>Contacts</Typography>
           </AccordionSummaryWithLeftIcon>
-          <AccordionDetails sx={styles.contactDetails}>
+          <AccordionDetails sx={styles.flexColumn}>
             {times(contacts.length, (index) => (
-              <Box key={index} sx={styles.contactRow}>
+              <Box key={index} sx={styles.flexRow}>
                 <ContactRow index={index} />
 
                 <IconButton

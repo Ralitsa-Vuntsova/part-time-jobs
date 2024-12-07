@@ -1,19 +1,28 @@
 import { CreateUserDto, EditUserDto } from '@shared/data-objects';
 import { UsersService } from './users.service';
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Get(':id')
-  async getUserById(@Param('id') id: string) {
-    return this.usersService.findById(id);
+  @Get('names')
+  getUsernames() {
+    return this.usersService.getAllUsernames();
   }
 
-  @Get('names')
-  async getUsernames() {
-    return this.usersService.getAllUsernames();
+  @Get(':id')
+  getUserById(@Param('id') id: string) {
+    return this.usersService.findById(id);
   }
 
   @Post('register')
@@ -23,6 +32,7 @@ export class UsersController {
     return { status: 'OK' };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async editUser(@Param('id') id: string, @Body() user: Partial<EditUserDto>) {
     const userToBeEdited = await this.getUserById(id);
