@@ -31,7 +31,7 @@ export function DateTime({ index }: Props) {
           control={control}
           render={({ field }) => (
             <DatePicker
-              label="Basic date picker"
+              label="Date"
               {...field}
               value={field.value ?? dayjs()}
               inputRef={field.ref}
@@ -44,7 +44,7 @@ export function DateTime({ index }: Props) {
           control={control}
           render={({ field }) => (
             <TimePicker
-              label="Basic time picker"
+              label="Time"
               {...field}
               value={field.value ?? dayjs()}
               inputRef={field.ref}

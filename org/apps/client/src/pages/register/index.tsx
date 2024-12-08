@@ -1,11 +1,5 @@
-import {
-  Box,
-  CircularProgress,
-  Link,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Box, CircularProgress, Link, Typography } from '@mui/material';
+import { FormProvider, useForm } from 'react-hook-form';
 import {
   defaultValues,
   toCreateUserDto,
@@ -24,14 +18,10 @@ import { StyledFormControl } from '../../components/styled/form-control';
 import { StyledStack } from '../../components/styled/stack';
 import { LoadingButton } from '../../components/loading-button';
 import { LOADING_PROPS } from '../../components/async-data-loader';
+import { RegisterControls } from './controls';
+import { useCurrentUser } from '../../hooks/use-current-user';
 
 const styles = makeStyles({
-  input: {
-    '&.valid': {
-      boxShadow: '3px 3px 4px #CCC8C8',
-    },
-    width: ['200px', '250px', '300px'],
-  },
   button: {
     background: (theme) => theme.palette.primary.main,
     width: '100%',
@@ -40,6 +30,7 @@ const styles = makeStyles({
 
 export function Register() {
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
 
   const {
     data: userNames,
@@ -69,7 +60,7 @@ export function Register() {
 
   const onSubmit = form.handleSubmit(trigger);
 
-  if (localStorage.getItem('currentUser')) {
+  if (currentUser) {
     return <Navigate to="/" />;
   }
 
@@ -85,97 +76,7 @@ export function Register() {
     <StyledStack>
       <FormProvider {...form}>
         <StyledFormControl onSubmit={onSubmit} component="form">
-          <Controller
-            name="username"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="Username*"
-                {...field}
-                className={invalid ? '' : 'valid'}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
-
-          <Controller
-            name="firstName"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="First Name*"
-                {...field}
-                className={invalid ? '' : 'valid'}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
-
-          <Controller
-            name="lastName"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="Last Name*"
-                {...field}
-                className={invalid ? '' : 'valid'}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
-
-          <Controller
-            name="email"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="Email*"
-                {...field}
-                className={invalid ? '' : 'valid'}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
-
-          <Controller
-            name="password"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="Password*"
-                type="password"
-                {...field}
-                className={invalid ? '' : 'valid'}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
-
-          <Controller
-            name="confirmPassword"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="Confirm Password*"
-                type="password"
-                {...field}
-                className={invalid ? '' : 'valid'}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
+          <RegisterControls />
 
           <LoadingButton
             type="submit"

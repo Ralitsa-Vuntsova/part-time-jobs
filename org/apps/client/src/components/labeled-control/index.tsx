@@ -38,7 +38,7 @@ export function LabeledControl({
 
   return (
     <Box sx={rootSx}>
-      <Typography fontWeight={700} fontSize={12} {...typographyProps}>
+      <Typography fontWeight={700} fontSize={14} {...typographyProps}>
         {label}
       </Typography>
       {!isInline && withDivider && <Divider sx={{ my: 1 }} />}

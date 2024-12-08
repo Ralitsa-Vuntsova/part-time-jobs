@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from 'react-router-dom';
@@ -15,6 +16,8 @@ import { ServiceOfferCreation } from './pages/service-offer-creation';
 import { JobOfferCreation } from './pages/job-offer-creation';
 import { DrawerLayout } from './components/drawer-layout';
 import { EditProfile } from './pages/edit-profile';
+import { Ad } from './pages/ad';
+import { AdType } from './libs/ad-type';
 
 export function App() {
   const router = createBrowserRouter(
@@ -48,6 +51,10 @@ export function App() {
             }
           />
 
+          <Route path="services">
+            <Route path=":id" element={<Ad type={AdType.Service} />} />
+          </Route>
+
           <Route
             path="offer-job"
             element={
@@ -56,10 +63,16 @@ export function App() {
               </PrivateRoute>
             }
           />
+
+          <Route path="jobs">
+            <Route path=":id" element={<Ad type={AdType.Job} />} />
+          </Route>
         </Route>
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     ),
     {

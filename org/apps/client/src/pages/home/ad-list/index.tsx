@@ -3,6 +3,7 @@ import { AdCard } from './card';
 import { Box, Pagination } from '@mui/material';
 import { makeStyles } from '../../../libs/make-styles';
 import { useState } from 'react';
+import { AdType } from '../../../libs/ad-type';
 
 const PAGE_SIZE = 12;
 
@@ -18,7 +19,8 @@ const styles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: 2,
-    width: '100%',
+    width: '90%',
+    padding: [0, 5],
   },
   flexColumn: {
     display: 'flex',
@@ -32,21 +34,26 @@ export interface Props {
   jobs: JobOfferDto[];
   services: ServiceOfferDto[];
   isGrid: boolean;
-  isJobsSelected: boolean;
+  type: AdType;
 }
 
 // TODO: Consider adding user preferences
-export function AdList({ jobs, services, isGrid, isJobsSelected }: Props) {
+export function AdList({ jobs, services, isGrid, type }: Props) {
   const [page, setPage] = useState(0);
 
-  const data = isJobsSelected ? jobs : services;
+  const data = type === AdType.Job ? jobs : services;
   const displayedData = data.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   return (
     <Box sx={styles.flexColumn}>
       <Box sx={isGrid ? styles.grid : styles.list}>
         {displayedData.map((service) => (
-          <AdCard key={service._id} data={service} isGrid={isGrid} />
+          <AdCard
+            key={service._id}
+            data={service}
+            isGrid={isGrid}
+            type={type}
+          />
         ))}
       </Box>
 

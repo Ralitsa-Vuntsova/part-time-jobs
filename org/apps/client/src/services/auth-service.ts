@@ -11,8 +11,12 @@ export class AuthService {
 
   private readonly storage = new LocalStorage<UserToken>('currentUser');
 
-  setHandler(handler: ChangeUserHandler | null) {
+  set changeHandler(handler: ChangeUserHandler | null) {
     this.handler = handler;
+  }
+
+  private setCurrentUser(user: ResultUserDto | undefined) {
+    this.handler?.(user);
   }
 
   get persistedUser(): ResultUserDto | undefined {
@@ -37,12 +41,12 @@ export class AuthService {
     }
 
     this.storage.set({ user: result, access_token });
-    this.handler?.(result);
+    this.setCurrentUser(result);
   }
 
   logout() {
     this.storage.clear();
-    this.handler?.(undefined);
+    this.setCurrentUser(undefined);
   }
 }
 

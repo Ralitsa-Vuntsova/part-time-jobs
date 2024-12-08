@@ -4,6 +4,10 @@ import { HttpService } from './http-service';
 export class JobOfferService {
   private http = new HttpService();
 
+  getById(id: string, abortSignal: AbortSignal) {
+    return this.http.get<JobOfferDto>(`job-offers/${id}`, { abortSignal });
+  }
+
   listAll(abortSignal: AbortSignal) {
     return this.http.get<JobOfferDto[]>('job-offers', { abortSignal });
   }

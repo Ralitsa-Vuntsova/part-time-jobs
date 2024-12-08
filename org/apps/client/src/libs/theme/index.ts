@@ -229,7 +229,7 @@ export const theme = createTheme(baseTheme, {
           '.MuiTableCell-head': {
             fontWeight: '700',
           },
-          '.MuiTableCell-body': variants.body2,
+          '.MuiTableCell-body': variants.body1,
         },
       },
     },

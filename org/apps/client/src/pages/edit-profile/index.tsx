@@ -35,10 +35,10 @@ export function EditProfile() {
   }
 
   return (
-    <Box>
+    <>
       <EditProfileForm userData={userData} />
 
       {error ? <ErrorContainer>{error}</ErrorContainer> : null}
-    </Box>
+    </>
   );
 }

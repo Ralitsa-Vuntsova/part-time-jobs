@@ -16,6 +16,10 @@ export class ServiceOffersService {
     private adModel: ExtendedModel<ServiceOfferDocument>
   ) {}
 
+  findById(id: string) {
+    return dbToInstance(ServiceOfferDto, this.adModel.findById(id));
+  }
+
   list() {
     return this.adModel.find();
   }

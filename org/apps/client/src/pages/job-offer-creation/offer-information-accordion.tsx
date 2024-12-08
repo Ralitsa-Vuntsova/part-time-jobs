@@ -27,7 +27,7 @@ const styles = makeStyles({
   },
   responsiveFlexRow: {
     display: 'flex',
-    flexDirection: ['column', 'row'],
+    flexDirection: ['column', null, null, 'row'],
     gap: 2,
   },
 });

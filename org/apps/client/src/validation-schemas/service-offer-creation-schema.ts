@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { longString, multilineString, phoneNumber } from './common';
-import { CreateServiceOfferDto, ResultUserDto } from '@shared/data-objects';
+import { CreateServiceOfferDto, UserProfile } from '@shared/data-objects';
 
 const contactSchema = z.object({
   name: longString,
@@ -33,27 +33,18 @@ export function toCreateServiceOfferDto(
   };
 }
 
-export function defaultValues(currentUser: ResultUserDto | undefined) {
+export function defaultValues(userData: UserProfile) {
   return {
     name: '',
     description: '',
     additionalInformation: '',
-    contacts: currentUser
-      ? [
-          {
-            name: currentUser.username,
-            email: currentUser.email,
-            phoneNumber: '',
-            address: '',
-          },
-        ]
-      : [
-          {
-            name: '',
-            email: '',
-            phoneNumber: '',
-            address: '',
-          },
-        ],
+    contacts: [
+      {
+        name: userData.username,
+        email: userData.email,
+        phoneNumber: userData.phoneNumber,
+        address: userData.address,
+      },
+    ],
   };
 }

@@ -1,5 +1,5 @@
-import { Link, TextField, Typography } from '@mui/material';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Link, Typography } from '@mui/material';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import {
@@ -15,24 +15,21 @@ import { useState } from 'react';
 import { authService } from '../../services/auth-service';
 import { StyledStack } from '../../components/styled/stack';
 import { StyledFormControl } from '../../components/styled/form-control';
+import { LoginControls } from './controls';
+import { useCurrentUser } from '../../hooks/use-current-user';
 
 const styles = makeStyles({
-  input: {
-    '&.valid': {
-      boxShadow: '3px 3px 4px #CCC8C8',
-    },
-    width: ['200px', '250px', '300px'],
-  },
   button: {
     width: '100%',
   },
 });
 
 export function Login() {
-  const location = useLocation();
+  const currentUser = useCurrentUser();
 
   const [loginError, setLoginError] = useState('');
 
+  const location = useLocation();
   const redirectTo = location.state?.from?.pathname ?? '/';
 
   const { trigger, loading, error } = useAsyncAction(
@@ -56,7 +53,7 @@ export function Login() {
 
   const onSubmit = form.handleSubmit(trigger);
 
-  if (localStorage.getItem('currentUser')) {
+  if (currentUser) {
     return <Navigate to={redirectTo} />;
   }
 
@@ -64,36 +61,7 @@ export function Login() {
     <StyledStack>
       <FormProvider {...form}>
         <StyledFormControl onSubmit={onSubmit} component="form">
-          <Controller
-            name="username"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="Username*"
-                className={invalid ? '' : 'valid'}
-                {...field}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
-
-          <Controller
-            name="password"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <TextField
-                label="Password*"
-                type="password"
-                {...field}
-                className={invalid ? '' : 'valid'}
-                error={invalid}
-                helperText={error?.message}
-                sx={styles.input}
-              />
-            )}
-          />
+          <LoginControls />
 
           {loginError && <Typography color="error">{loginError}</Typography>}
 

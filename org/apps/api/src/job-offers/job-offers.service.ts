@@ -15,6 +15,10 @@ export class JobOffersService {
     @InjectModel(JobOffer.name) private adModel: ExtendedModel<JobOfferDocument>
   ) {}
 
+  findById(id: string) {
+    return dbToInstance(JobOfferDto, this.adModel.findById(id));
+  }
+
   list() {
     return this.adModel.find();
   }

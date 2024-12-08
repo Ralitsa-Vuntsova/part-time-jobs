@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateServiceOfferDto } from '@shared/data-objects';
 import { ServiceOffersService } from './service-offers.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -6,6 +6,11 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @Controller('service-offers')
 export class ServiceOffersController {
   constructor(private adsService: ServiceOffersService) {}
+
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.adsService.findById(id);
+  }
 
   @Get()
   list() {

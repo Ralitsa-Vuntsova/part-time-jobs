@@ -18,6 +18,7 @@ import { AdList } from './ad-list';
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppsIcon from '@mui/icons-material/Apps';
+import { AdType } from '../../libs/ad-type';
 
 const styles = makeStyles({
   flexRow: {
@@ -45,7 +46,7 @@ const styles = makeStyles({
 
 export function Home() {
   const [isGrid, setIsGrid] = useState(true);
-  const [isJobsSelected, setIsJobsSelected] = useState(true);
+  const [type, setType] = useState(AdType.Job);
 
   return (
     <AsyncDataLoader
@@ -74,14 +75,16 @@ export function Home() {
 
             <Box sx={styles.flexRow}>
               <ToggleButtonGroup
-                value={isJobsSelected}
+                value={type}
                 exclusive
-                onChange={() => setIsJobsSelected(!isJobsSelected)}
+                onChange={() =>
+                  setType(type === AdType.Job ? AdType.Service : AdType.Job)
+                }
               >
-                <ToggleButton value={true}>
+                <ToggleButton value={AdType.Job}>
                   <Typography sx={styles.toggleButton}>Job Offers</Typography>
                 </ToggleButton>
-                <ToggleButton value={false}>
+                <ToggleButton value={AdType.Service}>
                   <Typography sx={styles.toggleButton}>
                     Service Offers
                   </Typography>
@@ -92,12 +95,7 @@ export function Home() {
             </Box>
           </Box>
 
-          <AdList
-            jobs={jobs}
-            services={services}
-            isGrid={isGrid}
-            isJobsSelected={isJobsSelected}
-          />
+          <AdList jobs={jobs} services={services} isGrid={isGrid} type={type} />
         </Box>
       )}
     </AsyncDataLoader>

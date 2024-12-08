@@ -7,6 +7,8 @@ import {
 } from '@mui/material';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
+import { useNavigate } from 'react-router-dom';
+import { AdType } from '../../../libs/ad-type';
 
 const styles = makeStyles({
   flexColumn: {
@@ -19,6 +21,11 @@ const styles = makeStyles({
   },
   grid: {
     maxWidth: 345,
+    '& .MuiTypography-root': {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      overflowWrap: 'anywhere',
+    },
   },
   list: {
     display: 'inline-block',
@@ -29,9 +36,12 @@ const styles = makeStyles({
 interface Props {
   data: JobOfferDto | ServiceOfferDto;
   isGrid: boolean;
+  type: AdType;
 }
 
-export function AdCard({ data, isGrid }: Props) {
+export function AdCard({ data, isGrid, type }: Props) {
+  const navigate = useNavigate();
+
   const cardStyles = isGrid ? styles.grid : styles.list;
 
   return (
@@ -46,7 +56,17 @@ export function AdCard({ data, isGrid }: Props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" sx={styles.button}>
+        <Button
+          size="small"
+          sx={styles.button}
+          onClick={() =>
+            navigate(
+              type === AdType.Job
+                ? `/jobs/${data._id}`
+                : `/services/${data._id}`
+            )
+          }
+        >
           Learn More
         </Button>
       </CardActions>
