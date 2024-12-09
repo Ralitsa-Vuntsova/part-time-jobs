@@ -19,6 +19,8 @@ import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppsIcon from '@mui/icons-material/Apps';
 import { AdType } from '../../libs/ad-type';
+import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
+import { filterJobsByTerm, filterServicesByTerm } from '../../libs/search-ads';
 
 const styles = makeStyles({
   flexRow: {
@@ -47,6 +49,8 @@ const styles = makeStyles({
 export function Home() {
   const [isGrid, setIsGrid] = useState(true);
   const [type, setType] = useState(AdType.Job);
+  const [searchJobs, setSearchJobs] = useState<JobOfferDto[]>([]);
+  const [searchServices, setSearchServices] = useState<ServiceOfferDto[]>([]);
 
   return (
     <AsyncDataLoader
@@ -62,7 +66,17 @@ export function Home() {
         <Box sx={styles.flexColumn}>
           <Box sx={styles.flexRow}>
             <Box sx={styles.flexRow}>
-              <TextField label="Search" type="search" sx={styles.textField} />
+              <TextField
+                label="Search"
+                type="search"
+                sx={styles.textField}
+                onChange={(e) => {
+                  setSearchJobs(filterJobsByTerm(jobs, e.target.value));
+                  setSearchServices(
+                    filterServicesByTerm(services, e.target.value)
+                  );
+                }}
+              />
 
               <IconButton onClick={() => setIsGrid(!isGrid)}>
                 {isGrid ? (
@@ -95,7 +109,12 @@ export function Home() {
             </Box>
           </Box>
 
-          <AdList jobs={jobs} services={services} isGrid={isGrid} type={type} />
+          <AdList
+            jobs={searchJobs}
+            services={searchServices}
+            isGrid={isGrid}
+            type={type}
+          />
         </Box>
       )}
     </AsyncDataLoader>
