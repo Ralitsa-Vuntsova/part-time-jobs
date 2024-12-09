@@ -1,8 +1,8 @@
 import { Accordion, AccordionDetails, Box, Typography } from '@mui/material';
 import { JobOfferDto } from '@shared/data-objects';
-import { AccordionSummaryWithLeftIcon } from '../../components/accordion-summary-with-left-icon';
-import { LabeledControl } from '../../components/labeled-control';
-import { makeStyles } from '../../libs/make-styles';
+import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
+import { LabeledControl } from '../../../components/labeled-control';
+import { makeStyles } from '../../../libs/make-styles';
 import { DateTime } from './date-time';
 
 const styles = makeStyles({

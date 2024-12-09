@@ -1,9 +1,9 @@
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { makeStyles } from '../../libs/make-styles';
+import { makeStyles } from '../../../libs/make-styles';
 import { Box, Typography } from '@mui/material';
-import { FormattedDate } from '../../components/formatted-date';
-import { DateFormats } from '../../libs/dates';
+import { FormattedDate } from '../../../components/formatted-date';
+import { DateFormats } from '../../../libs/dates';
 import { DateTimeDto } from '@shared/data-objects';
 
 const styles = makeStyles({

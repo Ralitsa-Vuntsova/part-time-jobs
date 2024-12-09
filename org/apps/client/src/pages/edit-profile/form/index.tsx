@@ -1,18 +1,18 @@
 import { UserProfile } from '@shared/data-objects';
-import { useAsyncAction } from '../../hooks/use-async-action';
-import { userService } from '../../services/user-service';
+import { useAsyncAction } from '../../../hooks/use-async-action';
+import { userService } from '../../../services/user-service';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, TextField } from '@mui/material';
-import { LoadingButton } from '../../components/loading-button';
-import { ErrorContainer } from '../../components/error-container';
-import { makeStyles } from '../../libs/make-styles';
+import { LoadingButton } from '../../../components/loading-button';
+import { ErrorContainer } from '../../../components/error-container';
+import { makeStyles } from '../../../libs/make-styles';
 import {
   defaultValues,
   toEditUserDto,
   userEditSchema,
   UserEditSchema,
-} from '../../validation-schemas/user-edit-schema';
+} from '../../../validation-schemas/user-edit-schema';
 import { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 import CheckIcon from '@mui/icons-material/Check';

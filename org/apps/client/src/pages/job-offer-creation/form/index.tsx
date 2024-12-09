@@ -1,5 +1,5 @@
 import { UserProfile } from '@shared/data-objects';
-import { makeStyles } from '../../libs/make-styles';
+import { makeStyles } from '../../../libs/make-styles';
 import { useNavigate } from 'react-router-dom';
 import {
   Controller,
@@ -11,9 +11,9 @@ import {
   jobOfferCreationSchema,
   JobOfferCreationSchema,
   toCreateJobOfferDto,
-} from '../../validation-schemas/job-offer-creation-schema';
-import { useAsyncAction } from '../../hooks/use-async-action';
-import { jobOfferService } from '../../services/job-offer-service';
+} from '../../../validation-schemas/job-offer-creation-schema';
+import { useAsyncAction } from '../../../hooks/use-async-action';
+import { jobOfferService } from '../../../services/job-offer-service';
 import {
   Accordion,
   AccordionDetails,
@@ -22,16 +22,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AccordionSummaryWithLeftIcon } from '../../components/accordion-summary-with-left-icon';
+import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
 import { OfferInformationAccordion } from './offer-information-accordion';
 import { times } from 'lodash';
-import { ContactRow } from '../../components/contact-row';
-import { AddButton } from '../../components/add-button';
-import { ErrorContainer } from '../../components/error-container';
-import { LoadingButton } from '../../components/loading-button';
+import { ContactRow } from '../../../components/contact-row';
+import { AddButton } from '../../../components/add-button';
+import { ErrorContainer } from '../../../components/error-container';
+import { LoadingButton } from '../../../components/loading-button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { defaultValues } from '../../validation-schemas/job-offer-creation-schema';
+import { defaultValues } from '../../../validation-schemas/job-offer-creation-schema';
 
 const styles = makeStyles({
   header: {

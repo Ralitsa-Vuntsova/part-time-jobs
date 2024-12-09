@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { UserCreationSchema } from '../../validation-schemas/user-creation-schema';
+import { UserCreationSchema } from '../../../validation-schemas/user-creation-schema';
 import { TextField } from '@mui/material';
-import { makeStyles } from '../../libs/make-styles';
+import { makeStyles } from '../../../libs/make-styles';
 
 const styles = makeStyles({
   input: {

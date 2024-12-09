@@ -1,12 +1,12 @@
 import { Accordion, AccordionDetails, Box, Typography } from '@mui/material';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
-import { makeStyles } from '../../libs/make-styles';
-import { AccordionSummaryWithLeftIcon } from '../../components/accordion-summary-with-left-icon';
+import { makeStyles } from '../../../libs/make-styles';
+import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
 import { ContactTable } from './contact-table';
 import { OfferInformationAccordion } from './offer-information-accordion';
-import { AdType } from '../../libs/ad-type';
-import { DateFormats } from '../../libs/dates';
-import { FormattedDate } from '../../components/formatted-date';
+import { AdType } from '../../../libs/ad-type';
+import { DateFormats } from '../../../libs/dates';
+import { FormattedDate } from '../../../components/formatted-date';
 
 const styles = makeStyles({
   header: {

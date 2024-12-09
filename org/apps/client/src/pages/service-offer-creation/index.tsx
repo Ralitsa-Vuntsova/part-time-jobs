@@ -1,9 +1,9 @@
-import { Box, CircularProgress } from '@mui/material';
-import { ErrorContainer } from '../../components/error-container';
 import { useCurrentUser } from '../../hooks/use-current-user';
-import { useAsync } from '../../hooks/use-async';
 import { userService } from '../../services/user-service';
-import { LOADING_PROPS } from '../../components/async-data-loader';
+import {
+  AsyncDataLoader,
+  LOADING_PROPS,
+} from '../../components/async-data-loader';
 import { ServiceOfferCreationForm } from './form';
 
 export function ServiceOfferCreation() {
@@ -13,32 +13,12 @@ export function ServiceOfferCreation() {
     return null;
   }
 
-  const {
-    data: userData,
-    loading: loading,
-    error: error,
-  } = useAsync(
-    async ({ signal }) => userService.getById(currentUser._id, signal),
-    []
-  );
-
-  if (loading) {
-    return (
-      <Box sx={LOADING_PROPS.BLANK_PAGE.sx}>
-        <CircularProgress size={LOADING_PROPS.BLANK_PAGE.size} />
-      </Box>
-    );
-  }
-
-  if (!userData) {
-    return null;
-  }
-
   return (
-    <>
-      <ServiceOfferCreationForm userData={userData} />
-
-      {error ? <ErrorContainer>{error}</ErrorContainer> : null}
-    </>
+    <AsyncDataLoader
+      dataLoader={({ signal }) => userService.getById(currentUser._id, signal)}
+      loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
+    >
+      {(userData) => <ServiceOfferCreationForm userData={userData} />}
+    </AsyncDataLoader>
   );
 }

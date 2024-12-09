@@ -1,5 +1,5 @@
 import { UserProfile } from '@shared/data-objects';
-import { makeStyles } from '../../libs/make-styles';
+import { makeStyles } from '../../../libs/make-styles';
 import { useNavigate } from 'react-router-dom';
 import {
   Controller,
@@ -12,10 +12,10 @@ import {
   serviceOfferCreationSchema,
   ServiceOfferCreationSchema,
   toCreateServiceOfferDto,
-} from '../../validation-schemas/service-offer-creation-schema';
+} from '../../../validation-schemas/service-offer-creation-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAsyncAction } from '../../hooks/use-async-action';
-import { serviceOfferService } from '../../services/service-offer-service';
+import { useAsyncAction } from '../../../hooks/use-async-action';
+import { serviceOfferService } from '../../../services/service-offer-service';
 import {
   Accordion,
   AccordionDetails,
@@ -24,12 +24,12 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AccordionSummaryWithLeftIcon } from '../../components/accordion-summary-with-left-icon';
+import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
 import { times } from 'lodash';
-import { ContactRow } from '../../components/contact-row';
-import { AddButton } from '../../components/add-button';
-import { ErrorContainer } from '../../components/error-container';
-import { LoadingButton } from '../../components/loading-button';
+import { ContactRow } from '../../../components/contact-row';
+import { AddButton } from '../../../components/add-button';
+import { ErrorContainer } from '../../../components/error-container';
+import { LoadingButton } from '../../../components/loading-button';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const styles = makeStyles({
