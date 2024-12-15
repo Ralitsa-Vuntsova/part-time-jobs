@@ -47,4 +47,8 @@ export class UsersService {
       })
     );
   }
+
+  delete(id: string) {
+    return this.userModel.findByIdAndDelete({ _id: id });
+  }
 }

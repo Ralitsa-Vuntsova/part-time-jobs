@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -39,6 +40,13 @@ export class UsersController {
     const editedUser = { ...userToBeEdited, ...user };
 
     await this.usersService.edit(editedUser);
+
+    return { status: 'OK' };
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    await this.usersService.delete(id);
 
     return { status: 'OK' };
   }

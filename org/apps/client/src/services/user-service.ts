@@ -29,6 +29,12 @@ export class UserService {
       abortSignal,
     });
   }
+
+  deleteUser(id: string, abortSignal: AbortSignal) {
+    return this.http.delete(`users/${id}`, {
+      abortSignal,
+    });
+  }
 }
 
 export const userService = new UserService();

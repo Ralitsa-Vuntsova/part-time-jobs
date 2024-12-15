@@ -81,7 +81,7 @@ export function AdDetails({ ad, type }: Props) {
 
         <Box sx={styles.flexRow}>
           <Typography>Created:</Typography>
-          <FormattedDate format={DateFormats.Preview}>
+          <FormattedDate variant="body1" format={DateFormats.Preview}>
             {ad.createdAt}
           </FormattedDate>
         </Box>
@@ -89,7 +89,7 @@ export function AdDetails({ ad, type }: Props) {
         {ad.updatedAt && (
           <Box sx={styles.flexRow}>
             <Typography>Last Updated:</Typography>
-            <FormattedDate format={DateFormats.Preview}>
+            <FormattedDate variant="body1" format={DateFormats.Preview}>
               {ad.updatedAt}
             </FormattedDate>
           </Box>

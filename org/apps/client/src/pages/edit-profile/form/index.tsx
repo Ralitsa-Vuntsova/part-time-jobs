@@ -17,10 +17,6 @@ import { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 import CheckIcon from '@mui/icons-material/Check';
 
-interface Props {
-  userData: UserProfile;
-}
-
 const styles = makeStyles({
   flexColumn: {
     display: 'flex',
@@ -39,6 +35,10 @@ const styles = makeStyles({
     color: (theme) => theme.palette.success.main,
   },
 });
+
+interface Props {
+  userData: UserProfile;
+}
 
 export function EditProfileForm({ userData }: Props) {
   const [isSuccess, setIsSuccess] = useState(false);
