@@ -1,6 +1,7 @@
 import {
   Box,
   IconButton,
+  InputAdornment,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -21,6 +22,10 @@ import AppsIcon from '@mui/icons-material/Apps';
 import { AdType } from '../../libs/ad-type';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
 import { filterJobsByTerm, filterServicesByTerm } from '../../libs/search-ads';
+import SearchIcon from '@mui/icons-material/Search';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { sortJobs, sortServices } from '../../libs/sort-ads';
 
 const styles = makeStyles({
   flexRow: {
@@ -48,6 +53,7 @@ const styles = makeStyles({
 
 export function Home() {
   const [isGrid, setIsGrid] = useState(true);
+  const [isAsc, setIsAsc] = useState(false);
   const [type, setType] = useState(AdType.Job);
   const [searchJobs, setSearchJobs] = useState<JobOfferDto[]>([]);
   const [searchServices, setSearchServices] = useState<ServiceOfferDto[]>([]);
@@ -62,61 +68,92 @@ export function Home() {
       }
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
     >
-      {([jobs, services]) => (
-        <Box sx={styles.flexColumn}>
-          <Box sx={styles.flexRow}>
-            <Box sx={styles.flexRow}>
-              <TextField
-                label="Search"
-                type="search"
-                sx={styles.textField}
-                onChange={(e) => {
-                  setSearchJobs(filterJobsByTerm(jobs, e.target.value));
-                  setSearchServices(
-                    filterServicesByTerm(services, e.target.value)
-                  );
-                }}
-              />
+      {([jobs, services]) => {
+        const displayedJobs =
+          searchJobs.length === 0 ? sortJobs(jobs, isAsc) : searchJobs;
+        const displayedServices =
+          searchServices.length === 0
+            ? sortServices(services, isAsc)
+            : searchServices;
 
-              <IconButton onClick={() => setIsGrid(!isGrid)}>
-                {isGrid ? (
-                  <MenuIcon sx={styles.icon} />
-                ) : (
-                  <AppsIcon sx={styles.icon} />
-                )}
-              </IconButton>
+        return (
+          <Box sx={styles.flexColumn}>
+            <Box sx={styles.flexRow}>
+              <Box sx={styles.flexRow}>
+                <TextField
+                  placeholder="Search"
+                  type="search"
+                  sx={styles.textField}
+                  onChange={(e) => {
+                    setSearchJobs(
+                      sortJobs(filterJobsByTerm(jobs, e.target.value), isAsc)
+                    );
+                    setSearchServices(
+                      sortServices(
+                        filterServicesByTerm(services, e.target.value),
+                        isAsc
+                      )
+                    );
+                  }}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+
+                <IconButton onClick={() => setIsGrid(!isGrid)}>
+                  {isGrid ? (
+                    <MenuIcon sx={styles.icon} />
+                  ) : (
+                    <AppsIcon sx={styles.icon} />
+                  )}
+                </IconButton>
+
+                <IconButton onClick={() => setIsAsc(!isAsc)}>
+                  {isAsc ? (
+                    <KeyboardArrowUpIcon sx={styles.icon} />
+                  ) : (
+                    <KeyboardArrowDownIcon sx={styles.icon} />
+                  )}
+                </IconButton>
+              </Box>
+
+              <Box sx={styles.flexRow}>
+                <ToggleButtonGroup
+                  value={type}
+                  exclusive
+                  onChange={() =>
+                    setType(type === AdType.Job ? AdType.Service : AdType.Job)
+                  }
+                >
+                  <ToggleButton value={AdType.Job}>
+                    <Typography sx={styles.toggleButton}>Job Offers</Typography>
+                  </ToggleButton>
+                  <ToggleButton value={AdType.Service}>
+                    <Typography sx={styles.toggleButton}>
+                      Service Offers
+                    </Typography>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+
+                <CreateAdButton />
+              </Box>
             </Box>
 
-            <Box sx={styles.flexRow}>
-              <ToggleButtonGroup
-                value={type}
-                exclusive
-                onChange={() =>
-                  setType(type === AdType.Job ? AdType.Service : AdType.Job)
-                }
-              >
-                <ToggleButton value={AdType.Job}>
-                  <Typography sx={styles.toggleButton}>Job Offers</Typography>
-                </ToggleButton>
-                <ToggleButton value={AdType.Service}>
-                  <Typography sx={styles.toggleButton}>
-                    Service Offers
-                  </Typography>
-                </ToggleButton>
-              </ToggleButtonGroup>
-
-              <CreateAdButton />
-            </Box>
+            <AdList
+              jobs={displayedJobs}
+              services={displayedServices}
+              isGrid={isGrid}
+              type={type}
+            />
           </Box>
-
-          <AdList
-            jobs={searchJobs}
-            services={searchServices}
-            isGrid={isGrid}
-            type={type}
-          />
-        </Box>
-      )}
+        );
+      }}
     </AsyncDataLoader>
   );
 }
