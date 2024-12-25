@@ -3,7 +3,7 @@ import { useAsyncAction } from '../../../hooks/use-async-action';
 import { userService } from '../../../services/user-service';
 import {
   toCreateUserDto,
-  userCreationSchema,
+  refinedUserCreationSchema,
   UserCreationSchema,
   defaultValues,
 } from '../../../validation-schemas/user-creation-schema';
@@ -43,10 +43,13 @@ export function RegisterForm({ usernames }: Props) {
   const form = useForm<UserCreationSchema>({
     defaultValues: defaultValues(),
     resolver: zodResolver(
-      userCreationSchema.refine((data) => !usernames?.includes(data.username), {
-        message: 'Username already taken',
-        path: ['username'],
-      })
+      refinedUserCreationSchema.refine(
+        (data) => !usernames?.includes(data.username),
+        {
+          message: 'Username already taken',
+          path: ['username'],
+        }
+      )
     ),
   });
 

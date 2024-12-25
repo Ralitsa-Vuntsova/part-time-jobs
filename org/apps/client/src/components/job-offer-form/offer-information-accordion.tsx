@@ -5,13 +5,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
-import { LabeledControl } from '../../../components/labeled-control';
+import { AccordionSummaryWithLeftIcon } from '../accordion-summary-with-left-icon';
+import { LabeledControl } from '../labeled-control';
 import { DateTime } from './date-time';
 import { Controller, useFormContext } from 'react-hook-form';
-import { makeStyles } from '../../../libs/make-styles';
+import { makeStyles } from '../../libs/make-styles';
 import { times } from 'lodash';
-import { JobOfferCreationSchema } from '../../../validation-schemas/job-offer-creation-schema';
+import { JobOfferCreationSchema } from '../../validation-schemas/job-offer-creation-schema';
 
 const styles = makeStyles({
   input: {

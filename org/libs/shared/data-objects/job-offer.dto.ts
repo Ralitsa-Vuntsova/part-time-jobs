@@ -58,6 +58,15 @@ export class JobOfferDto extends JobOffer {}
 
 export class CreateJobOfferDto extends OmitType(JobOffer, [
   '_id',
+  'isArchieved',
+  'createdAt',
+  'updatedAt',
+  'createdBy',
+  'updatedBy',
+]) {}
+
+export class EditJobOfferDto extends OmitType(JobOfferDto, [
+  '_id',
   'createdAt',
   'updatedAt',
   'createdBy',

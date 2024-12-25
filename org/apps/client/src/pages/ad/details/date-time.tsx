@@ -27,7 +27,9 @@ export function DateTime({ dateTime, index }: Props) {
         <FormattedDate variant="body1" format={DateFormats.Preview}>
           {dateTime.date}
         </FormattedDate>
-        <Typography>{dateTime.time}</Typography>
+        <FormattedDate variant="body1" format={DateFormats.Time}>
+          {dateTime.time}
+        </FormattedDate>
       </Box>
     </LocalizationProvider>
   );

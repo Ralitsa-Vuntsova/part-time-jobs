@@ -3,10 +3,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { makeStyles } from '../../../libs/make-styles';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
-import { JobOfferCreationSchema } from '../../../validation-schemas/job-offer-creation-schema';
+import { JobOfferCreationSchema } from '../../validation-schemas/job-offer-creation-schema';
+import { makeStyles } from '../../libs/make-styles';
 
 const styles = makeStyles({
   box: {

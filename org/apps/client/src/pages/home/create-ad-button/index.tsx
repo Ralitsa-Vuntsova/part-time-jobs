@@ -42,7 +42,7 @@ export function CreateAdButton() {
             handleClose();
           }}
         >
-          Offering a service
+          Offer a service
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -50,7 +50,7 @@ export function CreateAdButton() {
             handleClose();
           }}
         >
-          Offering a job
+          Offer a job
         </MenuItem>
       </Menu>
     </>

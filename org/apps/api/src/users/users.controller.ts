@@ -35,7 +35,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async editUser(@Param('id') id: string, @Body() user: Partial<EditUserDto>) {
+  async editUser(@Param('id') id: string, @Body() user: EditUserDto) {
     const userToBeEdited = await this.getUserById(id);
     const editedUser = { ...userToBeEdited, ...user };
 

@@ -6,24 +6,27 @@ const passwordValidation = new RegExp(
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 );
 
-export const userCreationSchema = z
-  .object({
-    username: longString,
-    password: z.string().regex(passwordValidation, {
-      message:
-        'Password must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character',
-    }),
-    confirmPassword: notEmpty,
-    firstName: longString,
-    lastName: longString,
-    email: z.string().email(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+export const userCreationSchema = z.object({
+  username: longString,
+  password: z.string().regex(passwordValidation, {
+    message:
+      'Password must contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character',
+  }),
+  confirmPassword: notEmpty,
+  firstName: longString,
+  lastName: longString,
+  email: z.string().email(),
+});
+
+export const refinedUserCreationSchema = userCreationSchema.refine(
+  (data) => data.password === data.confirmPassword,
+  {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
-  });
+  }
+);
 
-export type UserCreationSchema = z.infer<typeof userCreationSchema>;
+export type UserCreationSchema = z.infer<typeof refinedUserCreationSchema>;
 
 export function toCreateUserDto(user: UserCreationSchema): CreateUserDto {
   return {

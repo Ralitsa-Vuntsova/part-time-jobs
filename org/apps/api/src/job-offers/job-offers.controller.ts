@@ -1,7 +1,21 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { CreateJobOfferDto } from '@shared/data-objects';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  AuthUser,
+  CreateJobOfferDto,
+  EditJobOfferDto,
+  JobOfferDto,
+} from '@shared/data-objects';
 import { JobOffersService } from './job-offers.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { User } from '../decorators/user-decorator';
 
 @Controller('job-offers')
 export class JobOffersController {
@@ -19,7 +33,18 @@ export class JobOffersController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  createAd(@Body() ad: CreateJobOfferDto) {
-    return this.adsService.create(ad);
+  createAd(@Body() ad: CreateJobOfferDto, @User() user: AuthUser) {
+    return this.adsService.create(ad, user.userId);
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  async editAd(@Param('id') id: string, @Body() ad: EditJobOfferDto) {
+    const adToBeEdited = await this.getById(id);
+    const editedAd = { ...adToBeEdited, ...ad };
+
+    await this.adsService.edit(id, editedAd);
+
+    return { status: 'OK' };
   }
 }

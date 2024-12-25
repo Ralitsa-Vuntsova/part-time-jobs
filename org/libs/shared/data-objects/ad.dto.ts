@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsMongoId,
   IsNotEmpty,
   IsOptional,
@@ -34,4 +35,9 @@ export class AdDto extends BaseDto {
   @ValidateNested({ each: true })
   @Type(() => ContactDto)
   contacts!: ContactDto[];
+
+  @Prop()
+  @IsBoolean()
+  @IsNotEmpty()
+  isArchieved!: boolean;
 }

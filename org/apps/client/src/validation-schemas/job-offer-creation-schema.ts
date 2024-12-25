@@ -1,8 +1,16 @@
 import { z } from 'zod';
 import { dayjsDate, longString, nonZero } from './common';
 import { serviceOfferCreationSchema } from './service-offer-creation-schema';
-import { CreateJobOfferDto, UserProfile } from '@shared/data-objects';
+import {
+  CreateJobOfferDto,
+  DateTimeDto,
+  JobOfferDto,
+  ServiceOfferDto,
+  UserProfile,
+} from '@shared/data-objects';
 import { DateFormats } from '../libs/dates';
+import dayjs from 'dayjs';
+import { formatDateTime } from '../libs/format-datetime';
 
 export const jobOfferCreationSchema = serviceOfferCreationSchema.merge(
   z.object({
@@ -33,7 +41,7 @@ export function toCreateJobOfferDto(
     contacts: ad.contacts,
     dateTime: ad.dateTime.map((dt) => ({
       date: dt.date.format(DateFormats.ISODate),
-      time: dt.time.format(DateFormats.Time),
+      time: dt.time.format(DateFormats.DateTime),
     })),
     location: ad.location,
     personNumber: ad.personNumber,
@@ -44,12 +52,12 @@ export function toCreateJobOfferDto(
   };
 }
 
-export function defaultValues(userData: UserProfile) {
+export function defaultValues(userData: UserProfile, ad?: JobOfferDto) {
   return {
-    name: '',
-    description: '',
-    additionalInformation: '',
-    contacts: [
+    name: ad?.name ?? '',
+    description: ad?.description ?? '',
+    additionalInformation: ad?.additionalInformation ?? '',
+    contacts: ad?.contacts ?? [
       {
         name: userData.username,
         email: userData.email,
@@ -57,12 +65,12 @@ export function defaultValues(userData: UserProfile) {
         address: userData.address,
       },
     ],
-    dateTime: [],
-    location: '',
-    personNumber: 0,
-    qualification: '',
-    duration: '',
-    urgency: '',
-    difficulty: '',
+    dateTime: ad?.dateTime ? formatDateTime(ad.dateTime) : [],
+    location: ad?.location ?? '',
+    personNumber: ad?.personNumber ?? 0,
+    qualification: ad?.qualification ?? '',
+    duration: ad?.duration ?? '',
+    urgency: ad?.urgency ?? '',
+    difficulty: ad?.difficulty ?? '',
   };
 }

@@ -4,6 +4,7 @@ import { dbToInstance } from '../lib/utils';
 import { ExtendedModel } from '../lib/db-utils/extended-model';
 import {
   CreateServiceOfferDto,
+  EditServiceOfferDto,
   ServiceOffer,
   ServiceOfferDocument,
   ServiceOfferDto,
@@ -20,11 +21,23 @@ export class ServiceOffersService {
     return dbToInstance(ServiceOfferDto, this.adModel.findById(id));
   }
 
-  list() {
-    return this.adModel.find();
+  async list() {
+    return (await this.adModel.find()).filter((ad) => !ad.isArchieved);
   }
 
-  create(ad: CreateServiceOfferDto) {
-    return dbToInstance(ServiceOfferDto, this.adModel.create(ad));
+  create(ad: CreateServiceOfferDto, userId: string) {
+    return dbToInstance(
+      ServiceOfferDto,
+      this.adModel.createExtended({ ...ad, isArchieved: false }, userId)
+    );
+  }
+
+  async edit(id: string, ad: EditServiceOfferDto) {
+    return dbToInstance(
+      ServiceOfferDto,
+      this.adModel.findOneAndReplace({ _id: id }, ad, {
+        returnDocument: 'after',
+      })
+    );
   }
 }

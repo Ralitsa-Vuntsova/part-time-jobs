@@ -4,7 +4,7 @@ import {
   AsyncDataLoader,
   LOADING_PROPS,
 } from '../../components/async-data-loader';
-import { JobOfferCreationForm } from './form';
+import { JobOfferForm } from '../../components/job-offer-form';
 
 export function JobOfferCreation() {
   const currentUser = useCurrentUser();
@@ -18,7 +18,7 @@ export function JobOfferCreation() {
       dataLoader={({ signal }) => userService.getById(currentUser._id, signal)}
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
     >
-      {(userData) => <JobOfferCreationForm userData={userData} />}
+      {(userData) => <JobOfferForm userData={userData} />}
     </AsyncDataLoader>
   );
 }

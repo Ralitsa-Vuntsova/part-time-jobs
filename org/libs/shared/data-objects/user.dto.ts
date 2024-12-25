@@ -52,7 +52,11 @@ export class UserDto extends User {}
 
 export class CreateUserDto extends OmitType(User, ['_id']) {}
 
-export class EditUserDto extends OmitType(User, ['username', 'password']) {}
+export class EditUserDto extends OmitType(User, [
+  '_id',
+  'username',
+  'password',
+]) {}
 
 export class LoginUserDto extends PickType(User, ['username', 'password']) {}
 
@@ -63,3 +67,8 @@ export class ResultUserDto extends PickType(User, [
 ]) {}
 
 export class UserProfile extends OmitType(User, ['password']) {}
+
+export class AuthUser {
+  userId!: string;
+  username!: string;
+}

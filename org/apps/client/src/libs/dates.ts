@@ -2,8 +2,9 @@ import dayjs from 'dayjs';
 
 export enum DateFormats {
   Preview = 'D MMM YYYY',
-  DateTime = 'D MMM YYYY HH:mm',
   ISODate = 'YYYY-MM-DD',
+  DateTime = 'D MMM YYYY HH:mm',
+  Time = 'h:mm A',
 }
 
 export function toDateOrNull(value: string | undefined) {

@@ -35,7 +35,7 @@ export function OfferInformationAccordion({ ad }: Props) {
         <Typography>Offer Information</Typography>
       </AccordionSummaryWithLeftIcon>
       <AccordionDetails sx={styles.flexColumn}>
-        <LabeledControl label="When should the service be performed (select three options)?">
+        <LabeledControl label="When should the service be performed?">
           <Box sx={styles.flexColumn}>
             {ad.dateTime.map((dt, index) => (
               <DateTime

@@ -4,6 +4,7 @@ import { dbToInstance } from '../lib/utils';
 import { ExtendedModel } from '../lib/db-utils/extended-model';
 import {
   CreateJobOfferDto,
+  EditJobOfferDto,
   JobOffer,
   JobOfferDocument,
   JobOfferDto,
@@ -19,11 +20,23 @@ export class JobOffersService {
     return dbToInstance(JobOfferDto, this.adModel.findById(id));
   }
 
-  list() {
-    return this.adModel.find();
+  async list() {
+    return (await this.adModel.find()).filter((ad) => !ad.isArchieved);
   }
 
-  create(ad: CreateJobOfferDto) {
-    return dbToInstance(JobOfferDto, this.adModel.create(ad));
+  create(ad: CreateJobOfferDto, userId: string) {
+    return dbToInstance(
+      JobOfferDto,
+      this.adModel.createExtended({ ...ad, isArchieved: false }, userId)
+    );
+  }
+
+  async edit(id: string, ad: EditJobOfferDto) {
+    return dbToInstance(
+      JobOfferDto,
+      this.adModel.findOneAndReplace({ _id: id }, ad, {
+        returnDocument: 'after',
+      })
+    );
   }
 }

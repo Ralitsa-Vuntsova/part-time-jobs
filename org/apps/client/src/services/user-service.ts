@@ -23,7 +23,7 @@ export class UserService {
     });
   }
 
-  editUser(id: string, user: Partial<EditUserDto>, abortSignal: AbortSignal) {
+  editUser(id: string, user: EditUserDto, abortSignal: AbortSignal) {
     return this.http.patch(`users/${id}`, {
       body: user,
       abortSignal,

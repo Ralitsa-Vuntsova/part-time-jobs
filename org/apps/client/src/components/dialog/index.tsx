@@ -1,9 +1,18 @@
-import { DialogContent, DialogActions, Button, Dialog } from '@mui/material';
+import {
+  DialogContent,
+  DialogActions,
+  Button,
+  Dialog,
+  DialogTitle,
+} from '@mui/material';
 import { ReactElement, ReactNode } from 'react';
 import { LoadingButton } from '../loading-button';
 import { makeStyles } from '../../libs/make-styles';
 
 const styles = makeStyles({
+  title: {
+    color: (theme) => theme.palette.primary.main,
+  },
   flexRow: {
     display: 'flex',
     gap: 2,
@@ -31,7 +40,8 @@ export function AlertDialog({
   onClose,
 }: AlertProps) {
   return (
-    <Dialog open={open} onSubmit={onConfirm} onClose={onClose} title={title}>
+    <Dialog open={open} onSubmit={onConfirm} onClose={onClose}>
+      <DialogTitle sx={styles.title}>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
 
       <DialogActions sx={styles.flexRow}>
@@ -65,7 +75,8 @@ export function ConfirmDialog({
   cancelLabel = 'Cancel',
 }: ConfirmProps) {
   return (
-    <Dialog open={open} onSubmit={onConfirm} onClose={onClose} title={title}>
+    <Dialog open={open} onSubmit={onConfirm} onClose={onClose}>
+      <DialogTitle sx={styles.title}>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
 
       <DialogActions sx={styles.flexRow}>

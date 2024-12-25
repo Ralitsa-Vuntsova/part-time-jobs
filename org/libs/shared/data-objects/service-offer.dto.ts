@@ -13,6 +13,15 @@ export class ServiceOfferDto extends ServiceOffer {}
 
 export class CreateServiceOfferDto extends OmitType(ServiceOffer, [
   '_id',
+  'isArchieved',
+  'createdAt',
+  'updatedAt',
+  'createdBy',
+  'updatedBy',
+]) {}
+
+export class EditServiceOfferDto extends OmitType(ServiceOfferDto, [
+  '_id',
   'createdAt',
   'updatedAt',
   'createdBy',

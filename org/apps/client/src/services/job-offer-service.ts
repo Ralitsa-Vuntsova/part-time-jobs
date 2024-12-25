@@ -1,4 +1,8 @@
-import { CreateJobOfferDto, JobOfferDto } from '@shared/data-objects';
+import {
+  CreateJobOfferDto,
+  EditJobOfferDto,
+  JobOfferDto,
+} from '@shared/data-objects';
 import { HttpService } from './http-service';
 
 export class JobOfferService {
@@ -14,6 +18,13 @@ export class JobOfferService {
 
   createAd(ad: CreateJobOfferDto, abortSignal: AbortSignal) {
     return this.http.post('job-offers', {
+      body: ad,
+      abortSignal,
+    });
+  }
+
+  editAd(id: string, ad: EditJobOfferDto, abortSignal: AbortSignal) {
+    return this.http.patch(`job-offers/${id}`, {
       body: ad,
       abortSignal,
     });

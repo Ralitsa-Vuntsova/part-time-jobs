@@ -1,18 +1,39 @@
 import { z } from 'zod';
-import { longString, phoneNumber } from './common';
 import { EditUserDto, UserProfile } from '@shared/data-objects';
+import { userCreationSchema } from './user-creation-schema';
+import validator from 'validator';
 
-export const userEditSchema = z.object({
-  firstName: longString,
-  lastName: longString,
-  email: z.string().email(),
-  phoneNumber: phoneNumber.optional(),
-  address: longString.optional(),
-});
+export const userEditSchema = userCreationSchema
+  .pick({
+    firstName: true,
+    lastName: true,
+    email: true,
+  })
+  .merge(
+    z.object({
+      phoneNumber: z.ostring(),
+      address: z.ostring(),
+    })
+  )
+  .superRefine((data, ctx) => {
+    if (data.address && data.address.length < 5) {
+      ctx.addIssue({
+        message: 'Required - at least 5 characters',
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    if (data.phoneNumber && !validator.isMobilePhone(data.phoneNumber)) {
+      ctx.addIssue({
+        message: 'Invalid mobile phone number',
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 export type UserEditSchema = z.infer<typeof userEditSchema>;
 
-export function toEditUserDto(user: UserEditSchema): Partial<EditUserDto> {
+export function toEditUserDto(user: UserEditSchema): EditUserDto {
   return {
     firstName: user.firstName,
     lastName: user.lastName,
