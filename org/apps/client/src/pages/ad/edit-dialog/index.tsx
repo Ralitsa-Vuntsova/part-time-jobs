@@ -4,7 +4,6 @@ import { AdType } from '../../../libs/ad-type';
 import {
   JobOfferDto,
   ServiceOfferDto,
-  User,
   UserProfile,
 } from '@shared/data-objects';
 import { EditJobOfferForm } from './job-form';

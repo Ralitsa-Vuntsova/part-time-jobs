@@ -3,13 +3,10 @@ import { dayjsDate, longString, nonZero } from './common';
 import { serviceOfferCreationSchema } from './service-offer-creation-schema';
 import {
   CreateJobOfferDto,
-  DateTimeDto,
   JobOfferDto,
-  ServiceOfferDto,
   UserProfile,
 } from '@shared/data-objects';
 import { DateFormats } from '../libs/dates';
-import dayjs from 'dayjs';
 import { formatDateTime } from '../libs/format-datetime';
 
 export const jobOfferCreationSchema = serviceOfferCreationSchema.merge(

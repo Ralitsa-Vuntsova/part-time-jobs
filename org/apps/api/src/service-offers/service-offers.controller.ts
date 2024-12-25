@@ -11,7 +11,6 @@ import {
   AuthUser,
   CreateServiceOfferDto,
   EditServiceOfferDto,
-  ServiceOfferDto,
 } from '@shared/data-objects';
 import { ServiceOffersService } from './service-offers.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

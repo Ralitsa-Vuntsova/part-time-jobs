@@ -11,7 +11,6 @@ import {
   AuthUser,
   CreateJobOfferDto,
   EditJobOfferDto,
-  JobOfferDto,
 } from '@shared/data-objects';
 import { JobOffersService } from './job-offers.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
