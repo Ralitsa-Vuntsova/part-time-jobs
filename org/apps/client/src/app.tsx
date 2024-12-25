@@ -18,6 +18,7 @@ import { DrawerLayout } from './components/drawer-layout';
 import { EditProfile } from './pages/edit-profile';
 import { Ad } from './pages/ad';
 import { AdType } from './libs/ad-type';
+import { MyAds } from './pages/my-ads';
 
 export function App() {
   const router = createBrowserRouter(
@@ -52,7 +53,14 @@ export function App() {
           />
 
           <Route path="services">
-            <Route path=":id" element={<Ad type={AdType.Service} />} />
+            <Route
+              path=":id"
+              element={
+                <PrivateRoute>
+                  <Ad type={AdType.Service} />
+                </PrivateRoute>
+              }
+            />
           </Route>
 
           <Route
@@ -65,8 +73,24 @@ export function App() {
           />
 
           <Route path="jobs">
-            <Route path=":id" element={<Ad type={AdType.Job} />} />
+            <Route
+              path=":id"
+              element={
+                <PrivateRoute>
+                  <Ad type={AdType.Job} />
+                </PrivateRoute>
+              }
+            />
           </Route>
+
+          <Route
+            path="my-ads"
+            element={
+              <PrivateRoute>
+                <MyAds />
+              </PrivateRoute>
+            }
+          />
         </Route>
 
         <Route path="/register" element={<Register />} />

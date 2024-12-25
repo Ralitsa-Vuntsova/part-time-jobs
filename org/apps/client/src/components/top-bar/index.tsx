@@ -50,6 +50,10 @@ export function TopBar() {
               label={isSM ? '' : `Hi, ${user.username}`}
               menuItems={[
                 {
+                  label: 'My Ads',
+                  onClick: () => navigate('my-ads'),
+                },
+                {
                   label: 'Edit Profile',
                   onClick: () => navigate('edit-profile'),
                 },

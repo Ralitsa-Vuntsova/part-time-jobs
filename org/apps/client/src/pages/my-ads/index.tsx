@@ -1,12 +1,19 @@
+import { AdLibrary } from '../../components/ad-library';
 import {
   AsyncDataLoader,
   LOADING_PROPS,
 } from '../../components/async-data-loader';
+import { useCurrentUser } from '../../hooks/use-current-user';
 import { jobOfferService } from '../../services/job-offer-service';
 import { serviceOfferService } from '../../services/service-offer-service';
-import { AdLibrary } from '../../components/ad-library';
 
-export function Home() {
+export function MyAds() {
+  const currentUser = useCurrentUser();
+
+  if (!currentUser) {
+    return null;
+  }
+
   return (
     <AsyncDataLoader
       dataLoader={({ signal }) =>
@@ -20,8 +27,9 @@ export function Home() {
       {([jobs, services]) => {
         return (
           <AdLibrary
-            jobs={jobs.filter((ad) => !ad.isArchieved)}
-            services={services.filter((ad) => !ad.isArchieved)}
+            jobs={jobs.filter((ad) => ad.createdBy === currentUser._id)}
+            services={services.filter((ad) => ad.createdBy === currentUser._id)}
+            showCreateButton={false}
           />
         );
       }}

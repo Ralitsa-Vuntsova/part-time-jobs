@@ -21,8 +21,8 @@ export class ServiceOffersService {
     return dbToInstance(ServiceOfferDto, this.adModel.findById(id));
   }
 
-  async list() {
-    return (await this.adModel.find()).filter((ad) => !ad.isArchieved);
+  list() {
+    return this.adModel.find();
   }
 
   create(ad: CreateServiceOfferDto, userId: string) {

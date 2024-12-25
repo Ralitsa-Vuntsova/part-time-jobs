@@ -16,8 +16,11 @@ const styles = makeStyles({
     flexDirection: 'column',
     alignContent: 'space-between',
   },
-  button: {
+  mainColor: {
     color: (theme) => theme.palette.primary.main,
+  },
+  grayColor: {
+    color: (theme) => theme.palette.info.main,
   },
   grid: {
     maxWidth: 345,
@@ -58,7 +61,7 @@ export function AdCard({ data, isGrid, type }: Props) {
       <CardActions>
         <Button
           size="small"
-          sx={styles.button}
+          sx={styles.mainColor}
           onClick={() =>
             navigate(
               type === AdType.Job
@@ -69,6 +72,9 @@ export function AdCard({ data, isGrid, type }: Props) {
         >
           Learn More
         </Button>
+        {data.isArchieved && (
+          <Typography sx={styles.grayColor}>Archieved</Typography>
+        )}
       </CardActions>
     </Card>
   );
