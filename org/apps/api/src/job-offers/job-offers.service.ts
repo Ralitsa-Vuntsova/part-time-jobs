@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { dbToInstance } from '../lib/utils';
 import { ExtendedModel } from '../lib/db-utils/extended-model';
 import {
+  AuthUser,
   CreateJobOfferDto,
-  EditJobOfferDto,
   JobOffer,
   JobOfferDocument,
   JobOfferDto,
@@ -31,11 +31,12 @@ export class JobOffersService {
     );
   }
 
-  async edit(id: string, ad: EditJobOfferDto) {
+  async edit(id: string, ad: JobOfferDto, user: AuthUser) {
     return dbToInstance(
       JobOfferDto,
       this.adModel.findOneAndReplace({ _id: id }, ad, {
         returnDocument: 'after',
+        user: user.userId,
       })
     );
   }

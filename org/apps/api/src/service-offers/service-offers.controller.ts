@@ -38,11 +38,15 @@ export class ServiceOffersController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  async editAd(@Param('id') id: string, @Body() ad: EditServiceOfferDto) {
+  async editAd(
+    @Param('id') id: string,
+    @Body() ad: EditServiceOfferDto,
+    @User() user: AuthUser
+  ) {
     const adToBeEdited = await this.getById(id);
     const editedAd = { ...adToBeEdited, ...ad };
 
-    await this.adsService.edit(id, editedAd);
+    await this.adsService.edit(id, editedAd, user);
 
     return { status: 'OK' };
   }

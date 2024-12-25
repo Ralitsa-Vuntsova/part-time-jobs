@@ -23,7 +23,6 @@ export const extendedModelPlugin = (schema: Schema) => {
         ...object,
         createdBy: user,
       });
-      console.log('objectWithCreatedBy', objectWithCreatedBy);
 
       return this.create(
         isArray(doc) ? doc.map(objectWithCreatedBy) : objectWithCreatedBy(doc)
