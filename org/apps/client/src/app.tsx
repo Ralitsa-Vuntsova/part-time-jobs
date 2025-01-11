@@ -64,7 +64,7 @@ export function App() {
           </Route>
 
           <Route
-            path="offer-job"
+            path="seek-service"
             element={
               <PrivateRoute>
                 <JobOfferCreation />

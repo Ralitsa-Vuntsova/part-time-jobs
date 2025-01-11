@@ -51,7 +51,7 @@ export function DrawerHeader({ open, openDrawer, closeDrawer }: Props) {
         {open && (
           <Button onClick={closeDrawer} sx={styles.button}>
             <Typography variant="h6" sx={styles.heading}>
-              PartTimeJobs
+              FastAds
             </Typography>
           </Button>
         )}

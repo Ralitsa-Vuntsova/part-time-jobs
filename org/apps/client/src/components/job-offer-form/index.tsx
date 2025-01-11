@@ -61,7 +61,7 @@ export function JobOfferForm({ ad, userData }: Props) {
   return (
     <FormProvider {...form}>
       <Typography variant="h3" sx={styles.header}>
-        What kind of work do you offer?
+        What kind of services do you seek?
       </Typography>
 
       <Box component="form" onSubmit={onSubmit} sx={styles.content}>

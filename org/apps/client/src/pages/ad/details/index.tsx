@@ -1,22 +1,12 @@
+import { Box, Button, Typography } from '@mui/material';
 import {
-  Accordion,
-  AccordionDetails,
-  Box,
-  Button,
-  Typography,
-} from '@mui/material';
-import {
+  ApplicationDto,
   JobOfferDto,
   ServiceOfferDto,
   UserProfile,
 } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
-import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
-import { ContactTable } from './contact-table';
-import { OfferInformationAccordion } from './offer-information-accordion';
 import { AdType } from '../../../libs/ad-type';
-import { DateFormats } from '../../../libs/dates';
-import { FormattedDate } from '../../../components/formatted-date';
 import { useCurrentUser } from '../../../hooks/use-current-user';
 import { useState } from 'react';
 import { EditAdDialog } from '../edit-dialog';
@@ -25,6 +15,9 @@ import { jobOfferService } from '../../../services/job-offer-service';
 import { serviceOfferService } from '../../../services/service-offer-service';
 import { useAsyncAction } from '../../../hooks/use-async-action';
 import { ErrorContainer } from '../../../components/error-container';
+import { ApplyDialog } from '../apply-dialog';
+import { AdDetailsContent } from './content';
+import { AdDetailsFooter } from './footer';
 
 const styles = makeStyles({
   header: {
@@ -39,14 +32,6 @@ const styles = makeStyles({
     flexDirection: 'column',
     gap: 2,
   },
-  flexRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: 1,
-    '& .MuiTypography-root': {
-      color: (theme) => theme.palette.info.main,
-    },
-  },
   button: {
     maxWidth: 'fit-content',
     alignSelf: 'center',
@@ -59,16 +44,23 @@ const styles = makeStyles({
 
 interface Props {
   ad: JobOfferDto | ServiceOfferDto;
+  applications: ApplicationDto[];
   userData: UserProfile;
   type: AdType;
   onChange: () => void;
 }
 
 // TODO: Ad creator + option do visit profile
-// TODO: Button Apply (for offer ads only)
-export function AdDetails({ ad, userData, type, onChange }: Props) {
+export function AdDetails({
+  ad,
+  applications,
+  userData,
+  type,
+  onChange,
+}: Props) {
   const currentUser = useCurrentUser();
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openApplyDialog, setOpenApplyDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
   const { trigger, loading, error } = useAsyncAction(async ({ signal }) => {
@@ -121,54 +113,24 @@ export function AdDetails({ ad, userData, type, onChange }: Props) {
           </>
         )}
 
-        <Accordion defaultExpanded>
-          <AccordionSummaryWithLeftIcon>
-            <Typography>Description</Typography>
-          </AccordionSummaryWithLeftIcon>
-          <AccordionDetails>
-            <Typography>{ad.description}</Typography>
-          </AccordionDetails>
-        </Accordion>
+        <AdDetailsContent ad={ad} type={type} />
 
-        {type === AdType.Job && (
-          <OfferInformationAccordion ad={ad as JobOfferDto} />
+        {currentUser?._id !== ad.createdBy && type === AdType.Job && (
+          <Button
+            variant="contained"
+            sx={styles.button}
+            onClick={() => setOpenApplyDialog(true)}
+            disabled={
+              !!applications.find(
+                (app) => app.createdBy === userData._id && app.adId === ad._id
+              )
+            }
+          >
+            Apply
+          </Button>
         )}
 
-        <Accordion defaultExpanded>
-          <AccordionSummaryWithLeftIcon>
-            <Typography>Contacts</Typography>
-          </AccordionSummaryWithLeftIcon>
-          <AccordionDetails>
-            <ContactTable contacts={ad.contacts} />
-          </AccordionDetails>
-        </Accordion>
-
-        {ad.additionalInformation && (
-          <Accordion defaultExpanded>
-            <AccordionSummaryWithLeftIcon>
-              <Typography>Additional Information</Typography>
-            </AccordionSummaryWithLeftIcon>
-            <AccordionDetails>
-              <Typography>{ad.additionalInformation}</Typography>
-            </AccordionDetails>
-          </Accordion>
-        )}
-
-        <Box sx={styles.flexRow}>
-          <Typography>Created:</Typography>
-          <FormattedDate variant="body1" format={DateFormats.Preview}>
-            {ad.createdAt}
-          </FormattedDate>
-        </Box>
-
-        {ad.updatedAt && (
-          <Box sx={styles.flexRow}>
-            <Typography>Last Updated:</Typography>
-            <FormattedDate variant="body1" format={DateFormats.Preview}>
-              {ad.updatedAt}
-            </FormattedDate>
-          </Box>
-        )}
+        <AdDetailsFooter ad={ad} />
       </Box>
 
       {error ? <ErrorContainer>{error}</ErrorContainer> : null}
@@ -194,6 +156,13 @@ export function AdDetails({ ad, userData, type, onChange }: Props) {
         userData={userData}
         type={type}
         onClose={() => setOpenEditDialog(false)}
+        onChange={onChange}
+      />
+
+      <ApplyDialog
+        open={openApplyDialog}
+        onClose={() => setOpenApplyDialog(false)}
+        ad={ad as JobOfferDto}
         onChange={onChange}
       />
     </>

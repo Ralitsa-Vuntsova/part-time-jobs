@@ -1,28 +1,30 @@
 import { z } from 'zod';
-import { dayjsDate, longString, nonZero } from './common';
+import { longString, nonZero } from './common';
 import { serviceOfferCreationSchema } from './service-offer-creation-schema';
 import {
   CreateJobOfferDto,
   JobOfferDto,
   UserProfile,
 } from '@shared/data-objects';
-import { DateFormats } from '../libs/dates';
-import { formatDateTime } from '../libs/format-datetime';
+import { Currency, Payment } from '@shared/enums';
+
+export const priceSchema = z.object({
+  value: z.number(),
+  payment: z.nativeEnum(Payment),
+  currency: z.nativeEnum(Currency),
+  byNegotiation: z.boolean().default(false),
+});
 
 export const jobOfferCreationSchema = serviceOfferCreationSchema.merge(
   z.object({
-    dateTime: z.array(
-      z.object({
-        time: dayjsDate,
-        date: dayjsDate,
-      })
-    ),
+    dateTime: longString,
     location: longString,
     personNumber: nonZero,
     qualification: longString,
     duration: longString,
-    urgency: z.string(),
-    difficulty: z.string(),
+    urgency: z.ostring(),
+    difficulty: z.ostring(),
+    price: priceSchema,
   })
 );
 
@@ -36,16 +38,14 @@ export function toCreateJobOfferDto(
     description: ad.description,
     additionalInformation: ad.additionalInformation,
     contacts: ad.contacts,
-    dateTime: ad.dateTime.map((dt) => ({
-      date: dt.date.format(DateFormats.ISODate),
-      time: dt.time.format(DateFormats.DateTime),
-    })),
+    dateTime: ad.dateTime,
     location: ad.location,
     personNumber: ad.personNumber,
     qualification: ad.qualification,
     duration: ad.duration,
     urgency: ad.urgency,
     difficulty: ad.difficulty,
+    price: ad.price,
   };
 }
 
@@ -62,12 +62,18 @@ export function defaultValues(userData: UserProfile, ad?: JobOfferDto) {
         address: userData.address,
       },
     ],
-    dateTime: ad?.dateTime ? formatDateTime(ad.dateTime) : [],
+    dateTime: ad?.dateTime ?? '',
     location: ad?.location ?? '',
     personNumber: ad?.personNumber ?? 0,
     qualification: ad?.qualification ?? '',
     duration: ad?.duration ?? '',
     urgency: ad?.urgency ?? '',
     difficulty: ad?.difficulty ?? '',
+    price: ad?.price ?? {
+      value: 0,
+      currency: Currency.BGN,
+      payment: Payment.TotalAmount,
+      byNegotiation: false,
+    },
   };
 }

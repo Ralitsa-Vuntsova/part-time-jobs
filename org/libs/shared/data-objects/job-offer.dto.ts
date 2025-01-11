@@ -9,8 +9,8 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { PriceDto } from './price.dto';
 import { Type } from 'class-transformer';
-import { DateTimeDto } from './date-time.dto';
 
 @Schema({ collection: 'job-offers', timestamps: true })
 export class JobOffer extends AdDto {
@@ -45,10 +45,14 @@ export class JobOffer extends AdDto {
   location!: string;
 
   @Prop()
-  @Prop()
+  @IsString()
+  @IsNotEmpty()
+  dateTime!: string;
+
+  @Prop(PriceDto)
+  @Type(() => PriceDto)
   @ValidateNested({ each: true })
-  @Type(() => DateTimeDto)
-  dateTime!: DateTimeDto[];
+  price!: PriceDto;
 }
 
 export const JobOfferSchema = SchemaFactory.createForClass(JobOffer);

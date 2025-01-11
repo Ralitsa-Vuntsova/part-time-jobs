@@ -23,6 +23,7 @@ export const jobOfferEditSchema = jobOfferCreationSchema
     duration: true,
     urgency: true,
     difficulty: true,
+    price: true,
   })
   .merge(
     z.object({

@@ -14,9 +14,9 @@ export function useSections(): DrawerSection[] {
       label: 'CREATE',
       items: [
         {
-          label: 'Offer Job',
+          label: 'Seek Service',
           Icon: WorkIcon,
-          navigateTo: 'offer-job',
+          navigateTo: 'seek-service',
         },
         {
           label: 'Offer Service',

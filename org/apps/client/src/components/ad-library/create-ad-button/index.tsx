@@ -42,15 +42,15 @@ export function CreateAdButton() {
             handleClose();
           }}
         >
-          Offer a service
+          Offer Service
         </MenuItem>
         <MenuItem
           onClick={() => {
-            navigate('offer-job');
+            navigate('seek-service');
             handleClose();
           }}
         >
-          Offer a job
+          Seek Service
         </MenuItem>
       </Menu>
     </>

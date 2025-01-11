@@ -9,6 +9,7 @@ import { Connection } from 'mongoose';
 import { extendedModelPlugin } from '../lib/db-utils/extended-model-plugin';
 import { JobOffersModule } from '../job-offers/job-offers.module';
 import { ServiceOffersModule } from '../service-offers/service-offers.module';
+import { ApplicationsModule } from '../applications/applications.module';
 
 const { host, name, schema } = config.get('db');
 
@@ -24,6 +25,7 @@ const { host, name, schema } = config.get('db');
     UsersModule,
     ServiceOffersModule,
     JobOffersModule,
+    ApplicationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

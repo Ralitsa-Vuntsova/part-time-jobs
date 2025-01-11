@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/data-objects": ["libs/shared/data-objects/index.ts"]
+      "@shared/data-objects": ["libs/shared/data-objects/index.ts"],
+      "@shared/enums": ["libs/shared/enums/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

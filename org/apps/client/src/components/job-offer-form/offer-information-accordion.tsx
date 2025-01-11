@@ -2,16 +2,21 @@ import {
   Accordion,
   AccordionDetails,
   Box,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from '@mui/material';
 import { AccordionSummaryWithLeftIcon } from '../accordion-summary-with-left-icon';
 import { LabeledControl } from '../labeled-control';
-import { DateTime } from './date-time';
 import { Controller, useFormContext } from 'react-hook-form';
 import { makeStyles } from '../../libs/make-styles';
-import { times } from 'lodash';
 import { JobOfferCreationSchema } from '../../validation-schemas/job-offer-creation-schema';
+import { Currency, Payment } from '@shared/enums';
+import { PriceControls } from './price-controls';
 
 const styles = makeStyles({
   input: {
@@ -41,13 +46,26 @@ export function OfferInformationAccordion() {
         <Typography>Offer Information</Typography>
       </AccordionSummaryWithLeftIcon>
       <AccordionDetails sx={styles.flexColumn}>
-        <LabeledControl label="When should the service be performed (select three options)?">
-          <Box sx={styles.flexColumn}>
-            {times(3, (index) => (
-              <DateTime key={index} index={index} />
-            ))}
-          </Box>
-        </LabeledControl>
+        <Controller
+          name="dateTime"
+          control={control}
+          render={({ field, fieldState: { error, invalid } }) => (
+            <LabeledControl
+              label="When should the service be performed?"
+              sx={styles.input}
+            >
+              <TextField
+                label="Datetime*"
+                multiline
+                rows={2}
+                {...field}
+                error={invalid}
+                helperText={error?.message}
+                sx={styles.input}
+              />
+            </LabeledControl>
+          )}
+        />
 
         <Controller
           name="location"
@@ -178,6 +196,15 @@ export function OfferInformationAccordion() {
             )}
           />
         </Box>
+
+        <LabeledControl
+          label="What would be the cost of performing the service?"
+          sx={styles.input}
+        >
+          <Box sx={styles.responsiveFlexRow}>
+            <PriceControls />
+          </Box>
+        </LabeledControl>
       </AccordionDetails>
     </Accordion>
   );
