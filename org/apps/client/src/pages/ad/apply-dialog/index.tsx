@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
@@ -25,7 +24,7 @@ import { useAsyncAction } from '../../../hooks/use-async-action';
 import { applicationService } from '../../../services/application-service';
 import { ErrorContainer } from '../../../components/error-container';
 import { LabeledControl } from '../../../components/labeled-control';
-import { ApplicationDto, JobOfferDto, UserProfile } from '@shared/data-objects';
+import { JobOfferDto } from '@shared/data-objects';
 import { times } from 'lodash';
 
 const styles = makeStyles({

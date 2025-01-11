@@ -1,11 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import {
-  IsBoolean,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 import { Currency, Payment } from '../enums/price-enums';
 
 @Schema({ _id: false })

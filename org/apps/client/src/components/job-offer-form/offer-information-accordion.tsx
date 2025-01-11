@@ -2,11 +2,6 @@ import {
   Accordion,
   AccordionDetails,
   Box,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';
@@ -15,7 +10,6 @@ import { LabeledControl } from '../labeled-control';
 import { Controller, useFormContext } from 'react-hook-form';
 import { makeStyles } from '../../libs/make-styles';
 import { JobOfferCreationSchema } from '../../validation-schemas/job-offer-creation-schema';
-import { Currency, Payment } from '@shared/enums';
 import { PriceControls } from './price-controls';
 
 const styles = makeStyles({
