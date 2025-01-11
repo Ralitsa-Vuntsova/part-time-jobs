@@ -37,7 +37,6 @@ export interface Props {
   type: AdType;
 }
 
-// TODO: Consider adding user preferences
 export function AdList({ jobs, services, isGrid, type }: Props) {
   const [page, setPage] = useState(0);
 

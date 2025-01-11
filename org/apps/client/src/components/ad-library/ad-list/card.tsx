@@ -65,8 +65,8 @@ export function AdCard({ data, isGrid, type }: Props) {
           onClick={() =>
             navigate(
               type === AdType.Job
-                ? `/jobs/${data._id}`
-                : `/services/${data._id}`
+                ? `/seek-service-ads/${data._id}`
+                : `/offer-service-ads/${data._id}`
             )
           }
         >

@@ -101,7 +101,8 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="What is your reason for applying?"
+                label="Reason"
+                detailedLabel="What is your reason for applying?"
                 sx={styles.input}
               >
                 <TextField
@@ -122,7 +123,8 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="When would you be available to perform the service?"
+                label="Date and time"
+                detailedLabel="When would you be available to perform the service?"
                 sx={styles.input}
               >
                 <TextField
@@ -158,24 +160,30 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             name="personNumber"
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
-              <FormControl fullWidth>
-                <InputLabel>Number of People*</InputLabel>
-                <Select
-                  label="Number of People"
-                  error={invalid}
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                >
-                  {times(ad.personNumber).map((value) => (
-                    <MenuItem key={value} value={value}>
-                      {value}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {!!error && (
-                  <FormHelperText error>{error.message}</FormHelperText>
-                )}
-              </FormControl>
+              <LabeledControl
+                label="Number of People"
+                detailedLabel="How many people are available to perform the service?"
+                sx={styles.input}
+              >
+                <FormControl fullWidth>
+                  <InputLabel>Number of People*</InputLabel>
+                  <Select
+                    label="Number of People*"
+                    error={invalid}
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  >
+                    {times(ad.personNumber).map((value) => (
+                      <MenuItem key={value} value={value}>
+                        {value}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {!!error && (
+                    <FormHelperText error>{error.message}</FormHelperText>
+                  )}
+                </FormControl>
+              </LabeledControl>
             )}
           />
         </DialogContent>

@@ -1,4 +1,5 @@
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -7,12 +8,23 @@ import {
   TableRow,
 } from '@mui/material';
 import { ContactDto } from '@shared/data-objects';
+import { useState } from 'react';
+import { makeStyles } from '../../../libs/make-styles';
+
+const styles = makeStyles({
+  button: {
+    color: (theme) => theme.palette.primary.main,
+  },
+});
 
 interface Props {
   contacts: ContactDto[];
 }
 
 export function ContactTable({ contacts }: Props) {
+  const [showEmail, setShowEmail] = useState(false);
+  const [showPhoneNumber, setShowPhoneNumber] = useState(false);
+
   return (
     <TableContainer>
       <Table>
@@ -29,8 +41,27 @@ export function ContactTable({ contacts }: Props) {
           {contacts.map((c, index) => (
             <TableRow key={`${c.name}-${c.email}-${index}`}>
               <TableCell>{c.name}</TableCell>
-              <TableCell>{c.email}</TableCell>
-              <TableCell>{c.phoneNumber}</TableCell>
+              <TableCell>
+                {showEmail ? (
+                  c.email
+                ) : (
+                  <Button sx={styles.button} onClick={() => setShowEmail(true)}>
+                    Reveal Email
+                  </Button>
+                )}
+              </TableCell>
+              <TableCell>
+                {showPhoneNumber ? (
+                  c.phoneNumber
+                ) : (
+                  <Button
+                    sx={styles.button}
+                    onClick={() => setShowPhoneNumber(true)}
+                  >
+                    Reveal Phone Number
+                  </Button>
+                )}
+              </TableCell>
               <TableCell>{c.address}</TableCell>
             </TableRow>
           ))}

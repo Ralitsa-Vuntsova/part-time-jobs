@@ -35,14 +35,16 @@ export function OfferInformationAccordion({ ad }: Props) {
       </AccordionSummaryWithLeftIcon>
       <AccordionDetails sx={styles.flexColumn}>
         <LabeledControl
-          label="When should the service be performed?"
+          label="Date and time"
+          detailedLabel="When should the service be performed?"
           sx={styles.input}
         >
           <Typography>{ad.dateTime}</Typography>
         </LabeledControl>
 
         <LabeledControl
-          label="Where should the service be performed?"
+          label="Location"
+          detailedLabel="Where should the service be performed?"
           sx={styles.input}
         >
           <Typography>{ad.location}</Typography>
@@ -50,14 +52,16 @@ export function OfferInformationAccordion({ ad }: Props) {
 
         <Box sx={styles.responsiveFlexRow}>
           <LabeledControl
-            label="How many people are needed for the service to be performed?"
+            label="Number of People"
+            detailedLabel="How many people are needed for the service to be performed?"
             sx={styles.smallInput}
           >
             <Typography>{ad.personNumber}</Typography>
           </LabeledControl>
 
           <LabeledControl
-            label="What qualification is needed for the service to be performed?"
+            label="Qualification"
+            detailedLabel="What qualification is needed for the service to be performed?"
             sx={styles.input}
           >
             <Typography>{ad.qualification}</Typography>
@@ -65,7 +69,8 @@ export function OfferInformationAccordion({ ad }: Props) {
         </Box>
 
         <LabeledControl
-          label="How long does the service take to perform?"
+          label="Duration"
+          detailedLabel="How long does the service take to perform?"
           sx={styles.input}
         >
           <Typography>{ad.duration}</Typography>
@@ -74,7 +79,8 @@ export function OfferInformationAccordion({ ad }: Props) {
         <Box sx={styles.responsiveFlexRow}>
           {ad.urgency && (
             <LabeledControl
-              label="How urgent is the service?"
+              label="Urgency"
+              detailedLabel="How urgent is the service?"
               sx={styles.input}
             >
               <Typography>{ad.urgency}</Typography>
@@ -83,7 +89,8 @@ export function OfferInformationAccordion({ ad }: Props) {
 
           {ad.difficulty && (
             <LabeledControl
-              label="How difficult is the service?"
+              label="Difficulty"
+              detailedLabel="How difficult is the service?"
               sx={styles.input}
             >
               <Typography>{ad.difficulty}</Typography>
@@ -92,7 +99,8 @@ export function OfferInformationAccordion({ ad }: Props) {
         </Box>
 
         <LabeledControl
-          label="What would be the cost of performing the service??"
+          label="Price"
+          detailedLabel="What would be the cost of performing the service?"
           sx={styles.input}
         >
           <Box sx={styles.responsiveFlexRow}>

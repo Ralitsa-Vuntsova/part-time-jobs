@@ -3,14 +3,17 @@ import {
   Divider,
   SxProps,
   Theme,
+  Tooltip,
   Typography,
   TypographyProps,
 } from '@mui/material';
 import { ReactNode } from 'react';
 import { makeStyles } from '../../libs/make-styles';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 interface Props {
   label: string;
+  detailedLabel?: string;
   children: ReactNode;
   sx?: SxProps<Theme>;
   typographyProps?: TypographyProps;
@@ -24,10 +27,23 @@ const styles = makeStyles({
     gap: 1,
     alignItems: 'center',
   },
+  flexRow: {
+    display: 'flex',
+    gap: 0.5,
+    alignItems: 'center',
+  },
+  icon: {
+    '&.MuiSvgIcon-root': {
+      color: (theme) => theme.palette.info.main,
+      width: '16px',
+      height: '16px',
+    },
+  },
 });
 
 export function LabeledControl({
   label,
+  detailedLabel,
   children,
   sx,
   typographyProps,
@@ -38,9 +54,17 @@ export function LabeledControl({
 
   return (
     <Box sx={rootSx}>
-      <Typography fontWeight={700} fontSize={14} {...typographyProps}>
-        {label}
-      </Typography>
+      <Box sx={styles.flexRow}>
+        <Typography fontWeight={700} fontSize={14} {...typographyProps}>
+          {label}
+        </Typography>
+        {detailedLabel && (
+          <Tooltip title={detailedLabel}>
+            <QuestionMarkIcon sx={styles.icon} />
+          </Tooltip>
+        )}
+      </Box>
+
       {!isInline && withDivider && <Divider sx={{ my: 1 }} />}
       {children}
     </Box>

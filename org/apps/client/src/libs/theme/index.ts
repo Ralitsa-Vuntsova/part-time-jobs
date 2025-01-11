@@ -210,16 +210,10 @@ export const theme = createTheme(baseTheme, {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          color: baseTheme.palette.text.primary,
-          fontFamily: baseTheme.typography.fontFamily,
-          fontSize: '0.625rem',
+          fontSize: '1rem',
           fontWeight: baseTheme.typography.fontWeightRegular,
-          letterSpacing: '0px',
           lineHeight: '14px',
-          backgroundColor: baseTheme.palette.text.secondary,
-        },
-        arrow: {
-          color: baseTheme.palette.text.secondary,
+          p: 2,
         },
       },
     },

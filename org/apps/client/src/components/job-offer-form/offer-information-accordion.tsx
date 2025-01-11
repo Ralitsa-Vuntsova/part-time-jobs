@@ -45,7 +45,8 @@ export function OfferInformationAccordion() {
           control={control}
           render={({ field, fieldState: { error, invalid } }) => (
             <LabeledControl
-              label="When should the service be performed?"
+              label="Date and time"
+              detailedLabel="When should the service be performed?"
               sx={styles.input}
             >
               <TextField
@@ -66,7 +67,8 @@ export function OfferInformationAccordion() {
           control={control}
           render={({ field, fieldState: { error, invalid } }) => (
             <LabeledControl
-              label="Where should the service be performed?"
+              label="Location"
+              detailedLabel="Where should the service be performed?"
               sx={styles.input}
             >
               <TextField
@@ -88,11 +90,12 @@ export function OfferInformationAccordion() {
             control={control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="How many people are needed for the service to be performed?"
+                label="Number of people"
+                detailedLabel="How many people are needed for the service to be performed?"
                 sx={styles.smallInput}
               >
                 <TextField
-                  label="Number of people*"
+                  label="Number of People*"
                   type="number"
                   {...field}
                   onChange={(e) => field.onChange(Number(e.target.value))}
@@ -109,7 +112,8 @@ export function OfferInformationAccordion() {
             control={control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="What qualification is needed for the service to be performed?"
+                label="Qualification"
+                detailedLabel="What qualification is needed for the service to be performed?"
                 sx={styles.input}
               >
                 <TextField
@@ -131,7 +135,8 @@ export function OfferInformationAccordion() {
           control={control}
           render={({ field, fieldState: { error, invalid } }) => (
             <LabeledControl
-              label="How long does the service take to perform?"
+              label="Duration"
+              detailedLabel="How long does the service take to perform?"
               sx={styles.input}
             >
               <TextField
@@ -153,7 +158,8 @@ export function OfferInformationAccordion() {
             control={control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="How urgent is the service?"
+                label="Urgency"
+                detailedLabel="How urgent is the service?"
                 sx={styles.input}
               >
                 <TextField
@@ -174,7 +180,8 @@ export function OfferInformationAccordion() {
             control={control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="How difficult is the service?"
+                label="Difficulty"
+                detailedLabel="How difficult is the service?"
                 sx={styles.input}
               >
                 <TextField
@@ -192,7 +199,8 @@ export function OfferInformationAccordion() {
         </Box>
 
         <LabeledControl
-          label="What would be the cost of performing the service?"
+          label="Price"
+          detailedLabel="What would be the cost of performing the service?"
           sx={styles.input}
         >
           <Box sx={styles.responsiveFlexRow}>

@@ -50,7 +50,7 @@ interface Props {
   onChange: () => void;
 }
 
-// TODO: Ad creator + option do visit profile
+// TODO: Add creator
 export function AdDetails({
   ad,
   applications,
@@ -62,6 +62,11 @@ export function AdDetails({
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openApplyDialog, setOpenApplyDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+
+  const alreadyApplied = !!applications.find((app) => app.adId === ad._id);
+  const alreadyAppliedByCurrentUser = !!applications.find(
+    (app) => app.createdBy === userData._id && app.adId === ad._id
+  );
 
   const { trigger, loading, error } = useAsyncAction(async ({ signal }) => {
     if (type === AdType.Job) {
@@ -95,7 +100,7 @@ export function AdDetails({
               variant="contained"
               sx={styles.button}
               onClick={() => setOpenEditDialog(true)}
-              disabled={ad.isArchieved}
+              disabled={ad.isArchieved || alreadyApplied}
             >
               Edit
             </Button>
@@ -120,11 +125,7 @@ export function AdDetails({
             variant="contained"
             sx={styles.button}
             onClick={() => setOpenApplyDialog(true)}
-            disabled={
-              !!applications.find(
-                (app) => app.createdBy === userData._id && app.adId === ad._id
-              )
-            }
+            disabled={alreadyAppliedByCurrentUser}
           >
             Apply
           </Button>

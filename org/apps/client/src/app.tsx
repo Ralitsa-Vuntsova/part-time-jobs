@@ -52,7 +52,7 @@ export function App() {
             }
           />
 
-          <Route path="services">
+          <Route path="offer-service-ads">
             <Route
               path=":id"
               element={
@@ -72,7 +72,7 @@ export function App() {
             }
           />
 
-          <Route path="jobs">
+          <Route path="seek-service-ads">
             <Route
               path=":id"
               element={
