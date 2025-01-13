@@ -20,6 +20,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppsIcon from '@mui/icons-material/Apps';
+import { useUserPreferences } from '../../hooks/use-user-preferences';
+import { NoAds } from './no-ads';
 
 const styles = makeStyles({
   flexRow: {
@@ -52,9 +54,8 @@ interface Props {
 }
 
 export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
-  const [isGrid, setIsGrid] = useState(true);
-  const [isAsc, setIsAsc] = useState(false);
-  const [type, setType] = useState(AdType.Job);
+  const { isGrid, isAsc, type, setPreferences } = useUserPreferences();
+
   const [searchJobs, setSearchJobs] = useState<JobOfferDto[]>(
     sortJobs(jobs, isAsc)
   );
@@ -66,6 +67,8 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
     setSearchJobs(sortJobs(searchJobs, isAsc));
     setSearchServices(sortServices(searchServices, isAsc));
   }, [isAsc]);
+
+  const selectedType = type === AdType.Job ? AdType.Service : AdType.Job;
 
   return (
     <Box sx={styles.flexColumn}>
@@ -90,7 +93,7 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
             }}
           />
 
-          <IconButton onClick={() => setIsGrid(!isGrid)}>
+          <IconButton onClick={() => setPreferences({ isGrid: !isGrid })}>
             {isGrid ? (
               <MenuIcon sx={styles.icon} />
             ) : (
@@ -98,7 +101,7 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
             )}
           </IconButton>
 
-          <IconButton onClick={() => setIsAsc(!isAsc)}>
+          <IconButton onClick={() => setPreferences({ isAsc: !isAsc })}>
             {isAsc ? (
               <KeyboardArrowUpIcon sx={styles.icon} />
             ) : (
@@ -111,9 +114,7 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
           <ToggleButtonGroup
             value={type}
             exclusive
-            onChange={() =>
-              setType(type === AdType.Job ? AdType.Service : AdType.Job)
-            }
+            onChange={() => setPreferences({ type: selectedType })}
           >
             <ToggleButton value={AdType.Job}>
               <Typography sx={styles.toggleButton}>Job Offers</Typography>
@@ -127,12 +128,17 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
         </Box>
       </Box>
 
-      <AdList
-        jobs={searchJobs}
-        services={searchServices}
-        isGrid={isGrid}
-        type={type}
-      />
+      {(type === AdType.Job && !searchJobs.length) ||
+      (type === AdType.Service && !searchServices.length) ? (
+        <NoAds />
+      ) : (
+        <AdList
+          jobs={searchJobs}
+          services={searchServices}
+          isGrid={isGrid}
+          type={type}
+        />
+      )}
     </Box>
   );
 }

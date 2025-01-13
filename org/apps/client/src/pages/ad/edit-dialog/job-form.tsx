@@ -49,6 +49,8 @@ export function EditJobOfferForm({ userData, ad, onClose, onChange }: Props) {
     async ({ signal }, formAd: JobOfferEditSchema) => {
       await jobOfferService.editAd(ad._id, toEditJobOfferDto(formAd), signal);
 
+      form.reset();
+
       onClose();
       onChange();
     }
@@ -64,7 +66,13 @@ export function EditJobOfferForm({ userData, ad, onClose, onChange }: Props) {
         {error ? <ErrorContainer>{error}</ErrorContainer> : null}
 
         <DialogActions sx={styles.flexRow}>
-          <Button variant="outlined" onClick={onClose}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              form.reset();
+              onClose();
+            }}
+          >
             Cancel
           </Button>
 

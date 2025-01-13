@@ -19,6 +19,7 @@ import { EditProfile } from './pages/edit-profile';
 import { Ad } from './pages/ad';
 import { AdType } from './libs/ad-type';
 import { MyAds } from './pages/my-ads';
+import { UserPreferencesProvider } from './hooks/use-user-preferences';
 
 export function App() {
   const router = createBrowserRouter(
@@ -113,12 +114,14 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
-        <RouterProvider
-          router={router}
-          future={{
-            v7_startTransition: true,
-          }}
-        />
+        <UserPreferencesProvider>
+          <RouterProvider
+            router={router}
+            future={{
+              v7_startTransition: true,
+            }}
+          />
+        </UserPreferencesProvider>
       </UserProvider>
     </ThemeProvider>
   );

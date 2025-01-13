@@ -144,6 +144,7 @@ export function AdDetails({
         confirmLoading={loading}
         onCancel={() => setOpenConfirmDialog(false)}
         cancelLabel="Cancel"
+        onClose={() => setOpenConfirmDialog(false)}
       >
         <Typography>
           Are you sure you want to archieve this ad? This action cannot be

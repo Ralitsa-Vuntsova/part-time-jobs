@@ -58,6 +58,8 @@ export function EditServiceOfferForm({
         signal
       );
 
+      form.reset();
+
       onClose();
       onChange();
     }
@@ -73,7 +75,13 @@ export function EditServiceOfferForm({
         {error ? <ErrorContainer>{error}</ErrorContainer> : null}
 
         <DialogActions sx={styles.flexRow}>
-          <Button variant="outlined" onClick={onClose}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              form.reset();
+              onClose();
+            }}
+          >
             Cancel
           </Button>
 
