@@ -56,7 +56,9 @@ export function OfferInformationAccordion({ ad }: Props) {
             detailedLabel="How many people are needed for the service to be performed?"
             sx={styles.smallInput}
           >
-            <Typography>{ad.personNumber}</Typography>
+            <Typography>
+              {ad.personNumber.notSure ? 'Not Sure' : ad.personNumber.value}
+            </Typography>
           </LabeledControl>
 
           <LabeledControl

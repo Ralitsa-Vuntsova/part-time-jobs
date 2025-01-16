@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { makeStyles } from '../../../libs/make-styles';
-import { AdType } from '../../../libs/ad-type';
+import { AdType } from '../../../libs/ad-helper-functions';
 import {
   JobOfferDto,
   ServiceOfferDto,

@@ -23,7 +23,10 @@ const styles = makeStyles({
 
 export function PriceControls() {
   const { control, watch } = useFormContext<JobOfferCreationSchema>();
-  const byNegotiation = watch('price.byNegotiation');
+  const [byNegotiation, notSure] = watch([
+    'price.byNegotiation',
+    'personNumber.notSure',
+  ]);
 
   return (
     <>
@@ -75,7 +78,7 @@ export function PriceControls() {
             <Select
               label="Payment"
               error={invalid}
-              disabled={byNegotiation}
+              disabled={byNegotiation || notSure}
               {...field}
             >
               {Object.values(Payment).map((value) => (

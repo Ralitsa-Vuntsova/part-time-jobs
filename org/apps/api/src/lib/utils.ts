@@ -13,9 +13,10 @@ export async function dbToInstance<
   const doc = await document;
   const ret = new constructor();
 
-  const obj = isPlainObject(doc)
-    ? doc
-    : doc.toObject({ flattenObjectIds: true, versionKey: false });
+  const obj =
+    isPlainObject(doc) || doc === null
+      ? doc
+      : doc.toObject({ flattenObjectIds: true, versionKey: false });
 
   Object.assign(ret, obj);
 

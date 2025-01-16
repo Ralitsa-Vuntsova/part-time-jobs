@@ -8,7 +8,7 @@ import {
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useNavigate } from 'react-router-dom';
-import { AdType } from '../../../libs/ad-type';
+import { AdType } from '../../../libs/ad-helper-functions';
 
 const styles = makeStyles({
   flexColumn: {

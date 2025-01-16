@@ -17,7 +17,7 @@ import { JobOfferCreation } from './pages/job-offer-creation';
 import { DrawerLayout } from './components/drawer-layout';
 import { EditProfile } from './pages/edit-profile';
 import { Ad } from './pages/ad';
-import { AdType } from './libs/ad-type';
+import { AdType } from './libs/ad-helper-functions';
 import { MyAds } from './pages/my-ads';
 import { UserPreferencesProvider } from './hooks/use-user-preferences';
 

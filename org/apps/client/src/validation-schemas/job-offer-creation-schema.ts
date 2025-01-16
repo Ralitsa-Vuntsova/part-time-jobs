@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { longString, nonZero } from './common';
+import { longString } from './common';
 import { serviceOfferCreationSchema } from './service-offer-creation-schema';
 import {
   CreateJobOfferDto,
@@ -15,11 +15,26 @@ export const priceSchema = z.object({
   byNegotiation: z.boolean().default(false),
 });
 
+export const personNumberSchema = z
+  .object({
+    value: z.number(),
+    notSure: z.boolean().default(false),
+  })
+  .superRefine((data, ctx) => {
+    if (data.value === 0 && !data.notSure) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Cannot be zero',
+        path: ['value'],
+      });
+    }
+  });
+
 export const jobOfferCreationSchema = serviceOfferCreationSchema.merge(
   z.object({
     dateTime: longString,
     location: longString,
-    personNumber: nonZero,
+    personNumber: personNumberSchema,
     qualification: longString,
     duration: longString,
     urgency: z.ostring(),
@@ -64,7 +79,10 @@ export function defaultValues(userData: UserProfile, ad?: JobOfferDto) {
     ],
     dateTime: ad?.dateTime ?? '',
     location: ad?.location ?? '',
-    personNumber: ad?.personNumber ?? 0,
+    personNumber: ad?.personNumber ?? {
+      value: 0,
+      notSure: false,
+    },
     qualification: ad?.qualification ?? '',
     duration: ad?.duration ?? '',
     urgency: ad?.urgency ?? '',

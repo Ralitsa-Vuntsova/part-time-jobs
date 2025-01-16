@@ -6,7 +6,7 @@ import {
   UserProfile,
 } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
-import { AdType } from '../../../libs/ad-type';
+import { AdType } from '../../../libs/ad-helper-functions';
 import { useCurrentUser } from '../../../hooks/use-current-user';
 import { useState } from 'react';
 import { EditAdDialog } from '../edit-dialog';
@@ -18,6 +18,8 @@ import { ErrorContainer } from '../../../components/error-container';
 import { ApplyDialog } from '../apply-dialog';
 import { AdDetailsContent } from './content';
 import { AdDetailsFooter } from './footer';
+import { FormattedDate } from '../../../components/formatted-date';
+import { DateFormats } from '../../../libs/dates';
 
 const styles = makeStyles({
   header: {
@@ -31,6 +33,14 @@ const styles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: 2,
+  },
+  flexRow: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: 1,
+    '& .MuiTypography-root': {
+      color: (theme) => theme.palette.primary.main,
+    },
   },
   button: {
     maxWidth: 'fit-content',
@@ -50,7 +60,6 @@ interface Props {
   onChange: () => void;
 }
 
-// TODO: Add creator
 export function AdDetails({
   ad,
   applications,
@@ -64,9 +73,10 @@ export function AdDetails({
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
   const alreadyApplied = !!applications.find((app) => app.adId === ad._id);
-  const alreadyAppliedByCurrentUser = !!applications.find(
+  const application = applications.find(
     (app) => app.createdBy === userData._id && app.adId === ad._id
   );
+  const alreadyAppliedByCurrentUser = !!application;
 
   const { trigger, loading, error } = useAsyncAction(async ({ signal }) => {
     if (type === AdType.Job) {
@@ -121,14 +131,25 @@ export function AdDetails({
         <AdDetailsContent ad={ad} type={type} />
 
         {currentUser?._id !== ad.createdBy && type === AdType.Job && (
-          <Button
-            variant="contained"
-            sx={styles.button}
-            onClick={() => setOpenApplyDialog(true)}
-            disabled={alreadyAppliedByCurrentUser}
-          >
-            Apply
-          </Button>
+          <>
+            <Button
+              variant="contained"
+              sx={styles.button}
+              onClick={() => setOpenApplyDialog(true)}
+              disabled={alreadyAppliedByCurrentUser}
+            >
+              Apply
+            </Button>
+
+            {alreadyAppliedByCurrentUser && (
+              <Box sx={styles.flexRow}>
+                <Typography>You already applied on:</Typography>
+                <FormattedDate variant="body1" format={DateFormats.Preview}>
+                  {application.createdAt}
+                </FormattedDate>
+              </Box>
+            )}
+          </>
         )}
 
         <AdDetailsFooter ad={ad} />

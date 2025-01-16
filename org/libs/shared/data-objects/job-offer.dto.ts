@@ -2,15 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AdDto } from './ad.dto';
 import { OmitType } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { PriceDto } from './price.dto';
 import { Type } from 'class-transformer';
+import { PersonNumberDto } from './person-number.dto';
 
 @Schema({ collection: 'job-offers', timestamps: true })
 export class JobOffer extends AdDto {
@@ -19,10 +14,9 @@ export class JobOffer extends AdDto {
   @IsNotEmpty()
   duration!: string;
 
-  @Prop()
-  @IsNumber()
-  @IsNotEmpty()
-  personNumber!: number;
+  @Prop(PersonNumberDto)
+  @Type(() => PersonNumberDto)
+  personNumber!: PersonNumberDto;
 
   @Prop()
   @IsString()
@@ -51,7 +45,6 @@ export class JobOffer extends AdDto {
 
   @Prop(PriceDto)
   @Type(() => PriceDto)
-  @ValidateNested({ each: true })
   price!: PriceDto;
 }
 

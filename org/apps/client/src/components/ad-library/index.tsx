@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { sortJobs, sortServices } from '../../libs/sort-ads';
+import { sortJobs, sortServices } from '../../libs/ad-helper-functions';
 import {
   IconButton,
   InputAdornment,
@@ -8,13 +8,16 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import { filterJobsByTerm, filterServicesByTerm } from '../../libs/search-ads';
+import {
+  filterJobsByTerm,
+  filterServicesByTerm,
+} from '../../libs/ad-helper-functions';
 import { CreateAdButton } from './create-ad-button';
 import { AdList } from './ad-list';
 import { makeStyles } from '../../libs/make-styles';
 import { useEffect, useState } from 'react';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
-import { AdType } from '../../libs/ad-type';
+import { AdType } from '../../libs/ad-helper-functions';
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';

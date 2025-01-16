@@ -11,13 +11,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { makeStyles } from '../../libs/make-styles';
 import { JobOfferCreationSchema } from '../../validation-schemas/job-offer-creation-schema';
 import { PriceControls } from './price-controls';
+import { PersonNumberControls } from './person-number-controls';
 
 const styles = makeStyles({
   input: {
     width: '100%',
-  },
-  smallInput: {
-    width: ['100%', '50%'],
   },
   flexColumn: {
     display: 'flex',
@@ -32,7 +30,8 @@ const styles = makeStyles({
 });
 
 export function OfferInformationAccordion() {
-  const { control } = useFormContext<JobOfferCreationSchema>();
+  const { control, watch } = useFormContext<JobOfferCreationSchema>();
+  const notSure = watch('personNumber.notSure');
 
   return (
     <Accordion defaultExpanded>
@@ -85,27 +84,7 @@ export function OfferInformationAccordion() {
         />
 
         <Box sx={styles.responsiveFlexRow}>
-          <Controller
-            name="personNumber"
-            control={control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <LabeledControl
-                label="Number of people"
-                detailedLabel="How many people are needed for the service to be performed?"
-                sx={styles.smallInput}
-              >
-                <TextField
-                  label="Number of People*"
-                  type="number"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  error={invalid}
-                  helperText={error?.message}
-                  sx={styles.smallInput}
-                />
-              </LabeledControl>
-            )}
-          />
+          <PersonNumberControls />
 
           <Controller
             name="qualification"

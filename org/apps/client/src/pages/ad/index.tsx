@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { AdType } from '../../libs/ad-type';
+import { AdType } from '../../libs/ad-helper-functions';
 import { jobOfferService } from '../../services/job-offer-service';
 import { serviceOfferService } from '../../services/service-offer-service';
 import {

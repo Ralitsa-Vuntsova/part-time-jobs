@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { LocalStorage } from '../libs/local-storage';
-import { AdType } from '../libs/ad-type';
+import { AdType } from '../libs/ad-helper-functions';
 
 export interface UserPreferences {
   isGrid: boolean;

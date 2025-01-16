@@ -84,6 +84,10 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
 
   const onSubmit = form.handleSubmit(trigger);
 
+  const personNumberOptions = times(ad.personNumber);
+  personNumberOptions.shift();
+  personNumberOptions.push(ad.personNumber);
+
   return (
     <FormProvider {...form}>
       <Dialog
@@ -173,7 +177,7 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   >
-                    {times(ad.personNumber).map((value) => (
+                    {personNumberOptions.map((value) => (
                       <MenuItem key={value} value={value}>
                         {value}
                       </MenuItem>
