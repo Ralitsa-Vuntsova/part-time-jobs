@@ -4,10 +4,7 @@ import {
   Autocomplete,
   Box,
   FormControl,
-  InputLabel,
-  MenuItem,
   Pagination,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';

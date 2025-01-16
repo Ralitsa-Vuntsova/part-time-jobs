@@ -30,8 +30,7 @@ const styles = makeStyles({
 });
 
 export function OfferInformationAccordion() {
-  const { control, watch } = useFormContext<JobOfferCreationSchema>();
-  const notSure = watch('personNumber.notSure');
+  const { control } = useFormContext<JobOfferCreationSchema>();
 
   return (
     <Accordion defaultExpanded>
