@@ -9,6 +9,7 @@ import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useNavigate } from 'react-router-dom';
 import { AdType } from '../../../libs/ad-helper-functions';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   flexColumn: {
@@ -45,6 +46,8 @@ interface Props {
 export function AdCard({ data, isGrid, type }: Props) {
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   const cardStyles = isGrid ? styles.grid : styles.list;
 
   return (
@@ -70,10 +73,10 @@ export function AdCard({ data, isGrid, type }: Props) {
             )
           }
         >
-          Learn More
+          {t('learn-more')}
         </Button>
         {data.isArchieved && (
-          <Typography sx={styles.grayColor}>Archieved</Typography>
+          <Typography sx={styles.grayColor}>{t('archived')}</Typography>
         )}
       </CardActions>
     </Card>

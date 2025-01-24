@@ -3,6 +3,7 @@ import { FormattedDate } from '../../../components/formatted-date';
 import { DateFormats } from '../../../libs/dates';
 import { makeStyles } from '../../../libs/make-styles';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   flexRow: {
@@ -20,10 +21,12 @@ interface Props {
 }
 
 export function AdDetailsFooter({ ad }: Props) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Box sx={styles.flexRow}>
-        <Typography>Created:</Typography>
+        <Typography>{t('created')}</Typography>
         <FormattedDate variant="body1" format={DateFormats.Preview}>
           {ad.createdAt}
         </FormattedDate>
@@ -31,7 +34,7 @@ export function AdDetailsFooter({ ad }: Props) {
 
       {ad.updatedAt && (
         <Box sx={styles.flexRow}>
-          <Typography>Last Updated:</Typography>
+          <Typography>{t('updated')}</Typography>
           <FormattedDate variant="body1" format={DateFormats.Preview}>
             {ad.updatedAt}
           </FormattedDate>

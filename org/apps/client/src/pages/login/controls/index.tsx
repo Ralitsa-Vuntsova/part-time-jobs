@@ -2,6 +2,7 @@ import { TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import { makeStyles } from '../../../libs/make-styles';
 import { UserLoginSchema } from '../../../validation-schemas/user-login-schema';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   input: {
@@ -15,6 +16,8 @@ const styles = makeStyles({
 export function LoginControls() {
   const { control } = useFormContext<UserLoginSchema>();
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Controller
@@ -22,7 +25,7 @@ export function LoginControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Username*"
+            label={`${t('username')}*`}
             className={invalid ? '' : 'valid'}
             {...field}
             error={invalid}
@@ -37,7 +40,7 @@ export function LoginControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Password*"
+            label={`${t('password')}*`}
             type="password"
             {...field}
             className={invalid ? '' : 'valid'}

@@ -25,6 +25,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AppsIcon from '@mui/icons-material/Apps';
 import { useUserPreferences } from '../../hooks/use-user-preferences';
 import { NoAds } from './no-ads';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   flexRow: {
@@ -59,6 +60,8 @@ interface Props {
 export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
   const { isGrid, isAsc, type, setPreferences } = useUserPreferences();
 
+  const { t } = useTranslation();
+
   const [searchJobs, setSearchJobs] = useState<JobOfferDto[]>(
     sortJobs(jobs, isAsc)
   );
@@ -78,7 +81,7 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
       <Box sx={styles.flexRow}>
         <Box sx={styles.flexRow}>
           <TextField
-            placeholder="Search"
+            placeholder={t('search')}
             type="search"
             sx={styles.textField}
             onChange={(e) => {
@@ -120,10 +123,10 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
             onChange={() => setPreferences({ type: selectedType })}
           >
             <ToggleButton value={AdType.Job}>
-              <Typography sx={styles.toggleButton}>Job Offers</Typography>
+              <Typography sx={styles.toggleButton}>{t('seeking')}</Typography>
             </ToggleButton>
             <ToggleButton value={AdType.Service}>
-              <Typography sx={styles.toggleButton}>Service Offers</Typography>
+              <Typography sx={styles.toggleButton}>{t('offering')}</Typography>
             </ToggleButton>
           </ToggleButtonGroup>
 

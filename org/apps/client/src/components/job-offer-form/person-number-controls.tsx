@@ -3,6 +3,7 @@ import { LabeledControl } from '../labeled-control';
 import { Controller, useFormContext } from 'react-hook-form';
 import { JobOfferCreationSchema } from '../../validation-schemas/job-offer-creation-schema';
 import { makeStyles } from '../../libs/make-styles';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   smallInput: {
@@ -21,13 +22,15 @@ const styles = makeStyles({
 });
 
 export function PersonNumberControls() {
+  const { t } = useTranslation();
+
   const { control, watch } = useFormContext<JobOfferCreationSchema>();
   const notSure = watch('personNumber.notSure');
 
   return (
     <LabeledControl
-      label="Number of people"
-      detailedLabel="How many people are needed for the service to be performed?"
+      label={t('number-people')}
+      detailedLabel={t('number-people-question')}
       sx={styles.smallInput}
     >
       <Box sx={styles.responsiveFlexRow}>
@@ -36,7 +39,7 @@ export function PersonNumberControls() {
           control={control}
           render={({ field, fieldState: { error, invalid } }) => (
             <TextField
-              label="Number of People*"
+              label={`${t('number-people')}*`}
               type="number"
               {...field}
               onChange={(e) => field.onChange(Number(e.target.value))}
@@ -54,7 +57,7 @@ export function PersonNumberControls() {
           render={({ field }) => (
             <FormControlLabel
               control={<Checkbox checked={field.value} />}
-              label="Not Sure"
+              label={t('not-sure')}
               {...field}
               sx={styles.typography}
             />

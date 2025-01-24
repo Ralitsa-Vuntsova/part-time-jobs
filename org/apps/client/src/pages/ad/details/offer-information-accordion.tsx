@@ -3,6 +3,7 @@ import { JobOfferDto } from '@shared/data-objects';
 import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
 import { LabeledControl } from '../../../components/labeled-control';
 import { makeStyles } from '../../../libs/make-styles';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   input: {
@@ -28,23 +29,25 @@ interface Props {
 }
 
 export function OfferInformationAccordion({ ad }: Props) {
+  const { t } = useTranslation();
+
   return (
     <Accordion defaultExpanded>
       <AccordionSummaryWithLeftIcon>
-        <Typography>Offer Information</Typography>
+        <Typography>{t('offer-information')}</Typography>
       </AccordionSummaryWithLeftIcon>
       <AccordionDetails sx={styles.flexColumn}>
         <LabeledControl
-          label="Date and time"
-          detailedLabel="When should the service be performed?"
+          label={t('date-and-time')}
+          detailedLabel={t('date-and-time-question')}
           sx={styles.input}
         >
           <Typography>{ad.dateTime}</Typography>
         </LabeledControl>
 
         <LabeledControl
-          label="Location"
-          detailedLabel="Where should the service be performed?"
+          label={t('location')}
+          detailedLabel={t('location-question')}
           sx={styles.input}
         >
           <Typography>{ad.location}</Typography>
@@ -52,18 +55,18 @@ export function OfferInformationAccordion({ ad }: Props) {
 
         <Box sx={styles.responsiveFlexRow}>
           <LabeledControl
-            label="Number of People"
-            detailedLabel="How many people are needed for the service to be performed?"
+            label={t('number-people')}
+            detailedLabel={t('number-people-question')}
             sx={styles.smallInput}
           >
             <Typography>
-              {ad.personNumber.notSure ? 'Not Sure' : ad.personNumber.value}
+              {ad.personNumber.notSure ? t('not-sure') : ad.personNumber.value}
             </Typography>
           </LabeledControl>
 
           <LabeledControl
-            label="Qualification"
-            detailedLabel="What qualification is needed for the service to be performed?"
+            label={t('qualification')}
+            detailedLabel={t('qualification-question')}
             sx={styles.input}
           >
             <Typography>{ad.qualification}</Typography>
@@ -71,8 +74,8 @@ export function OfferInformationAccordion({ ad }: Props) {
         </Box>
 
         <LabeledControl
-          label="Duration"
-          detailedLabel="How long does the service take to perform?"
+          label={t('duration')}
+          detailedLabel={t('duration-question')}
           sx={styles.input}
         >
           <Typography>{ad.duration}</Typography>
@@ -81,8 +84,8 @@ export function OfferInformationAccordion({ ad }: Props) {
         <Box sx={styles.responsiveFlexRow}>
           {ad.urgency && (
             <LabeledControl
-              label="Urgency"
-              detailedLabel="How urgent is the service?"
+              label={t('urgency')}
+              detailedLabel={t('urgency-question')}
               sx={styles.input}
             >
               <Typography>{ad.urgency}</Typography>
@@ -91,8 +94,8 @@ export function OfferInformationAccordion({ ad }: Props) {
 
           {ad.difficulty && (
             <LabeledControl
-              label="Difficulty"
-              detailedLabel="How difficult is the service?"
+              label={t('difficulty')}
+              detailedLabel={t('difficulty-question')}
               sx={styles.input}
             >
               <Typography>{ad.difficulty}</Typography>
@@ -101,13 +104,13 @@ export function OfferInformationAccordion({ ad }: Props) {
         </Box>
 
         <LabeledControl
-          label="Price"
-          detailedLabel="What would be the cost of performing the service?"
+          label={t('price')}
+          detailedLabel={t('price-question')}
           sx={styles.input}
         >
           <Box sx={styles.responsiveFlexRow}>
             {ad.price.byNegotiation ? (
-              <Typography>By Negotiation</Typography>
+              <Typography>{t('by-negotiation')}</Typography>
             ) : (
               <>
                 <Typography>{ad.price.value}</Typography>

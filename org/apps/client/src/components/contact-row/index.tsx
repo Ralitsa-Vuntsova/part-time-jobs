@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { ServiceOfferCreationSchema } from '../../validation-schemas/service-offer-creation-schema';
 import { Box, TextField } from '@mui/material';
 import { makeStyles } from '../../libs/make-styles';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   root: {
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export function ContactRow({ index }: Props) {
+  const { t } = useTranslation();
+
   const { control } = useFormContext<ServiceOfferCreationSchema>();
 
   return (
@@ -25,7 +28,7 @@ export function ContactRow({ index }: Props) {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Name*"
+            label={`${t('name')}*`}
             {...field}
             error={invalid}
             helperText={error?.message}
@@ -38,7 +41,7 @@ export function ContactRow({ index }: Props) {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Email*"
+            label={`${t('email')}*`}
             {...field}
             error={invalid}
             helperText={error?.message}
@@ -51,7 +54,7 @@ export function ContactRow({ index }: Props) {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Phone Number*"
+            label={`${t('phone-number')}*`}
             {...field}
             error={invalid}
             helperText={error?.message}
@@ -64,7 +67,7 @@ export function ContactRow({ index }: Props) {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Address*"
+            label={`${t('address')}*`}
             {...field}
             error={invalid}
             helperText={error?.message}

@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { UserCreationSchema } from '../../../validation-schemas/user-creation-schema';
 import { TextField } from '@mui/material';
 import { makeStyles } from '../../../libs/make-styles';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   input: {
@@ -15,6 +16,8 @@ const styles = makeStyles({
 export function RegisterControls() {
   const { control } = useFormContext<UserCreationSchema>();
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Controller
@@ -22,7 +25,7 @@ export function RegisterControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Username*"
+            label={`${t('username')}*`}
             {...field}
             className={invalid ? '' : 'valid'}
             error={invalid}
@@ -37,7 +40,7 @@ export function RegisterControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="First Name*"
+            label={`${t('first-name')}*`}
             {...field}
             className={invalid ? '' : 'valid'}
             error={invalid}
@@ -52,7 +55,7 @@ export function RegisterControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Last Name*"
+            label={`${t('last-name')}*`}
             {...field}
             className={invalid ? '' : 'valid'}
             error={invalid}
@@ -67,7 +70,7 @@ export function RegisterControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Email*"
+            label={`${t('email')}*`}
             {...field}
             className={invalid ? '' : 'valid'}
             error={invalid}
@@ -82,7 +85,7 @@ export function RegisterControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Password*"
+            label={`${t('password')}*`}
             type="password"
             {...field}
             className={invalid ? '' : 'valid'}
@@ -98,7 +101,7 @@ export function RegisterControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Confirm Password*"
+            label={`${t('confirm-password')}*`}
             type="password"
             {...field}
             className={invalid ? '' : 'valid'}

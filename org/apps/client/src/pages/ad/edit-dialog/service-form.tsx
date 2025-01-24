@@ -14,6 +14,7 @@ import {
   ServiceOfferEditSchema,
   toEditServiceOfferDto,
 } from '../../../validation-schemas/service-offer-update-schema';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   content: {
@@ -45,6 +46,8 @@ export function EditServiceOfferForm({
   onClose,
   onChange,
 }: Props) {
+  const { t } = useTranslation();
+
   const form = useForm<ServiceOfferEditSchema>({
     defaultValues: defaultValues(userData, ad),
     resolver: zodResolver(serviceOfferEditSchema),
@@ -82,7 +85,7 @@ export function EditServiceOfferForm({
               onClose();
             }}
           >
-            Cancel
+            {t('cancel')}
           </Button>
 
           <LoadingButton
@@ -91,7 +94,7 @@ export function EditServiceOfferForm({
             loading={loading}
             sx={styles.button}
           >
-            Save
+            {t('save')}
           </LoadingButton>
         </DialogActions>
       </Box>

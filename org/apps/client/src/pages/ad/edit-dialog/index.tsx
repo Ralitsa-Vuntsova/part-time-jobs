@@ -8,6 +8,7 @@ import {
 } from '@shared/data-objects';
 import { EditJobOfferForm } from './job-form';
 import { EditServiceOfferForm } from './service-form';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   title: {
@@ -32,9 +33,11 @@ export function EditAdDialog({
   onClose,
   onChange,
 }: Props) {
+  const { t } = useTranslation();
+
   return (
     <Dialog open={open} maxWidth="lg" onClose={onClose}>
-      <DialogTitle sx={styles.title}>Edit Ad</DialogTitle>
+      <DialogTitle sx={styles.title}>{t('edit-ad')}</DialogTitle>
 
       <DialogContent>
         {type === AdType.Job ? (

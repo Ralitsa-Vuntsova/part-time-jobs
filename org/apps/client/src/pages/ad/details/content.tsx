@@ -4,6 +4,7 @@ import { OfferInformationAccordion } from './offer-information-accordion';
 import { AdType } from '../../../libs/ad-helper-functions';
 import { ContactTable } from './contact-table';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   ad: JobOfferDto | ServiceOfferDto;
@@ -11,11 +12,13 @@ interface Props {
 }
 
 export function AdDetailsContent({ ad, type }: Props) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Accordion defaultExpanded>
         <AccordionSummaryWithLeftIcon>
-          <Typography>Description</Typography>
+          <Typography>{t('description')}</Typography>
         </AccordionSummaryWithLeftIcon>
         <AccordionDetails>
           <Typography>{ad.description}</Typography>
@@ -28,7 +31,7 @@ export function AdDetailsContent({ ad, type }: Props) {
 
       <Accordion defaultExpanded>
         <AccordionSummaryWithLeftIcon>
-          <Typography>Contacts</Typography>
+          <Typography>{t('contacts')}</Typography>
         </AccordionSummaryWithLeftIcon>
         <AccordionDetails>
           <ContactTable contacts={ad.contacts} />
@@ -38,7 +41,7 @@ export function AdDetailsContent({ ad, type }: Props) {
       {ad.additionalInformation && (
         <Accordion defaultExpanded>
           <AccordionSummaryWithLeftIcon>
-            <Typography>Additional Information</Typography>
+            <Typography>{t('additional-information')}</Typography>
           </AccordionSummaryWithLeftIcon>
           <AccordionDetails>
             <Typography>{ad.additionalInformation}</Typography>

@@ -17,11 +17,19 @@ import { Link, Typography } from '@mui/material';
 import { ErrorContainer } from '../../../components/error-container';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '../../../libs/make-styles';
+import { LanguageSwitcher } from '../../../components/language-switcher';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   button: {
     background: (theme) => theme.palette.primary.main,
     width: '100%',
+  },
+  languageSwitcher: {
+    color: (theme) => theme.palette.text.primary,
+    svg: {
+      color: (theme) => theme.palette.text.primary,
+    },
   },
 });
 
@@ -31,6 +39,8 @@ interface Props {
 
 export function RegisterForm({ usernames }: Props) {
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   const { trigger, loading, error } = useAsyncAction(
     async ({ signal }, user: UserCreationSchema) => {
@@ -67,15 +77,17 @@ export function RegisterForm({ usernames }: Props) {
             loading={loading}
             sx={styles.button}
           >
-            Register
+            {t('register')}
           </LoadingButton>
 
           <Typography>
-            Already have an account?{' '}
+            {t('already-have-account')}{' '}
             <Link component={RouterLink} to="/login" underline="none">
-              Login
+              {t('login')}
             </Link>
           </Typography>
+
+          <LanguageSwitcher sx={styles.languageSwitcher} />
 
           {error ? <ErrorContainer>{error}</ErrorContainer> : null}
         </StyledFormControl>

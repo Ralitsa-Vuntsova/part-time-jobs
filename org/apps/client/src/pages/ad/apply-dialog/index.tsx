@@ -26,6 +26,7 @@ import { ErrorContainer } from '../../../components/error-container';
 import { LabeledControl } from '../../../components/labeled-control';
 import { JobOfferDto } from '@shared/data-objects';
 import { times } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   title: {
@@ -58,6 +59,8 @@ interface Props {
 }
 
 export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
+  const { t } = useTranslation();
+
   const form = useForm<ApplicationSchema>({
     defaultValues: {
       reason: '',
@@ -84,9 +87,11 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
 
   const onSubmit = form.handleSubmit(trigger);
 
-  const personNumberOptions = times(ad.personNumber);
+  const notSure = ad.personNumber.notSure;
+
+  const personNumberOptions = times(ad.personNumber.value);
   personNumberOptions.shift();
-  personNumberOptions.push(ad.personNumber);
+  personNumberOptions.push(ad.personNumber.value);
 
   return (
     <FormProvider {...form}>
@@ -97,7 +102,7 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
         onSubmit={onSubmit}
         component="form"
       >
-        <DialogTitle sx={styles.title}>Apply for Ad</DialogTitle>
+        <DialogTitle sx={styles.title}>{t('ad-application')}</DialogTitle>
 
         <DialogContent sx={styles.flexColumn}>
           <Controller
@@ -105,12 +110,12 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="Reason"
-                detailedLabel="What is your reason for applying?"
+                label={t('reason')}
+                detailedLabel={t('apply-question')}
                 sx={styles.input}
               >
                 <TextField
-                  label="Reason*"
+                  label={`${t('reason')}*`}
                   multiline
                   rows={5}
                   {...field}
@@ -127,12 +132,12 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <LabeledControl
-                label="Date and time"
-                detailedLabel="When would you be available to perform the service?"
+                label={t('date-and-time')}
+                detailedLabel={t('apply-datetime-question')}
                 sx={styles.input}
               >
                 <TextField
-                  label="Datetime*"
+                  label={`${t('datetime')}*`}
                   multiline
                   rows={5}
                   {...field}
@@ -148,9 +153,12 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             name="additionalInformation"
             control={form.control}
             render={({ field }) => (
-              <LabeledControl label="Additional Information" sx={styles.input}>
+              <LabeledControl
+                label={t('additional-information')}
+                sx={styles.input}
+              >
                 <TextField
-                  label="Additional Information"
+                  label={t('additional-information')}
                   multiline
                   rows={5}
                   {...field}
@@ -160,36 +168,60 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             )}
           />
 
-          <Controller
-            name="personNumber"
-            control={form.control}
-            render={({ field, fieldState: { error, invalid } }) => (
-              <LabeledControl
-                label="Number of People"
-                detailedLabel="How many people are available to perform the service?"
-                sx={styles.input}
-              >
-                <FormControl fullWidth>
-                  <InputLabel>Number of People*</InputLabel>
-                  <Select
-                    label="Number of People*"
-                    error={invalid}
+          {notSure ? (
+            <Controller
+              name="personNumber"
+              control={form.control}
+              render={({ field, fieldState: { error, invalid } }) => (
+                <LabeledControl
+                  label={t('number-people')}
+                  detailedLabel={t('apply-people-question')}
+                  sx={styles.input}
+                >
+                  <TextField
+                    label={`${t('number-people')}*`}
+                    type="number"
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
-                  >
-                    {personNumberOptions.map((value) => (
-                      <MenuItem key={value} value={value}>
-                        {value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {!!error && (
-                    <FormHelperText error>{error.message}</FormHelperText>
-                  )}
-                </FormControl>
-              </LabeledControl>
-            )}
-          />
+                    error={invalid}
+                    helperText={error?.message}
+                  />
+                </LabeledControl>
+              )}
+            />
+          ) : (
+            <Controller
+              name="personNumber"
+              control={form.control}
+              render={({ field, fieldState: { error, invalid } }) => (
+                <LabeledControl
+                  label={t('number-people')}
+                  detailedLabel={t('apply-people-question')}
+                  sx={styles.input}
+                >
+                  <FormControl fullWidth>
+                    <InputLabel>{t('number-people')}*</InputLabel>
+                    <Select
+                      label={`${t('number-people')}*`}
+                      error={invalid}
+                      {...field}
+                      value=""
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    >
+                      {personNumberOptions.map((value) => (
+                        <MenuItem key={value} value={value}>
+                          {value}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {!!error && (
+                      <FormHelperText error>{error.message}</FormHelperText>
+                    )}
+                  </FormControl>
+                </LabeledControl>
+              )}
+            />
+          )}
         </DialogContent>
 
         <DialogActions sx={styles.flexRow}>
@@ -200,7 +232,7 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
               onClose();
             }}
           >
-            Cancel
+            {t('camcel')}
           </Button>
 
           <LoadingButton
@@ -209,7 +241,7 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
             loading={loading}
             sx={styles.button}
           >
-            Apply
+            {t('apply')}
           </LoadingButton>
         </DialogActions>
 

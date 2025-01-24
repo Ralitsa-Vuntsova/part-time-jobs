@@ -17,10 +17,18 @@ import { StyledStack } from '../../components/styled/stack';
 import { StyledFormControl } from '../../components/styled/form-control';
 import { LoginControls } from './controls';
 import { useCurrentUser } from '../../hooks/use-current-user';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '../../components/language-switcher';
 
 const styles = makeStyles({
   button: {
     width: '100%',
+  },
+  languageSwitcher: {
+    color: (theme) => theme.palette.text.primary,
+    svg: {
+      color: (theme) => theme.palette.text.primary,
+    },
   },
 });
 
@@ -28,6 +36,8 @@ export function Login() {
   const currentUser = useCurrentUser();
 
   const [loginError, setLoginError] = useState('');
+
+  const { t } = useTranslation();
 
   const location = useLocation();
   const redirectTo = location.state?.from?.pathname ?? '/';
@@ -71,15 +81,17 @@ export function Login() {
             sx={styles.button}
             loading={loading}
           >
-            Login
+            {t('login')}
           </LoadingButton>
 
           <Typography>
-            Don't have an account?{' '}
+            {t('dont-have-account')}{' '}
             <Link component={RouterLink} to="/register" underline="none">
-              Register
+              {t('register')}
             </Link>
           </Typography>
+
+          <LanguageSwitcher sx={styles.languageSwitcher} />
 
           {error ? <ErrorContainer>{error}</ErrorContainer> : null}
         </StyledFormControl>

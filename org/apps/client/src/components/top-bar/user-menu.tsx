@@ -9,15 +9,11 @@ import {
   Avatar,
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const styles = makeStyles({
   container: {
-    display: 'flex',
-    gap: 2,
-    alignItems: 'center',
-    float: 'right',
     height: '33px',
+    pl: 2,
   },
   label: {
     color: (theme) => theme.palette.primary.contrastText,
@@ -33,9 +29,6 @@ const styles = makeStyles({
     color: (theme) => theme.palette.primary.contrastText,
     width: 32,
     height: 32,
-  },
-  notification: {
-    color: (theme) => theme.palette.warning.main,
   },
   button: {
     p: 0,
@@ -79,8 +72,6 @@ export function UserMenu({ label, menuItems }: Props) {
 
   return (
     <Box sx={styles.container}>
-      <NotificationsIcon sx={styles.notification} />
-
       <Button
         sx={styles.button}
         onClick={openMenu}

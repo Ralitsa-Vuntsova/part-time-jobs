@@ -20,6 +20,7 @@ import { AdDetailsContent } from './content';
 import { AdDetailsFooter } from './footer';
 import { FormattedDate } from '../../../components/formatted-date';
 import { DateFormats } from '../../../libs/dates';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   header: {
@@ -72,6 +73,8 @@ export function AdDetails({
   const [openApplyDialog, setOpenApplyDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
+  const { t } = useTranslation();
+
   const alreadyApplied = !!applications.find((app) => app.adId === ad._id);
   const application = applications.find(
     (app) => app.createdBy === userData._id && app.adId === ad._id
@@ -112,17 +115,17 @@ export function AdDetails({
               onClick={() => setOpenEditDialog(true)}
               disabled={ad.isArchieved || alreadyApplied}
             >
-              Edit
+              {t('edit')}
             </Button>
             {ad.isArchieved ? (
-              <Typography sx={styles.typography}>Archieved</Typography>
+              <Typography sx={styles.typography}>{t('archieved')}</Typography>
             ) : (
               <Button
                 variant="outlined"
                 sx={styles.button}
                 onClick={() => setOpenConfirmDialog(true)}
               >
-                Archieve
+                {t('archieve')}
               </Button>
             )}
           </>
@@ -138,12 +141,12 @@ export function AdDetails({
               onClick={() => setOpenApplyDialog(true)}
               disabled={alreadyAppliedByCurrentUser}
             >
-              Apply
+              {t('apply')}
             </Button>
 
             {alreadyAppliedByCurrentUser && (
               <Box sx={styles.flexRow}>
-                <Typography>You already applied on:</Typography>
+                <Typography>{t('already-applied')}</Typography>
                 <FormattedDate variant="body1" format={DateFormats.Preview}>
                   {application.createdAt}
                 </FormattedDate>
@@ -159,18 +162,15 @@ export function AdDetails({
 
       <ConfirmDialog
         open={openConfirmDialog}
-        title="Archieve Ad"
+        title={t('archieve-ad')}
         onConfirm={() => trigger()}
-        confirmLabel="Archieve"
+        confirmLabel={t('archieve')}
         confirmLoading={loading}
         onCancel={() => setOpenConfirmDialog(false)}
-        cancelLabel="Cancel"
+        cancelLabel={t('cancel')}
         onClose={() => setOpenConfirmDialog(false)}
       >
-        <Typography>
-          Are you sure you want to archieve this ad? This action cannot be
-          undone.
-        </Typography>
+        <Typography>{t('archieve-confirm-question')}</Typography>
       </ConfirmDialog>
 
       <EditAdDialog

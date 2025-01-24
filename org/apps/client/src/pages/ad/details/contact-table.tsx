@@ -10,6 +10,7 @@ import {
 import { ContactDto } from '@shared/data-objects';
 import { useState } from 'react';
 import { makeStyles } from '../../../libs/make-styles';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   button: {
@@ -25,15 +26,17 @@ export function ContactTable({ contacts }: Props) {
   const [showEmail, setShowEmail] = useState(false);
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
 
+  const { t } = useTranslation();
+
   return (
     <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Phone Number</TableCell>
-            <TableCell>Address</TableCell>
+            <TableCell>{t('name')}</TableCell>
+            <TableCell>{t('email')}</TableCell>
+            <TableCell>{t('phone-number')}</TableCell>
+            <TableCell>{t('address')}</TableCell>
           </TableRow>
         </TableHead>
 
@@ -46,7 +49,7 @@ export function ContactTable({ contacts }: Props) {
                   c.email
                 ) : (
                   <Button sx={styles.button} onClick={() => setShowEmail(true)}>
-                    Reveal Email
+                    {t('reveal-email')}
                   </Button>
                 )}
               </TableCell>
@@ -58,7 +61,7 @@ export function ContactTable({ contacts }: Props) {
                     sx={styles.button}
                     onClick={() => setShowPhoneNumber(true)}
                   >
-                    Reveal Phone Number
+                    {t('reveal-phone-number')}
                   </Button>
                 )}
               </TableCell>

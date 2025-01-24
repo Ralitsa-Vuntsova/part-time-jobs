@@ -7,6 +7,9 @@ import { useAsyncAction } from '../../hooks/use-async-action';
 import { useNavigate } from 'react-router-dom';
 import { ErrorContainer } from '../error-container';
 import { authService } from '../../services/auth-service';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { LanguageSwitcher } from '../language-switcher';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   root: {
@@ -22,10 +25,17 @@ const styles = makeStyles({
   heading: {
     color: (theme) => theme.palette.primary.contrastText,
   },
-  flexBox: {
+  flexColumn: {
     display: 'flex',
     flexDirection: 'column',
     gap: 1,
+  },
+  flexRow: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  notification: {
+    color: (theme) => theme.palette.warning.main,
   },
 });
 
@@ -33,6 +43,8 @@ export function TopBar() {
   const user = useCurrentUser();
   const isSM = useResponsive() < Breakpoint.SM;
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   const { trigger: logoutTrigger, error: logoutError } = useAsyncAction(
     async () => {
@@ -45,24 +57,33 @@ export function TopBar() {
     <AppBar sx={styles.root}>
       <Toolbar sx={styles.toolbar}>
         {user && (
-          <Box sx={styles.flexBox}>
-            <UserMenu
-              label={isSM ? '' : `Hi, ${user.username}`}
-              menuItems={[
-                {
-                  label: 'My Ads',
-                  onClick: () => navigate('my-ads'),
-                },
-                {
-                  label: 'Edit Profile',
-                  onClick: () => navigate('edit-profile'),
-                },
-                { label: 'Logout', onClick: logoutTrigger },
-              ]}
-            />
-            {logoutError ? (
-              <ErrorContainer>{logoutError}</ErrorContainer>
-            ) : null}
+          <Box sx={styles.flexRow}>
+            {!isSM && (
+              <>
+                <LanguageSwitcher />
+                <NotificationsIcon sx={styles.notification} />
+              </>
+            )}
+
+            <Box sx={styles.flexColumn}>
+              <UserMenu
+                label={isSM ? '' : `${t('hi')}, ${user.username}`}
+                menuItems={[
+                  {
+                    label: t('my-ads'),
+                    onClick: () => navigate('my-ads'),
+                  },
+                  {
+                    label: t('edit-profile'),
+                    onClick: () => navigate('edit-profile'),
+                  },
+                  { label: t('logout'), onClick: logoutTrigger },
+                ]}
+              />
+              {logoutError ? (
+                <ErrorContainer>{logoutError}</ErrorContainer>
+              ) : null}
+            </Box>
           </Box>
         )}
       </Toolbar>

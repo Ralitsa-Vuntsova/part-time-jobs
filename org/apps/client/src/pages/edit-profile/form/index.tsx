@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 import CheckIcon from '@mui/icons-material/Check';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   flexColumn: {
@@ -42,6 +43,8 @@ interface Props {
 
 export function EditProfileForm({ userData }: Props) {
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const { t } = useTranslation();
 
   const { trigger, loading, error } = useAsyncAction(
     async ({ signal }, user: UserEditSchema) => {
@@ -82,7 +85,7 @@ export function EditProfileForm({ userData }: Props) {
       <Box onSubmit={onSubmit} component="form" sx={styles.flexColumn}>
         <Box sx={styles.flexColumn}>
           <TextField
-            label="Username"
+            label={t('username')}
             value={userData.username}
             sx={styles.input}
             slotProps={{ htmlInput: { readOnly: true } }}
@@ -93,7 +96,7 @@ export function EditProfileForm({ userData }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="First Name"
+                label={t('first-name')}
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -108,7 +111,7 @@ export function EditProfileForm({ userData }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Last Name"
+                label={t('last-name')}
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -123,7 +126,7 @@ export function EditProfileForm({ userData }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Email"
+                label={t('email')}
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -138,7 +141,7 @@ export function EditProfileForm({ userData }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Phone Number"
+                label={t('phone-number')}
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -153,7 +156,7 @@ export function EditProfileForm({ userData }: Props) {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Address"
+                label={t('address')}
                 {...field}
                 className={invalid ? '' : 'valid'}
                 error={invalid}
@@ -171,7 +174,7 @@ export function EditProfileForm({ userData }: Props) {
             loading={loading}
             disabled={!changed}
           >
-            Save
+            {t('save')}
           </LoadingButton>
 
           {isSuccess && <CheckIcon sx={styles.icon} />}

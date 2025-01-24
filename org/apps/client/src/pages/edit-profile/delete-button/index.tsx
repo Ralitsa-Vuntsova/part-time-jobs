@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '../../../services/auth-service';
 import { ConfirmDialog } from '../../../components/dialog';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   flexColumn: {
@@ -26,6 +27,8 @@ export function DeleteProfileButton({ userData }: Props) {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   const { trigger, loading, error } = useAsyncAction(async ({ signal }) => {
     await userService.deleteUser(userData._id, signal);
     authService.logout();
@@ -43,23 +46,21 @@ export function DeleteProfileButton({ userData }: Props) {
       }}
     >
       <Button variant="outlined" onClick={() => setOpenConfirmDialog(true)}>
-        Delete Profile
+        {t('delete-profile')}
       </Button>
 
       {error ? <ErrorContainer>{error}</ErrorContainer> : null}
 
       <ConfirmDialog
         open={openConfirmDialog}
-        title="Delete Profile"
+        title={t('delete-profile')}
         onConfirm={() => trigger()}
-        confirmLabel="Delete"
+        confirmLabel={t('delete')}
         confirmLoading={loading}
         onCancel={() => setOpenConfirmDialog(false)}
-        cancelLabel="Cancel"
+        cancelLabel={t('cancel')}
       >
-        <Typography>
-          Are you sure you want to delete profile? This action cannot be undone.
-        </Typography>
+        <Typography>{t('delete-confirm-question')}</Typography>
       </ConfirmDialog>
     </Box>
   );

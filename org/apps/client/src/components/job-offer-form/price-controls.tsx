@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Currency, Payment } from '@shared/enums';
 import { makeStyles } from '../../libs/make-styles';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   typography: {
@@ -22,6 +23,8 @@ const styles = makeStyles({
 });
 
 export function PriceControls() {
+  const { t } = useTranslation();
+
   const { control, watch } = useFormContext<JobOfferCreationSchema>();
   const [byNegotiation, notSure] = watch([
     'price.byNegotiation',
@@ -35,7 +38,7 @@ export function PriceControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <TextField
-            label="Price*"
+            label={`${t('price')}*`}
             type="number"
             {...field}
             onChange={(e) => field.onChange(Number(e.target.value))}
@@ -51,9 +54,9 @@ export function PriceControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <FormControl fullWidth>
-            <InputLabel>Currency*</InputLabel>
+            <InputLabel>{`${t('currency')}*`}</InputLabel>
             <Select
-              label="Currency"
+              label={t('currency')}
               error={invalid}
               disabled={byNegotiation}
               {...field}
@@ -74,9 +77,9 @@ export function PriceControls() {
         control={control}
         render={({ field, fieldState: { error, invalid } }) => (
           <FormControl fullWidth>
-            <InputLabel>Payment*</InputLabel>
+            <InputLabel>{`${t('payment')}*`}</InputLabel>
             <Select
-              label="Payment"
+              label={t('payment')}
               error={invalid}
               disabled={byNegotiation || notSure}
               {...field}
@@ -98,7 +101,7 @@ export function PriceControls() {
         render={({ field }) => (
           <FormControlLabel
             control={<Checkbox checked={field.value} />}
-            label="By Negotiation"
+            label={t('by-negotiation')}
             {...field}
             sx={styles.typography}
           />

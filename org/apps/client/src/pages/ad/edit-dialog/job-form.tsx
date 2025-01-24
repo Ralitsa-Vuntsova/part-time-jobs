@@ -14,6 +14,7 @@ import {
   toEditJobOfferDto,
   defaultValues,
 } from '../../../validation-schemas/job-offer-update-schema';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   content: {
@@ -40,6 +41,8 @@ interface Props {
 }
 
 export function EditJobOfferForm({ userData, ad, onClose, onChange }: Props) {
+  const { t } = useTranslation();
+
   const form = useForm<JobOfferEditSchema>({
     defaultValues: defaultValues(userData, ad),
     resolver: zodResolver(jobOfferEditSchema),
@@ -73,7 +76,7 @@ export function EditJobOfferForm({ userData, ad, onClose, onChange }: Props) {
               onClose();
             }}
           >
-            Cancel
+            {t('cancel')}
           </Button>
 
           <LoadingButton
@@ -82,7 +85,7 @@ export function EditJobOfferForm({ userData, ad, onClose, onChange }: Props) {
             loading={loading}
             sx={styles.button}
           >
-            Save
+            {t('save')}
           </LoadingButton>
         </DialogActions>
       </Box>

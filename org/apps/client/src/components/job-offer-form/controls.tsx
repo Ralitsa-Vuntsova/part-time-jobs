@@ -15,6 +15,7 @@ import { AddButton } from '../add-button';
 import { makeStyles } from '../../libs/make-styles';
 import { JobOfferCreationSchema } from '../../validation-schemas/job-offer-creation-schema';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   input: {
@@ -42,6 +43,8 @@ const styles = makeStyles({
 });
 
 export function JobOfferControls() {
+  const { t } = useTranslation();
+
   const form = useFormContext<JobOfferCreationSchema>();
 
   const { append, remove } = useFieldArray({
@@ -54,7 +57,7 @@ export function JobOfferControls() {
     <>
       <Accordion defaultExpanded>
         <AccordionSummaryWithLeftIcon>
-          <Typography>Description</Typography>
+          <Typography>{t('description')}</Typography>
         </AccordionSummaryWithLeftIcon>
         <AccordionDetails sx={styles.flexColumn}>
           <Controller
@@ -62,7 +65,7 @@ export function JobOfferControls() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Name*"
+                label={`${t('name')}*`}
                 {...field}
                 error={invalid}
                 helperText={error?.message}
@@ -76,7 +79,7 @@ export function JobOfferControls() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Description*"
+                label={`${t('description')}*`}
                 multiline
                 rows={5}
                 {...field}
@@ -93,7 +96,7 @@ export function JobOfferControls() {
 
       <Accordion defaultExpanded>
         <AccordionSummaryWithLeftIcon>
-          <Typography>Contacts</Typography>
+          <Typography>{t('contacts')}</Typography>
         </AccordionSummaryWithLeftIcon>
         <AccordionDetails sx={styles.flexColumn}>
           {times(contacts.length, (index) => (
@@ -116,14 +119,14 @@ export function JobOfferControls() {
               append({ name: '', email: '', phoneNumber: '', address: '' })
             }
           >
-            Add Contact
+            {t('add-contact')}
           </AddButton>
         </AccordionDetails>
       </Accordion>
 
       <Accordion defaultExpanded>
         <AccordionSummaryWithLeftIcon>
-          <Typography>Additional Information</Typography>
+          <Typography>{t('additional-information')}</Typography>
         </AccordionSummaryWithLeftIcon>
         <AccordionDetails>
           <Controller
@@ -131,7 +134,7 @@ export function JobOfferControls() {
             control={form.control}
             render={({ field, fieldState: { error, invalid } }) => (
               <TextField
-                label="Additional Information"
+                label={t('additional-information')}
                 multiline
                 rows={5}
                 {...field}

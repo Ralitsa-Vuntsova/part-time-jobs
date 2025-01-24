@@ -19,6 +19,7 @@ import { Currency } from '@shared/enums';
 import { filterAds, Filters } from '../../../libs/ad-helper-functions';
 import { useSearchParams } from 'react-router-dom';
 import { toCurrency } from '../../../libs/to-currency';
+import { useTranslation } from 'react-i18next';
 
 const PAGE_SIZE = 12;
 
@@ -65,6 +66,8 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState<Filters>({});
 
+  const { t } = useTranslation();
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const centeredFlexColumn = { ...styles.flexColumn, alignItems: 'center' };
@@ -92,12 +95,12 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
 
   return (
     <Box sx={styles.flexColumn}>
-      <Typography variant="h5">Filters</Typography>
+      <Typography variant="h5">{t('filters')}</Typography>
 
       <Box sx={spacedBetweenFlexRow}>
         <Box sx={styles.flexRow}>
           <TextField
-            label="Location"
+            label={t('location')}
             variant="standard"
             value={filters.location}
             sx={styles.input}
@@ -107,7 +110,7 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
           />
 
           <TextField
-            label="Number of People"
+            label={t('number-people')}
             type="number"
             variant="standard"
             value={filters.personNumber}
@@ -118,7 +121,7 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
           />
 
           <TextField
-            label="Qualification"
+            label={t('qualification')}
             variant="standard"
             value={filters.qualification}
             sx={styles.input}
@@ -137,14 +140,18 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
               }
               value={filters.priceCurrency}
               renderInput={(params) => (
-                <TextField {...params} label="Currency" variant="standard" />
+                <TextField
+                  {...params}
+                  label={t('currency')}
+                  variant="standard"
+                />
               )}
               sx={styles.input}
             />
           </FormControl>
 
           <TextField
-            label="Price From"
+            label={t('price-from')}
             type="number"
             variant="standard"
             value={filters.priceFrom}
@@ -155,7 +162,7 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
           />
 
           <TextField
-            label="Price To"
+            label={t('price-to')}
             type="number"
             variant="standard"
             value={filters.priceTo}

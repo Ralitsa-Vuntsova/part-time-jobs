@@ -15,6 +15,7 @@ import { Box, Typography } from '@mui/material';
 import { ErrorContainer } from '../error-container';
 import { LoadingButton } from '../loading-button';
 import { ServiceOfferControls } from './controls';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   header: {
@@ -43,6 +44,8 @@ interface Props {
 export function ServiceOfferForm({ userData, ad }: Props) {
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   const form = useForm<ServiceOfferCreationSchema>({
     defaultValues: defaultValues(userData, ad),
     resolver: zodResolver(serviceOfferCreationSchema),
@@ -61,7 +64,7 @@ export function ServiceOfferForm({ userData, ad }: Props) {
   return (
     <FormProvider {...form}>
       <Typography variant="h3" sx={styles.header}>
-        What kind of services do you offer?
+        {t('offer-services-question')}
       </Typography>
 
       <Box component="form" onSubmit={onSubmit} sx={styles.content}>

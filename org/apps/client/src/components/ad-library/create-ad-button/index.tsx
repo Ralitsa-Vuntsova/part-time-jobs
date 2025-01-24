@@ -1,11 +1,13 @@
 import { Button, Fade, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 export function CreateAdButton() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const open = Boolean(anchorEl);
+
+  const { t } = useTranslation();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -25,7 +27,7 @@ export function CreateAdButton() {
         onClick={handleClick}
         variant="contained"
       >
-        Create Ad
+        {t('create-ad')}
       </Button>
       <Menu
         MenuListProps={{
@@ -42,7 +44,7 @@ export function CreateAdButton() {
             handleClose();
           }}
         >
-          Offer Service
+          {t('offer-service')}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -50,7 +52,7 @@ export function CreateAdButton() {
             handleClose();
           }}
         >
-          Seek Service
+          {t('seek-service')}
         </MenuItem>
       </Menu>
     </>

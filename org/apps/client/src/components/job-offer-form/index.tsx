@@ -15,6 +15,7 @@ import { LoadingButton } from '../loading-button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { defaultValues } from '../../validation-schemas/job-offer-creation-schema';
 import { JobOfferControls } from './controls';
+import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   header: {
@@ -43,6 +44,8 @@ interface Props {
 export function JobOfferForm({ ad, userData }: Props) {
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   const form = useForm<JobOfferCreationSchema>({
     defaultValues: defaultValues(userData, ad),
     resolver: zodResolver(jobOfferCreationSchema),
@@ -61,7 +64,7 @@ export function JobOfferForm({ ad, userData }: Props) {
   return (
     <FormProvider {...form}>
       <Typography variant="h3" sx={styles.header}>
-        What kind of services do you seek?
+        {t('seek-services-question')}
       </Typography>
 
       <Box component="form" onSubmit={onSubmit} sx={styles.content}>

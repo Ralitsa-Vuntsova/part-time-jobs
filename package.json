@@ -6,6 +6,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "jwt-decode": "^4.0.0"
+    "i18next": "^24.2.1",
+    "jwt-decode": "^4.0.0",
+    "react-i18next": "^15.4.0"
   }
 }
