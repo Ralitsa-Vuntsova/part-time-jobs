@@ -11,7 +11,6 @@
   "confirm-password": "Confirm Password",
   "first-name": "First Name",
   "last-name": "Last Name",
-  "hi": "Hi",
   "my-ads": "My Ads",
   "edit-profile": "Edit Profile",
   "logout": "Logout",
@@ -81,5 +80,7 @@
   "apply-question": "What is your reason for applying?",
   "apply-datetime-question": "When would you be available to perform the service?",
   "apply-people-question": "How many people are you applying for?",
-  "required-5-characters": "Required - at least 5 characters"
+  "required-5-characters": "Required - at least 5 characters",
+  "dark": "Dark",
+  "light": "Light"
 }

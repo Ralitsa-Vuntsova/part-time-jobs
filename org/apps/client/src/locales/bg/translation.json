@@ -11,7 +11,6 @@
   "confirm-password": "Потвърди Парола",
   "first-name": "Първо Име",
   "last-name": "Фамилно име",
-  "hi": "Здравей",
   "my-ads": "Моите Обяви",
   "edit-profile": "Редактирай Профил",
   "logout": "Излез",
@@ -81,5 +80,7 @@
   "apply-question": "Защо кандидатстваш?",
   "apply-datetime-question": "Кога сте свободни да изпълните услугата?",
   "apply-people-question": "За колко човека кандидатствате?",
-  "required-5-characters": ""
+  "required-5-characters": "",
+  "dark": "Тъмна тема",
+  "light": "Светла тема"
 }

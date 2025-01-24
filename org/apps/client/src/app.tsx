@@ -11,7 +11,7 @@ import { Register } from './pages/register';
 import { Login } from './pages/login';
 import { PrivateRoute } from './components/private-route';
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './libs/theme';
+import { lightTheme, darkTheme } from './libs/theme';
 import { ServiceOfferCreation } from './pages/service-offer-creation';
 import { JobOfferCreation } from './pages/job-offer-creation';
 import { DrawerLayout } from './components/drawer-layout';
@@ -20,12 +20,27 @@ import { Ad } from './pages/ad';
 import { AdType } from './libs/ad-helper-functions';
 import { MyAds } from './pages/my-ads';
 import { UserPreferencesProvider } from './hooks/use-user-preferences';
+import { useState } from 'react';
 
 export function App() {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  const toggleTheme = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    localStorage.setItem('theme', newMode ? 'dark' : 'light');
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
-        <Route element={<DrawerLayout />}>
+        <Route
+          element={
+            <DrawerLayout isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+          }
+        >
           <Route
             index
             element={
@@ -112,7 +127,7 @@ export function App() {
   );
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <UserProvider>
         <UserPreferencesProvider>
           <RouterProvider

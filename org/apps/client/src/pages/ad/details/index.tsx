@@ -182,12 +182,14 @@ export function AdDetails({
         onChange={onChange}
       />
 
-      <ApplyDialog
-        open={openApplyDialog}
-        onClose={() => setOpenApplyDialog(false)}
-        ad={ad as JobOfferDto}
-        onChange={onChange}
-      />
+      {type === AdType.Job && (
+        <ApplyDialog
+          open={openApplyDialog}
+          onClose={() => setOpenApplyDialog(false)}
+          ad={ad as JobOfferDto}
+          onChange={onChange}
+        />
+      )}
     </>
   );
 }

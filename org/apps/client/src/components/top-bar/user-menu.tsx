@@ -1,5 +1,5 @@
 import { makeStyles } from '../../libs/make-styles';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Box,
   Button,
@@ -7,8 +7,9 @@ import {
   Typography,
   MenuItem as MuiMenuItem,
   Avatar,
+  SvgIconTypeMap,
 } from '@mui/material';
-import { ArrowDropDown } from '@mui/icons-material';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 const styles = makeStyles({
   container: {
@@ -16,14 +17,15 @@ const styles = makeStyles({
     pl: 2,
   },
   label: {
-    color: (theme) => theme.palette.primary.contrastText,
-    textTransform: 'none',
+    color: (theme) => theme.palette.primary.main,
+    fontSize: '14px',
+    pl: 2,
   },
   menu: {
     mt: '45px',
-  },
-  arrow: {
-    color: (theme) => theme.palette.primary.contrastText,
+    svg: {
+      color: (theme) => theme.palette.primary.main,
+    },
   },
   avatar: {
     color: (theme) => theme.palette.primary.contrastText,
@@ -31,22 +33,19 @@ const styles = makeStyles({
     height: 32,
   },
   button: {
+    minWidth: 'auto',
     p: 0,
-    '& .MuiButton-endIcon': {
-      marginLeft: 0,
-    },
-    '& .MuiButton-startIcon': {
-      marginRight: 1,
-    },
-    '& .MuiButton-startIcon > *:nth-of-type(1)': {
-      fontSize: '1rem',
-    },
+  },
+  flexRow: {
+    display: 'flex',
+    gap: 1,
   },
 });
 
 export interface MenuItem {
   label: string;
   onClick: () => void;
+  icon?: ReactNode;
 }
 
 interface Props {
@@ -76,10 +75,7 @@ export function UserMenu({ label, menuItems }: Props) {
         sx={styles.button}
         onClick={openMenu}
         startIcon={<Avatar sx={styles.avatar}></Avatar>}
-        endIcon={<ArrowDropDown sx={styles.arrow} />}
-      >
-        <Typography sx={styles.label}>{label}</Typography>
-      </Button>
+      />
 
       {menuItems.length > 0 ? (
         <Menu
@@ -91,8 +87,14 @@ export function UserMenu({ label, menuItems }: Props) {
           open={!!anchorEl}
           onClose={closeMenu}
         >
-          {menuItems.map(({ label: optionLabel, onClick }) => (
-            <MuiMenuItem key={optionLabel} onClick={onClick}>
+          <Typography sx={styles.label}>{label}</Typography>
+          {menuItems.map(({ label: optionLabel, onClick, icon }) => (
+            <MuiMenuItem
+              key={optionLabel}
+              onClick={onClick}
+              sx={styles.flexRow}
+            >
+              {icon}
               <Typography textAlign="center">{optionLabel}</Typography>
             </MuiMenuItem>
           ))}
