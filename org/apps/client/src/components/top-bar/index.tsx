@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Toolbar } from '@mui/material';
+import { AppBar, Box, Toolbar } from '@mui/material';
 import { makeStyles } from '../../libs/make-styles';
 import { useCurrentUser } from '../../hooks/use-current-user';
 import { UserMenu } from './user-menu';
@@ -14,8 +14,6 @@ import ArticleIcon from '@mui/icons-material/Article';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { useUserPreferences } from '../../hooks/use-user-preferences';
-import { Theme } from '@shared/enums';
 
 const styles = makeStyles({
   root: {
@@ -52,7 +50,6 @@ interface Props {
 
 export function TopBar({ isDarkMode, toggleTheme }: Props) {
   const user = useCurrentUser();
-  const { theme, setPreferences } = useUserPreferences();
 
   const isSM = useResponsive() < Breakpoint.SM;
   const navigate = useNavigate();
@@ -94,12 +91,7 @@ export function TopBar({ isDarkMode, toggleTheme }: Props) {
                   },
                   {
                     label: isDarkMode ? t('light') : t('dark'),
-                    onClick: () => {
-                      toggleTheme();
-                      setPreferences({
-                        theme: isDarkMode ? Theme.Light : Theme.Dark,
-                      });
-                    },
+                    onClick: toggleTheme,
                     icon: isDarkMode ? <LightModeIcon /> : <DarkModeIcon />,
                   },
                   { label: t('logout'), onClick: logoutTrigger },

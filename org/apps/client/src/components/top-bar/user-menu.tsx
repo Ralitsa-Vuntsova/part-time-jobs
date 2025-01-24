@@ -7,9 +7,7 @@ import {
   Typography,
   MenuItem as MuiMenuItem,
   Avatar,
-  SvgIconTypeMap,
 } from '@mui/material';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 const styles = makeStyles({
   container: {

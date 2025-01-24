@@ -1,14 +1,13 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { LocalStorage } from '../libs/local-storage';
 import { AdType } from '../libs/ad-helper-functions';
-import { Language, Theme } from '@shared/enums';
+import { Language } from '@shared/enums';
 
 export interface UserPreferences {
   isGrid: boolean;
   isAsc: boolean;
   type: AdType;
   language: Language;
-  theme: Theme;
 }
 
 export interface UserPreferencesContextData extends UserPreferences {
@@ -28,7 +27,6 @@ export function UserPreferencesProvider({ children }: { children: ReactNode }) {
       isAsc: false,
       type: AdType.Job,
       language: Language.English,
-      theme: Theme.Light,
     }
   );
 
