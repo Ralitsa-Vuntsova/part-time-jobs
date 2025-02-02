@@ -16,7 +16,7 @@ export enum AdType {
   Service = 'Service',
 }
 
-// TODO: Refactor
+// TODO [future]: Refactor
 export function sortJobs(ads: JobOfferDto[], isAsc: boolean) {
   return ads.sort((a, b) => {
     const firstDate = new Date(a.createdAt).getTime();
@@ -35,7 +35,7 @@ export function sortServices(ads: ServiceOfferDto[], isAsc: boolean) {
   });
 }
 
-// TODO: Refactor
+// TODO [future]: Refactor
 export function filterJobsByTerm(jobs: JobOfferDto[], searchTerm: string) {
   const query = searchTerm.toLowerCase();
 
@@ -85,7 +85,7 @@ export function filterServicesByTerm(
     });
 }
 
-// TODO: Refactor using reduce
+// TODO [future]: Refactor using reduce
 export function filterAds(ads: JobOfferDto[], filters: Filters): JobOfferDto[] {
   let tempAds = ads;
 
@@ -129,7 +129,7 @@ export function filterAds(ads: JobOfferDto[], filters: Filters): JobOfferDto[] {
   return tempAds;
 }
 
-// TODO: Consider adding search term and page number
+// TODO [future]: Consider adding search term and page number
 export function updateFilters(searchParams: URLSearchParams) {
   const searchPersonNumber = searchParams.get('personNumber');
   const searchCurrency = searchParams.get('priceCurrency');
@@ -146,7 +146,7 @@ export function updateFilters(searchParams: URLSearchParams) {
   };
 }
 
-// TODO: Consider adding search term and page number
+// TODO [future]: Consider adding search term and page number
 export function updateUrl(filters: Filters) {
   const params = new URLSearchParams();
 

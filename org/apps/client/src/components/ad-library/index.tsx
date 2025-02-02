@@ -86,8 +86,7 @@ export function AdLibrary({
 
   return (
     <Box sx={styles.flexColumn}>
-      {(type === AdType.Job && !searchJobs.length) ||
-      (type === AdType.Service && !searchServices.length) ? (
+      {!searchJobs.length && !searchServices.length ? (
         <NoAds />
       ) : (
         <>

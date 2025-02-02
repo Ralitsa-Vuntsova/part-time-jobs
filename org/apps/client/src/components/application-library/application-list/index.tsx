@@ -67,7 +67,7 @@ export function ApplicationList({
         ))}
       </Box>
 
-      {/* TODO: Consider supporting server-side pagination */}
+      {/* TODO p[future]: Consider supporting server-side pagination */}
       <Pagination
         page={page + 1}
         onChange={(_, newPage) => setPage(newPage - 1)}

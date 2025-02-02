@@ -80,7 +80,7 @@ export function AdList({ jobs, services, isGrid, type, label }: Props) {
     justifyContent: 'space-between',
   };
 
-  // TODO: Fix types
+  // TODO [future]: Fix types
   const data = useMemo(() => {
     return type === AdType.Job ? filterAds(jobs, filters) : services;
   }, [filters, type]);
@@ -195,7 +195,7 @@ export function AdList({ jobs, services, isGrid, type, label }: Props) {
           ))}
         </Box>
 
-        {/* TODO: Consider supporting server-side pagination */}
+        {/* TODO [future]: Consider supporting server-side pagination */}
         <Pagination
           page={page + 1}
           onChange={(_, newPage) => setPage(newPage - 1)}

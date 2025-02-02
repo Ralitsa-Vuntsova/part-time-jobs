@@ -5,6 +5,9 @@ import {
 import { useCurrentUser } from '../../hooks/use-current-user';
 import { jobOfferService } from '../../services/job-offer-service';
 import { AdLibrary } from '../../components/ad-library';
+import { applicationService } from '../../services/application-service';
+import { applicationResponseService } from '../../services/application-response-service';
+import { ApplicationResponse, ArchiveReason } from '@shared/enums';
 
 export function MyAccomplishments() {
   const currentUser = useCurrentUser();
@@ -15,14 +18,36 @@ export function MyAccomplishments() {
 
   return (
     <AsyncDataLoader
-      dataLoader={({ signal }) => jobOfferService.listAll(signal)}
+      dataLoader={({ signal }) =>
+        Promise.all([
+          jobOfferService.listAll(signal),
+          applicationService.listAll(signal),
+          applicationResponseService.listAll(signal),
+        ])
+      }
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
     >
-      {(jobs) => {
+      {([jobs, applications, applicationResponses]) => {
+        const acceptedApplications = applications
+          .filter((app) => {
+            const appResponse = applicationResponses.find(
+              (response) => response.applicationId === app._id
+            );
+
+            return (
+              appResponse?.response === ApplicationResponse.Accepted &&
+              app.createdBy === currentUser._id
+            );
+          })
+          .map(({ adId }) => adId);
+
         return (
           <AdLibrary
-            // TODO: Filter by accepted user applications and ads which are archived with completed reason
-            jobs={jobs.filter((ad) => ad.createdBy === currentUser._id)}
+            jobs={jobs.filter(
+              (ad) =>
+                ad?.archiveReason === ArchiveReason.Done &&
+                acceptedApplications.includes(ad._id)
+            )}
             showCreateButton={false}
             showToggleButton={false}
             label="accomplishments-list"
