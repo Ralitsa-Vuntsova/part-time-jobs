@@ -1,7 +1,12 @@
 export enum Payment {
-  PerPerson = 'Per Person',
-  TotalAmount = 'Total Amount',
+  PerPerson = 'PerPerson',
+  TotalAmount = 'TotalAmount',
 }
+
+export const paymentToTranslateKey = {
+  [Payment.PerPerson]: 'per-person',
+  [Payment.TotalAmount]: 'total-amount',
+};
 
 export enum Currency {
   USD = 'USD',

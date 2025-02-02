@@ -40,19 +40,19 @@ export function CreateAdButton() {
       >
         <MenuItem
           onClick={() => {
-            navigate('offer-service');
-            handleClose();
-          }}
-        >
-          {t('offer-service')}
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
             navigate('seek-service');
             handleClose();
           }}
         >
           {t('seek-service')}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate('offer-service');
+            handleClose();
+          }}
+        >
+          {t('offer-service')}
         </MenuItem>
       </Menu>
     </>

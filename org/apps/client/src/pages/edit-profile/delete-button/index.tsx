@@ -54,7 +54,7 @@ export function DeleteProfileButton({ userData }: Props) {
       <ConfirmDialog
         open={openConfirmDialog}
         title={t('delete-profile')}
-        onConfirm={() => trigger()}
+        onConfirm={trigger}
         confirmLabel={t('delete')}
         confirmLoading={loading}
         onCancel={() => setOpenConfirmDialog(false)}

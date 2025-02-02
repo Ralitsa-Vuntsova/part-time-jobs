@@ -31,6 +31,10 @@ export class ServiceOfferService {
       abortSignal,
     });
   }
+
+  unarchiveAd(id: string, abortSignal: AbortSignal) {
+    return this.http.patch(`service-offers/unarchive/${id}`, { abortSignal });
+  }
 }
 
 export const serviceOfferService = new ServiceOfferService();

@@ -25,10 +25,7 @@ export class JobOffersService {
   }
 
   create(ad: CreateJobOfferDto, userId: string) {
-    return dbToInstance(
-      JobOfferDto,
-      this.adModel.createExtended({ ...ad, isArchieved: false }, userId)
-    );
+    return dbToInstance(JobOfferDto, this.adModel.createExtended(ad, userId));
   }
 
   async edit(id: string, ad: JobOfferDto, user: AuthUser) {

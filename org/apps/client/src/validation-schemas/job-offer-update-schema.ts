@@ -9,6 +9,7 @@ import {
   toCreateJobOfferDto,
 } from './job-offer-creation-schema';
 import { defaultValues as defaults } from './job-offer-creation-schema';
+import { ArchiveReason } from '@shared/enums';
 
 export const jobOfferEditSchema = jobOfferCreationSchema
   .pick({
@@ -27,7 +28,7 @@ export const jobOfferEditSchema = jobOfferCreationSchema
   })
   .merge(
     z.object({
-      isArchieved: z.boolean(),
+      archiveReason: z.nativeEnum(ArchiveReason).optional(),
     })
   );
 
@@ -36,7 +37,7 @@ export type JobOfferEditSchema = z.infer<typeof jobOfferEditSchema>;
 export function toEditJobOfferDto(ad: JobOfferEditSchema): EditJobOfferDto {
   return {
     ...toCreateJobOfferDto(ad),
-    isArchieved: ad.isArchieved,
+    archiveReason: ad.archiveReason,
   };
 }
 
@@ -54,6 +55,6 @@ export function defaultValues(
         address: userData.address ?? '',
       },
     ],
-    isArchieved: ad?.isArchieved ?? false,
+    archiveReason: ad?.archiveReason,
   };
 }

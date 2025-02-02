@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, Box, Typography } from '@mui/material';
 import { JobOfferDto } from '@shared/data-objects';
-import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
-import { LabeledControl } from '../../../components/labeled-control';
+import { AccordionSummaryWithLeftIcon } from '../../accordion-summary-with-left-icon';
+import { LabeledControl } from '../../labeled-control';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
 

@@ -7,11 +7,11 @@ import {
   AsyncDataLoaderAPI,
   LOADING_PROPS,
 } from '../../components/async-data-loader';
-import { AdDetails } from './details';
 import { userService } from '../../services/user-service';
 import { useCurrentUser } from '../../hooks/use-current-user';
 import { useRef } from 'react';
 import { applicationService } from '../../services/application-service';
+import { AdDetails } from '../../components/ad-details';
 
 interface Props {
   type: AdType;

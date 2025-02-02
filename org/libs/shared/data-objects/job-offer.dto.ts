@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AdDto } from './ad.dto';
-import { OmitType } from '@nestjs/swagger';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { PriceDto } from './price.dto';
@@ -55,17 +55,11 @@ export class JobOfferDto extends JobOffer {}
 
 export class CreateJobOfferDto extends OmitType(JobOffer, [
   '_id',
-  'isArchieved',
+  'archiveReason',
   'createdAt',
   'updatedAt',
   'createdBy',
   'updatedBy',
 ]) {}
 
-export class EditJobOfferDto extends OmitType(JobOfferDto, [
-  '_id',
-  'createdAt',
-  'updatedAt',
-  'createdBy',
-  'updatedBy',
-]) {}
+export class EditJobOfferDto extends PartialType(JobOfferDto) {}

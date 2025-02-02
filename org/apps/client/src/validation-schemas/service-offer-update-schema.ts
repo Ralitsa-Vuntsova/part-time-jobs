@@ -9,6 +9,7 @@ import {
   toCreateServiceOfferDto,
 } from './service-offer-creation-schema';
 import { defaultValues as defaults } from './service-offer-creation-schema';
+import { ArchiveReason } from '@shared/enums';
 
 export const serviceOfferEditSchema = serviceOfferCreationSchema
   .pick({
@@ -19,7 +20,7 @@ export const serviceOfferEditSchema = serviceOfferCreationSchema
   })
   .merge(
     z.object({
-      isArchieved: z.boolean(),
+      archiveReason: z.nativeEnum(ArchiveReason).optional(),
     })
   );
 
@@ -30,7 +31,7 @@ export function toEditServiceOfferDto(
 ): EditServiceOfferDto {
   return {
     ...toCreateServiceOfferDto(ad),
-    isArchieved: ad.isArchieved,
+    archiveReason: ad.archiveReason,
   };
 }
 
@@ -48,6 +49,6 @@ export function defaultValues(
         address: userData.address ?? '',
       },
     ],
-    isArchieved: ad?.isArchieved ?? false,
+    archiveReason: ad?.archiveReason,
   };
 }

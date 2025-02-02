@@ -3,10 +3,10 @@ import { jobOfferService } from '../../../services/job-offer-service';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { JobOfferDto, UserProfile } from '@shared/data-objects';
-import { JobOfferControls } from '../../../components/job-offer-form/controls';
+import { JobOfferControls } from '../../job-offer-form/controls';
 import { Box, Button, DialogActions } from '@mui/material';
-import { LoadingButton } from '../../../components/loading-button';
-import { ErrorContainer } from '../../../components/error-container';
+import { LoadingButton } from '../../loading-button';
+import { ErrorContainer } from '../../error-container';
 import { makeStyles } from '../../../libs/make-styles';
 import {
   jobOfferEditSchema,

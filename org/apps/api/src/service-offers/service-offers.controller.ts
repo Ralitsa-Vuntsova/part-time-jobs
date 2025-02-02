@@ -11,6 +11,7 @@ import {
   AuthUser,
   CreateServiceOfferDto,
   EditServiceOfferDto,
+  ServiceOfferDto,
 } from '@shared/data-objects';
 import { ServiceOffersService } from './service-offers.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -21,7 +22,7 @@ export class ServiceOffersController {
   constructor(private adsService: ServiceOffersService) {}
 
   @Get(':id')
-  getById(@Param('id') id: string) {
+  getById(@Param('id') id: string): Promise<ServiceOfferDto> {
     return this.adsService.findById(id);
   }
 
@@ -47,6 +48,17 @@ export class ServiceOffersController {
     const editedAd = { ...adToBeEdited, ...ad };
 
     await this.adsService.edit(id, editedAd, user);
+
+    return { status: 'OK' };
+  }
+
+  @Patch('unarchive/:id')
+  @UseGuards(JwtAuthGuard)
+  async unarchive(@Param('id') id: string, @User() user: AuthUser) {
+    const adToBeEdited = await this.getById(id);
+    const { archiveReason, ...rest } = adToBeEdited;
+
+    await this.adsService.edit(id, rest, user);
 
     return { status: 'OK' };
   }

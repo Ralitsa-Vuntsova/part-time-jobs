@@ -19,7 +19,7 @@ interface Props {
 export function ContactRow({ index }: Props) {
   const { t } = useTranslation();
 
-  const { control } = useFormContext<ServiceOfferCreationSchema>();
+  const { control } = useFormContext();
 
   return (
     <Box sx={styles.root}>

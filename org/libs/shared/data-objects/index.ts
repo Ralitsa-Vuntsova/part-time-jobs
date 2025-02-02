@@ -1,4 +1,5 @@
 export * from './application.dto';
+export * from './application-response.dto';
 export * from './contact.dto';
 export * from './date-time.dto';
 export * from './job-offer.dto';

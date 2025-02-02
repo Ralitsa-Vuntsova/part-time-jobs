@@ -10,7 +10,7 @@ export interface UserPreferences {
   language: Language;
 }
 
-export interface UserPreferencesContextData extends UserPreferences {
+interface UserPreferencesContextData extends UserPreferences {
   setPreferences: (preferences: Partial<UserPreferences>) => void;
 }
 

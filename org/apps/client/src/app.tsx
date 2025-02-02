@@ -21,6 +21,8 @@ import { AdType } from './libs/ad-helper-functions';
 import { MyAds } from './pages/my-ads';
 import { UserPreferencesProvider } from './hooks/use-user-preferences';
 import { useState } from 'react';
+import { MyAccomplishments } from './pages/my-accomplishments';
+import { Applications } from './pages/applications';
 
 export function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -104,6 +106,24 @@ export function App() {
             element={
               <PrivateRoute>
                 <MyAds />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="my-accomplishments"
+            element={
+              <PrivateRoute>
+                <MyAccomplishments />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="applications"
+            element={
+              <PrivateRoute>
+                <Applications />
               </PrivateRoute>
             }
           />

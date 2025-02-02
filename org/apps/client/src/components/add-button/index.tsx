@@ -5,7 +5,6 @@ import { makeStyles } from '../../libs/make-styles';
 const styles = makeStyles({
   button: {
     backgroundColor: (theme) => theme.palette.secondary.main,
-    color: (theme) => theme.palette.primary.main,
   },
 });
 

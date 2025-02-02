@@ -64,6 +64,12 @@ const constructComponents = (theme: Theme) => {
             '&.rounded': {
               borderRadius: '16px',
             },
+            '&.contained': {
+              color:
+                theme === Theme.Light
+                  ? baseTheme.palette.primary.main
+                  : baseTheme.palette.primary.contrastText,
+            },
           },
           textSizeSmall: {
             color: baseTheme.palette.secondary.main,

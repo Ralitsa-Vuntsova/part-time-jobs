@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 import { ContactDto } from '@shared/data-objects';
 import { useState } from 'react';
@@ -46,7 +47,7 @@ export function ContactTable({ contacts }: Props) {
               <TableCell>{c.name}</TableCell>
               <TableCell>
                 {showEmail ? (
-                  c.email
+                  <Typography>{c.email}</Typography>
                 ) : (
                   <Button sx={styles.button} onClick={() => setShowEmail(true)}>
                     {t('reveal-email')}
@@ -55,7 +56,7 @@ export function ContactTable({ contacts }: Props) {
               </TableCell>
               <TableCell>
                 {showPhoneNumber ? (
-                  c.phoneNumber
+                  <Typography>{c.phoneNumber}</Typography>
                 ) : (
                   <Button
                     sx={styles.button}

@@ -38,12 +38,12 @@ const styles = makeStyles({
 });
 
 interface Props {
-  data: JobOfferDto | ServiceOfferDto;
+  ad: JobOfferDto | ServiceOfferDto;
   isGrid: boolean;
   type: AdType;
 }
 
-export function AdCard({ data, isGrid, type }: Props) {
+export function AdCard({ ad, isGrid, type }: Props) {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
@@ -54,11 +54,11 @@ export function AdCard({ data, isGrid, type }: Props) {
     <Card sx={cardStyles}>
       <CardContent sx={styles.flexColumn}>
         <Typography gutterBottom variant="h5" component="div">
-          {data.name}
+          {ad.name}
         </Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {data.description}
+          {ad.description}
         </Typography>
       </CardContent>
       <CardActions>
@@ -68,14 +68,14 @@ export function AdCard({ data, isGrid, type }: Props) {
           onClick={() =>
             navigate(
               type === AdType.Job
-                ? `/seek-service-ads/${data._id}`
-                : `/offer-service-ads/${data._id}`
+                ? `/seek-service-ads/${ad._id}`
+                : `/offer-service-ads/${ad._id}`
             )
           }
         >
           {t('learn-more')}
         </Button>
-        {data.isArchieved && (
+        {!!ad.archiveReason && (
           <Typography sx={styles.grayColor}>{t('archived')}</Typography>
         )}
       </CardActions>

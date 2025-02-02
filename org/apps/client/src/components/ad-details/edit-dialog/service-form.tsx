@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, DialogActions } from '@mui/material';
 import { ServiceOfferDto, UserProfile } from '@shared/data-objects';
-import { ErrorContainer } from '../../../components/error-container';
-import { LoadingButton } from '../../../components/loading-button';
-import { ServiceOfferControls } from '../../../components/service-offer-form/controls';
+import { ErrorContainer } from '../../error-container';
+import { LoadingButton } from '../../loading-button';
+import { ServiceOfferControls } from '../../service-offer-form/controls';
 import { useAsyncAction } from '../../../hooks/use-async-action';
 import { makeStyles } from '../../../libs/make-styles';
 import { serviceOfferService } from '../../../services/service-offer-service';

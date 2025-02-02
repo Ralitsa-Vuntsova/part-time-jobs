@@ -26,6 +26,11 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
+  @Get()
+  getAll() {
+    return this.usersService.listAll();
+  }
+
   @Post('register')
   async register(@Body() user: CreateUserDto) {
     await this.usersService.create(user);
@@ -36,7 +41,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async editUser(@Param('id') id: string, @Body() user: EditUserDto) {
-    const userToBeEdited = await this.getUserById(id);
+    const userToBeEdited = await this.usersService.getFullUserObject(id);
     const editedUser = { ...userToBeEdited, ...user };
 
     await this.usersService.edit(editedUser);

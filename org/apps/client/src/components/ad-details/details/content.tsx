@@ -1,5 +1,5 @@
 import { Accordion, AccordionDetails, Typography } from '@mui/material';
-import { AccordionSummaryWithLeftIcon } from '../../../components/accordion-summary-with-left-icon';
+import { AccordionSummaryWithLeftIcon } from '../../accordion-summary-with-left-icon';
 import { OfferInformationAccordion } from './offer-information-accordion';
 import { AdType } from '../../../libs/ad-helper-functions';
 import { ContactTable } from './contact-table';

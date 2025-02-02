@@ -5,22 +5,24 @@ import {
   ServiceOfferDto,
   UserProfile,
 } from '@shared/data-objects';
-import { makeStyles } from '../../../libs/make-styles';
-import { AdType } from '../../../libs/ad-helper-functions';
-import { useCurrentUser } from '../../../hooks/use-current-user';
+import { makeStyles } from '../../libs/make-styles';
+import { AdType } from '../../libs/ad-helper-functions';
+import { useCurrentUser } from '../../hooks/use-current-user';
 import { useState } from 'react';
-import { EditAdDialog } from '../edit-dialog';
-import { ConfirmDialog } from '../../../components/dialog';
-import { jobOfferService } from '../../../services/job-offer-service';
-import { serviceOfferService } from '../../../services/service-offer-service';
-import { useAsyncAction } from '../../../hooks/use-async-action';
-import { ErrorContainer } from '../../../components/error-container';
-import { ApplyDialog } from '../apply-dialog';
-import { AdDetailsContent } from './content';
-import { AdDetailsFooter } from './footer';
-import { FormattedDate } from '../../../components/formatted-date';
-import { DateFormats } from '../../../libs/dates';
+import { EditAdDialog } from './edit-dialog';
+import { jobOfferService } from '../../services/job-offer-service';
+import { serviceOfferService } from '../../services/service-offer-service';
+import { useAsyncAction } from '../../hooks/use-async-action';
+import { ErrorContainer } from '../error-container';
+import { ApplyDialog } from './apply-dialog';
+import { FormattedDate } from '../formatted-date';
+import { DateFormats } from '../../libs/dates';
 import { useTranslation } from 'react-i18next';
+import { ArchiveReason } from '@shared/enums';
+import { ArchiveDialog } from './archive-dialog';
+import { UnarchiveDialog } from './unarchive-dialog';
+import { AdDetailsContent } from './details/content';
+import { AdDetailsFooter } from './details/footer';
 
 const styles = makeStyles({
   header: {
@@ -71,7 +73,11 @@ export function AdDetails({
   const currentUser = useCurrentUser();
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openApplyDialog, setOpenApplyDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [openArchiveDialog, setOpenArchiveDialog] = useState(false);
+  const [openUnarchiveDialog, setOpenUnarchiveDialog] = useState(false);
+  const [archiveReason, setArchiveReason] = useState<ArchiveReason>(
+    ArchiveReason.Done
+  );
 
   const { t } = useTranslation();
 
@@ -81,22 +87,33 @@ export function AdDetails({
   );
   const alreadyAppliedByCurrentUser = !!application;
 
-  const { trigger, loading, error } = useAsyncAction(async ({ signal }) => {
+  const {
+    trigger: archive,
+    loading: archiveLoading,
+    error: archiveError,
+  } = useAsyncAction(async ({ signal }) => {
     if (type === AdType.Job) {
-      await jobOfferService.editAd(
-        ad._id,
-        { ...(ad as JobOfferDto), isArchieved: true },
-        signal
-      );
+      await jobOfferService.editAd(ad._id, { archiveReason }, signal);
     } else {
-      await serviceOfferService.editAd(
-        ad._id,
-        { ...ad, isArchieved: true },
-        signal
-      );
+      await serviceOfferService.editAd(ad._id, { archiveReason }, signal);
     }
 
-    setOpenConfirmDialog(false);
+    setOpenArchiveDialog(false);
+    onChange();
+  });
+
+  const {
+    trigger: unarchive,
+    loading: unarchiveLoading,
+    error: unarchiveError,
+  } = useAsyncAction(async ({ signal }) => {
+    if (type === AdType.Job) {
+      await jobOfferService.unarchiveAd(ad._id, signal);
+    } else {
+      await serviceOfferService.unarchiveAd(ad._id, signal);
+    }
+
+    setOpenUnarchiveDialog(false);
     onChange();
   });
 
@@ -113,19 +130,33 @@ export function AdDetails({
               variant="contained"
               sx={styles.button}
               onClick={() => setOpenEditDialog(true)}
-              disabled={ad.isArchieved || alreadyApplied}
+              disabled={!!ad.archiveReason || alreadyApplied}
             >
               {t('edit')}
             </Button>
-            {ad.isArchieved ? (
-              <Typography sx={styles.typography}>{t('archieved')}</Typography>
-            ) : (
+
+            {!!ad.archiveReason && ad.archiveReason === ArchiveReason.Done && (
+              <Typography sx={styles.typography}>{t('completed')}</Typography>
+            )}
+
+            {!!ad.archiveReason &&
+              ad.archiveReason === ArchiveReason.Unpublishing && (
+                <Button
+                  variant="outlined"
+                  sx={styles.button}
+                  onClick={() => setOpenUnarchiveDialog(true)}
+                >
+                  {t('unarchive')}
+                </Button>
+              )}
+
+            {!ad.archiveReason && (
               <Button
                 variant="outlined"
                 sx={styles.button}
-                onClick={() => setOpenConfirmDialog(true)}
+                onClick={() => setOpenArchiveDialog(true)}
               >
-                {t('archieve')}
+                {t('archive')}
               </Button>
             )}
           </>
@@ -158,20 +189,26 @@ export function AdDetails({
         <AdDetailsFooter ad={ad} />
       </Box>
 
-      {error ? <ErrorContainer>{error}</ErrorContainer> : null}
+      {archiveError ? <ErrorContainer>{archiveError}</ErrorContainer> : null}
+      {unarchiveError ? (
+        <ErrorContainer>{unarchiveError}</ErrorContainer>
+      ) : null}
 
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title={t('archieve-ad')}
-        onConfirm={() => trigger()}
-        confirmLabel={t('archieve')}
-        confirmLoading={loading}
-        onCancel={() => setOpenConfirmDialog(false)}
-        cancelLabel={t('cancel')}
-        onClose={() => setOpenConfirmDialog(false)}
-      >
-        <Typography>{t('archieve-confirm-question')}</Typography>
-      </ConfirmDialog>
+      <ArchiveDialog
+        open={openArchiveDialog}
+        onConfirm={archive}
+        confirmLoading={archiveLoading}
+        onClose={() => setOpenArchiveDialog(false)}
+        archiveReason={archiveReason}
+        onReasonSelected={(reason: ArchiveReason) => setArchiveReason(reason)}
+      />
+
+      <UnarchiveDialog
+        open={openUnarchiveDialog}
+        onConfirm={unarchive}
+        confirmLoading={unarchiveLoading}
+        onClose={() => setOpenUnarchiveDialog(false)}
+      />
 
       <EditAdDialog
         open={openEditDialog}

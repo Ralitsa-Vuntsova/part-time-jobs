@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { FormattedDate } from '../../../components/formatted-date';
+import { FormattedDate } from '../../formatted-date';
 import { DateFormats } from '../../../libs/dates';
 import { makeStyles } from '../../../libs/make-styles';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
@@ -20,6 +20,7 @@ interface Props {
   ad: JobOfferDto | ServiceOfferDto;
 }
 
+// Translate dates in future
 export function AdDetailsFooter({ ad }: Props) {
   const { t } = useTranslation();
 

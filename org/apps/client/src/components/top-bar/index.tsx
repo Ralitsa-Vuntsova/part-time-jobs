@@ -10,7 +10,6 @@ import { authService } from '../../services/auth-service';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { LanguageSwitcher } from '../language-switcher';
 import { useTranslation } from 'react-i18next';
-import ArticleIcon from '@mui/icons-material/Article';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -79,11 +78,6 @@ export function TopBar({ isDarkMode, toggleTheme }: Props) {
               <UserMenu
                 label={user.username}
                 menuItems={[
-                  {
-                    label: t('my-ads'),
-                    onClick: () => navigate('my-ads'),
-                    icon: <ArticleIcon />,
-                  },
                   {
                     label: t('edit-profile'),
                     onClick: () => navigate('edit-profile'),

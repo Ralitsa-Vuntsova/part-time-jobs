@@ -10,6 +10,7 @@ import { extendedModelPlugin } from '../lib/db-utils/extended-model-plugin';
 import { JobOffersModule } from '../job-offers/job-offers.module';
 import { ServiceOffersModule } from '../service-offers/service-offers.module';
 import { ApplicationsModule } from '../applications/applications.module';
+import { ApplicationResponsesModule } from '../application-reponses/application-responses.module';
 
 const { host, name, schema } = config.get('db');
 
@@ -26,6 +27,7 @@ const { host, name, schema } = config.get('db');
     ServiceOffersModule,
     JobOffersModule,
     ApplicationsModule,
+    ApplicationResponsesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

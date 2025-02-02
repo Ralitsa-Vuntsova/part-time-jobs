@@ -20,6 +20,7 @@ import { filterAds, Filters } from '../../../libs/ad-helper-functions';
 import { useSearchParams } from 'react-router-dom';
 import { toCurrency } from '../../../libs/to-currency';
 import { useTranslation } from 'react-i18next';
+import { add } from 'lodash';
 
 const PAGE_SIZE = 12;
 
@@ -29,19 +30,17 @@ const styles = makeStyles({
     gridTemplateColumns: ['auto', 'repeat(2,1fr)', 'repeat(4,1fr)'],
     justifyItems: 'center',
     gap: 4,
-    padding: [0, 5],
+    padding: [0, 3],
   },
   list: {
     display: 'flex',
     flexDirection: 'column',
     gap: 2,
-    width: '90%',
-    padding: [0, 5],
+    padding: [0, 3],
   },
   flexColumn: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 1,
   },
   flexRow: {
     display: 'flex',
@@ -60,9 +59,10 @@ export interface Props {
   services: ServiceOfferDto[];
   isGrid: boolean;
   type: AdType;
+  label?: string;
 }
 
-export function AdList({ jobs, services, isGrid, type }: Props) {
+export function AdList({ jobs, services, isGrid, type, label }: Props) {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState<Filters>({});
 
@@ -70,8 +70,13 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const centeredFlexColumn = { ...styles.flexColumn, alignItems: 'center' };
-  const spacedBetweenFlexRow = {
+  const rootStyles = { ...styles.flexColumn, gap: 2 };
+  const centeredFlexColumnStyles = {
+    ...styles.flexColumn,
+    gap: 1,
+    alignItems: 'center',
+  };
+  const spacedBetweenFlexRowStyles = {
     ...styles.flexRow,
     justifyContent: 'space-between',
   };
@@ -94,95 +99,100 @@ export function AdList({ jobs, services, isGrid, type }: Props) {
   }, [filters, setSearchParams]);
 
   return (
-    <Box sx={styles.flexColumn}>
-      <Typography variant="h5">{t('filters')}</Typography>
+    <Box sx={rootStyles}>
+      <Box sx={styles.flexColumn}>
+        <Typography variant="h5">{t('filters')}</Typography>
 
-      <Box sx={spacedBetweenFlexRow}>
-        <Box sx={styles.flexRow}>
-          <TextField
-            label={t('location')}
-            variant="standard"
-            value={filters.location}
-            sx={styles.input}
-            onChange={(e) =>
-              setFilters({ ...filters, location: String(e.target.value) })
-            }
-          />
-
-          <TextField
-            label={t('number-people')}
-            type="number"
-            variant="standard"
-            value={filters.personNumber}
-            sx={styles.input}
-            onChange={(e) =>
-              setFilters({ ...filters, personNumber: Number(e.target.value) })
-            }
-          />
-
-          <TextField
-            label={t('qualification')}
-            variant="standard"
-            value={filters.qualification}
-            sx={styles.input}
-            onChange={(e) =>
-              setFilters({ ...filters, qualification: String(e.target.value) })
-            }
-          />
-        </Box>
-
-        <Box sx={styles.flexRow}>
-          <FormControl sx={{ width: '100px' }}>
-            <Autocomplete
-              options={Object.values(Currency)}
-              onChange={(_, selected) =>
-                setFilters({ ...filters, priceCurrency: toCurrency(selected) })
-              }
-              value={filters.priceCurrency}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={t('currency')}
-                  variant="standard"
-                />
-              )}
+        <Box sx={spacedBetweenFlexRowStyles}>
+          <Box sx={styles.flexRow}>
+            <TextField
+              label={t('location')}
+              variant="standard"
+              value={filters.location}
               sx={styles.input}
+              onChange={(e) =>
+                setFilters({ ...filters, location: String(e.target.value) })
+              }
             />
-          </FormControl>
 
-          <TextField
-            label={t('price-from')}
-            type="number"
-            variant="standard"
-            value={filters.priceFrom}
-            sx={styles.input}
-            onChange={(e) =>
-              setFilters({ ...filters, priceFrom: Number(e.target.value) })
-            }
-          />
+            <TextField
+              label={t('number-people')}
+              type="number"
+              variant="standard"
+              value={filters.personNumber}
+              sx={styles.input}
+              onChange={(e) =>
+                setFilters({ ...filters, personNumber: Number(e.target.value) })
+              }
+            />
 
-          <TextField
-            label={t('price-to')}
-            type="number"
-            variant="standard"
-            value={filters.priceTo}
-            sx={styles.input}
-            onChange={(e) =>
-              setFilters({ ...filters, priceTo: Number(e.target.value) })
-            }
-          />
+            <TextField
+              label={t('qualification')}
+              variant="standard"
+              value={filters.qualification}
+              sx={styles.input}
+              onChange={(e) =>
+                setFilters({
+                  ...filters,
+                  qualification: String(e.target.value),
+                })
+              }
+            />
+          </Box>
+
+          <Box sx={styles.flexRow}>
+            <FormControl sx={{ width: '100px' }}>
+              <Autocomplete
+                options={Object.values(Currency)}
+                onChange={(_, selected) =>
+                  setFilters({
+                    ...filters,
+                    priceCurrency: toCurrency(selected),
+                  })
+                }
+                value={filters.priceCurrency}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={t('currency')}
+                    variant="standard"
+                  />
+                )}
+                sx={styles.input}
+              />
+            </FormControl>
+
+            <TextField
+              label={t('price-from')}
+              type="number"
+              variant="standard"
+              value={filters.priceFrom}
+              sx={styles.input}
+              onChange={(e) =>
+                setFilters({ ...filters, priceFrom: Number(e.target.value) })
+              }
+            />
+
+            <TextField
+              label={t('price-to')}
+              type="number"
+              variant="standard"
+              value={filters.priceTo}
+              sx={styles.input}
+              onChange={(e) =>
+                setFilters({ ...filters, priceTo: Number(e.target.value) })
+              }
+            />
+          </Box>
         </Box>
       </Box>
 
-      <Box sx={centeredFlexColumn}>
+      {label && <Typography>{t(label)}</Typography>}
+
+      <Box sx={centeredFlexColumnStyles}>
         <Box sx={isGrid ? styles.grid : styles.list}>
-          {displayedData.map((service) => (
-            <AdCard
-              key={service._id}
-              data={service}
-              isGrid={isGrid}
-              type={type}
-            />
+          {displayedData.map((ad) => (
+            <AdCard key={ad._id} ad={ad} isGrid={isGrid} type={type} />
           ))}
         </Box>
 

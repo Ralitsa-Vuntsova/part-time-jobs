@@ -53,11 +53,19 @@ const styles = makeStyles({
 
 interface Props {
   jobs: JobOfferDto[];
-  services: ServiceOfferDto[];
+  services?: ServiceOfferDto[];
   showCreateButton?: boolean;
+  showToggleButton?: boolean;
+  label?: string;
 }
 
-export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
+export function AdLibrary({
+  jobs,
+  services = [],
+  showCreateButton = true,
+  showToggleButton = true,
+  label,
+}: Props) {
   const { isGrid, isAsc, type, setPreferences } = useUserPreferences();
 
   const { t } = useTranslation();
@@ -78,72 +86,83 @@ export function AdLibrary({ jobs, services, showCreateButton = true }: Props) {
 
   return (
     <Box sx={styles.flexColumn}>
-      <Box sx={styles.flexRow}>
-        <Box sx={styles.flexRow}>
-          <TextField
-            placeholder={t('search')}
-            type="search"
-            sx={styles.textField}
-            onChange={(e) => {
-              setSearchJobs(filterJobsByTerm(jobs, e.target.value));
-              setSearchServices(filterServicesByTerm(services, e.target.value));
-            }}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-
-          <IconButton onClick={() => setPreferences({ isGrid: !isGrid })}>
-            {isGrid ? (
-              <MenuIcon sx={styles.icon} />
-            ) : (
-              <AppsIcon sx={styles.icon} />
-            )}
-          </IconButton>
-
-          <IconButton onClick={() => setPreferences({ isAsc: !isAsc })}>
-            {isAsc ? (
-              <KeyboardArrowUpIcon sx={styles.icon} />
-            ) : (
-              <KeyboardArrowDownIcon sx={styles.icon} />
-            )}
-          </IconButton>
-        </Box>
-
-        <Box sx={styles.flexRow}>
-          <ToggleButtonGroup
-            value={type}
-            exclusive
-            onChange={() => setPreferences({ type: selectedType })}
-          >
-            <ToggleButton value={AdType.Job}>
-              <Typography sx={styles.toggleButton}>{t('seeking')}</Typography>
-            </ToggleButton>
-            <ToggleButton value={AdType.Service}>
-              <Typography sx={styles.toggleButton}>{t('offering')}</Typography>
-            </ToggleButton>
-          </ToggleButtonGroup>
-
-          {showCreateButton && <CreateAdButton />}
-        </Box>
-      </Box>
-
       {(type === AdType.Job && !searchJobs.length) ||
       (type === AdType.Service && !searchServices.length) ? (
         <NoAds />
       ) : (
-        <AdList
-          jobs={searchJobs}
-          services={searchServices}
-          isGrid={isGrid}
-          type={type}
-        />
+        <>
+          <Box sx={styles.flexRow}>
+            <Box sx={styles.flexRow}>
+              <TextField
+                placeholder={t('search')}
+                type="search"
+                sx={styles.textField}
+                onChange={(e) => {
+                  setSearchJobs(filterJobsByTerm(jobs, e.target.value));
+                  setSearchServices(
+                    filterServicesByTerm(services, e.target.value)
+                  );
+                }}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+
+              <IconButton onClick={() => setPreferences({ isGrid: !isGrid })}>
+                {isGrid ? (
+                  <MenuIcon sx={styles.icon} />
+                ) : (
+                  <AppsIcon sx={styles.icon} />
+                )}
+              </IconButton>
+
+              <IconButton onClick={() => setPreferences({ isAsc: !isAsc })}>
+                {isAsc ? (
+                  <KeyboardArrowUpIcon sx={styles.icon} />
+                ) : (
+                  <KeyboardArrowDownIcon sx={styles.icon} />
+                )}
+              </IconButton>
+            </Box>
+
+            <Box sx={styles.flexRow}>
+              {showToggleButton && (
+                <ToggleButtonGroup
+                  value={type}
+                  exclusive
+                  onChange={() => setPreferences({ type: selectedType })}
+                >
+                  <ToggleButton value={AdType.Job}>
+                    <Typography sx={styles.toggleButton}>
+                      {t('seeking')}
+                    </Typography>
+                  </ToggleButton>
+                  <ToggleButton value={AdType.Service}>
+                    <Typography sx={styles.toggleButton}>
+                      {t('offering')}
+                    </Typography>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              )}
+
+              {showCreateButton && <CreateAdButton />}
+            </Box>
+          </Box>
+
+          <AdList
+            jobs={searchJobs}
+            services={searchServices}
+            isGrid={isGrid}
+            type={type}
+            label={label}
+          />
+        </>
       )}
     </Box>
   );

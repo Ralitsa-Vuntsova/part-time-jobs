@@ -29,6 +29,10 @@ export class JobOfferService {
       abortSignal,
     });
   }
+
+  unarchiveAd(id: string, abortSignal: AbortSignal) {
+    return this.http.patch(`job-offers/unarchive/${id}`, { abortSignal });
+  }
 }
 
 export const jobOfferService = new JobOfferService();

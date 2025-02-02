@@ -28,7 +28,7 @@ export class ServiceOffersService {
   create(ad: CreateServiceOfferDto, userId: string) {
     return dbToInstance(
       ServiceOfferDto,
-      this.adModel.createExtended({ ...ad, isArchieved: false }, userId)
+      this.adModel.createExtended(ad, userId)
     );
   }
 

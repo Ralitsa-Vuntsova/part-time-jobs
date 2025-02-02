@@ -15,12 +15,28 @@ import { Model } from 'mongoose';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async findOne(username: string): Promise<UserDto> {
+  findOne(username: string): Promise<UserDto> {
     return dbToInstance(UserDto, this.userModel.findOne({ username }));
   }
 
-  async findById(id: string): Promise<UserDto> {
+  findById(id: string): Promise<UserProfile> {
     return dbToInstance(UserProfile, this.userModel.findOne({ _id: id }));
+  }
+
+  getFullUserObject(id: string): Promise<UserDto> {
+    return dbToInstance(UserDto, this.userModel.findOne({ _id: id }));
+  }
+
+  async listAll(): Promise<UserProfile[]> {
+    return (await this.userModel.find({})).map((user) => ({
+      _id: user._id,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      address: user.address,
+    }));
   }
 
   async getAllUsernames(): Promise<string[]> {
@@ -39,7 +55,7 @@ export class UsersService {
     );
   }
 
-  async edit(user: UserDto) {
+  edit(user: UserDto) {
     return dbToInstance(
       UserDto,
       this.userModel.findOneAndReplace({ _id: user._id }, user, {

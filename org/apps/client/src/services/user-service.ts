@@ -16,6 +16,10 @@ export class UserService {
     });
   }
 
+  listAll(abortSignal: AbortSignal) {
+    return this.http.get<UserProfile[]>('users', { abortSignal });
+  }
+
   createUser(user: CreateUserDto, abortSignal: AbortSignal) {
     return this.http.post('users/register', {
       body: user,

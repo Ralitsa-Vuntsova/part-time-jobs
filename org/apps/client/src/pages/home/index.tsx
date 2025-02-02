@@ -20,8 +20,8 @@ export function Home() {
       {([jobs, services]) => {
         return (
           <AdLibrary
-            jobs={jobs.filter((ad) => !ad.isArchieved)}
-            services={services.filter((ad) => !ad.isArchieved)}
+            jobs={jobs.filter((ad) => !ad.archiveReason)}
+            services={services.filter((ad) => !ad.archiveReason)}
           />
         );
       }}

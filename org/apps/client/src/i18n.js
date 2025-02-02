@@ -3,7 +3,8 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en/translation.json';
 import bg from './locales/bg/translation.json';
 
-// TODO: Translate validation errors in future
+// TODO [future]: Translate validation errors
+// TODO [future]: Structure translations better
 const resources = {
   en: {
     translation: en,

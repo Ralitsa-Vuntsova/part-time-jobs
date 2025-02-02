@@ -11,7 +11,7 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-import { LoadingButton } from '../../../components/loading-button';
+import { LoadingButton } from '../../loading-button';
 import { makeStyles } from '../../../libs/make-styles';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import {
@@ -22,8 +22,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAsyncAction } from '../../../hooks/use-async-action';
 import { applicationService } from '../../../services/application-service';
-import { ErrorContainer } from '../../../components/error-container';
-import { LabeledControl } from '../../../components/labeled-control';
+import { ErrorContainer } from '../../error-container';
+import { LabeledControl } from '../../labeled-control';
 import { JobOfferDto } from '@shared/data-objects';
 import { times } from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -205,7 +205,7 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
                       label={`${t('number-people')}*`}
                       error={invalid}
                       {...field}
-                      value=""
+                      value={field.value ?? ''}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     >
                       {personNumberOptions.map((value) => (
@@ -232,7 +232,7 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
               onClose();
             }}
           >
-            {t('camcel')}
+            {t('cancel')}
           </Button>
 
           <LoadingButton

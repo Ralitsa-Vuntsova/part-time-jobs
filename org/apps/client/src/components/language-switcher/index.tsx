@@ -2,7 +2,7 @@ import { MenuItem, Select, SxProps, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '../../libs/make-styles';
 import { t } from 'i18next';
-import { Language } from '@shared/enums';
+import { Language, languageToTranslateKey } from '@shared/enums';
 import { useUserPreferences } from '../../hooks/use-user-preferences';
 
 const styles = makeStyles({
@@ -46,10 +46,10 @@ export function LanguageSwitcher({ sx }: Props) {
       value={language}
       sx={rootStyles}
       onChange={(e) => {
-        const language = String(e.target.value);
+        const languageOption = String(e.target.value);
 
         // Create a mapping if other languages are to be added in future
-        if (language === Language.English) {
+        if (languageOption === Language.English) {
           changeLanguage('en');
           setPreferences({ language: Language.English });
         } else {
@@ -60,8 +60,7 @@ export function LanguageSwitcher({ sx }: Props) {
     >
       {Object.values(Language).map((value) => (
         <MenuItem key={value} value={value}>
-          {/* Create a mapping if other languages are to be added in future */}
-          {value === Language.English ? t('english') : t('bulgarian')}
+          {t(languageToTranslateKey[value])}
         </MenuItem>
       ))}
     </Select>

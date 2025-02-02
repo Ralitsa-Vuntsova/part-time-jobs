@@ -10,7 +10,7 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-import { Currency, Payment } from '@shared/enums';
+import { Currency, Payment, paymentToTranslateKey } from '@shared/enums';
 import { makeStyles } from '../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
 
@@ -86,7 +86,7 @@ export function PriceControls() {
             >
               {Object.values(Payment).map((value) => (
                 <MenuItem key={value} value={value}>
-                  {value}
+                  {t(paymentToTranslateKey[value])}
                 </MenuItem>
               ))}
             </Select>

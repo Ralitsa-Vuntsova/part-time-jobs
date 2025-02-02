@@ -1,5 +1,5 @@
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
-import { OmitType } from '@nestjs/swagger';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
 import { AdDto } from './ad.dto';
 
@@ -13,17 +13,11 @@ export class ServiceOfferDto extends ServiceOffer {}
 
 export class CreateServiceOfferDto extends OmitType(ServiceOffer, [
   '_id',
-  'isArchieved',
+  'archiveReason',
   'createdAt',
   'updatedAt',
   'createdBy',
   'updatedBy',
 ]) {}
 
-export class EditServiceOfferDto extends OmitType(ServiceOfferDto, [
-  '_id',
-  'createdAt',
-  'updatedAt',
-  'createdBy',
-  'updatedBy',
-]) {}
+export class EditServiceOfferDto extends PartialType(ServiceOfferDto) {}

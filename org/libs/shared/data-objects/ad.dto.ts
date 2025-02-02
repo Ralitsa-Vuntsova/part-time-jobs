@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsEnum,
   IsMongoId,
   IsNotEmpty,
   IsOptional,
@@ -10,6 +11,7 @@ import { BaseDto } from './base.dto';
 import { Prop } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
 import { ContactDto } from './contact.dto';
+import { ArchiveReason } from '@shared/enums';
 
 export class AdDto extends BaseDto {
   @IsNotEmpty()
@@ -36,8 +38,8 @@ export class AdDto extends BaseDto {
   @Type(() => ContactDto)
   contacts!: ContactDto[];
 
-  @Prop()
-  @IsBoolean()
-  @IsNotEmpty()
-  isArchieved!: boolean;
+  @Prop({ type: String, enum: ArchiveReason })
+  @IsEnum(ArchiveReason)
+  @IsOptional()
+  archiveReason?: ArchiveReason;
 }

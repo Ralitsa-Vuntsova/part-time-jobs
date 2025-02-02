@@ -129,6 +129,7 @@ export function filterAds(ads: JobOfferDto[], filters: Filters): JobOfferDto[] {
   return tempAds;
 }
 
+// TODO: Consider adding search term and page number
 export function updateFilters(searchParams: URLSearchParams) {
   const searchPersonNumber = searchParams.get('personNumber');
   const searchCurrency = searchParams.get('priceCurrency');
@@ -145,6 +146,7 @@ export function updateFilters(searchParams: URLSearchParams) {
   };
 }
 
+// TODO: Consider adding search term and page number
 export function updateUrl(filters: Filters) {
   const params = new URLSearchParams();
 
