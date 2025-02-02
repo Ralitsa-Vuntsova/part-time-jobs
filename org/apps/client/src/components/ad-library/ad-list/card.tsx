@@ -41,9 +41,10 @@ interface Props {
   ad: JobOfferDto | ServiceOfferDto;
   isGrid: boolean;
   type: AdType;
+  isAccomplishment?: boolean;
 }
 
-export function AdCard({ ad, isGrid, type }: Props) {
+export function AdCard({ ad, isGrid, type, isAccomplishment = false }: Props) {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
@@ -75,7 +76,7 @@ export function AdCard({ ad, isGrid, type }: Props) {
         >
           {t('learn-more')}
         </Button>
-        {!!ad.archiveReason && (
+        {!!ad.archiveReason && !isAccomplishment && (
           <Typography sx={styles.grayColor}>{t('archived')}</Typography>
         )}
       </CardActions>

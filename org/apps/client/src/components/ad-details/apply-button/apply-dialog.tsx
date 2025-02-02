@@ -61,6 +61,8 @@ interface Props {
 export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
   const { t } = useTranslation();
 
+  console.log('ad', ad);
+
   const form = useForm<ApplicationSchema>({
     defaultValues: {
       reason: '',

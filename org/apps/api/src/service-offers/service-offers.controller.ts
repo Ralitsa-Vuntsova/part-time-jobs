@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -22,11 +23,22 @@ export class ServiceOffersController {
   constructor(private adsService: ServiceOffersService) {}
 
   @Get(':id')
-  getById(@Param('id') id: string): Promise<ServiceOfferDto> {
-    return this.adsService.findById(id);
+  @UseGuards(JwtAuthGuard)
+  async getById(
+    @Param('id') id: string,
+    @User() user: AuthUser
+  ): Promise<ServiceOfferDto> {
+    const ad = await this.adsService.findById(id);
+
+    if (ad.createdBy === user.userId || !ad.archiveReason) {
+      return ad;
+    }
+
+    throw new NotFoundException(`Advertisement with ID ${id} not found!`);
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   list() {
     return this.adsService.list();
   }
@@ -44,7 +56,7 @@ export class ServiceOffersController {
     @Body() ad: EditServiceOfferDto,
     @User() user: AuthUser
   ) {
-    const adToBeEdited = await this.getById(id);
+    const adToBeEdited = await this.adsService.findById(id);
     const editedAd = { ...adToBeEdited, ...ad };
 
     await this.adsService.edit(id, editedAd, user);
@@ -55,7 +67,7 @@ export class ServiceOffersController {
   @Patch('unarchive/:id')
   @UseGuards(JwtAuthGuard)
   async unarchive(@Param('id') id: string, @User() user: AuthUser) {
-    const adToBeEdited = await this.getById(id);
+    const adToBeEdited = await this.adsService.findById(id);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { archiveReason, ...rest } = adToBeEdited;
 

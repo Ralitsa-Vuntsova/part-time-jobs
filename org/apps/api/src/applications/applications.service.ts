@@ -6,6 +6,7 @@ import {
   Application,
   ApplicationDocument,
   ApplicationDto,
+  ApplicationResponse,
   CreateApplicationDto,
 } from '@shared/data-objects';
 
@@ -18,6 +19,10 @@ export class ApplicationsService {
 
   list() {
     return this.appModel.find();
+  }
+
+  listByIds(applicationIds: string[], userId: string) {
+    return this.appModel.find({ _id: applicationIds, createdBy: userId });
   }
 
   create(app: CreateApplicationDto, userId: string) {

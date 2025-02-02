@@ -57,6 +57,7 @@ interface Props {
   showCreateButton?: boolean;
   showToggleButton?: boolean;
   label?: string;
+  isAccomplishment?: boolean;
 }
 
 export function AdLibrary({
@@ -65,6 +66,7 @@ export function AdLibrary({
   showCreateButton = true,
   showToggleButton = true,
   label,
+  isAccomplishment = false,
 }: Props) {
   const { isGrid, isAsc, type, setPreferences } = useUserPreferences();
 
@@ -160,6 +162,7 @@ export function AdLibrary({
             isGrid={isGrid}
             type={type}
             label={label}
+            isAccomplishment={isAccomplishment}
           />
         </>
       )}

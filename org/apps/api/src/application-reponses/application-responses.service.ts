@@ -8,6 +8,7 @@ import {
   ApplicationResponseDto,
   CreateApplicationResponseDto,
 } from '@shared/data-objects';
+import { ApplicationResponse as Response } from '@shared/enums';
 
 @Injectable()
 export class ApplicationResponsesService {
@@ -18,6 +19,10 @@ export class ApplicationResponsesService {
 
   list() {
     return this.appResponseModel.find();
+  }
+
+  async listAccepted() {
+    return await this.appResponseModel.find({ response: Response.Accepted });
   }
 
   create(app: CreateApplicationResponseDto, userId: string) {

@@ -59,9 +59,17 @@ export interface Props {
   isGrid: boolean;
   type: AdType;
   label?: string;
+  isAccomplishment?: boolean;
 }
 
-export function AdList({ jobs, services, isGrid, type, label }: Props) {
+export function AdList({
+  jobs,
+  services,
+  isGrid,
+  type,
+  label,
+  isAccomplishment = false,
+}: Props) {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState<Filters>({});
 
@@ -191,7 +199,13 @@ export function AdList({ jobs, services, isGrid, type, label }: Props) {
       <Box sx={centeredFlexColumnStyles}>
         <Box sx={isGrid ? styles.grid : styles.list}>
           {displayedData.map((ad) => (
-            <AdCard key={ad._id} ad={ad} isGrid={isGrid} type={type} />
+            <AdCard
+              key={ad._id}
+              ad={ad}
+              isGrid={isGrid}
+              type={type}
+              isAccomplishment={isAccomplishment}
+            />
           ))}
         </Box>
 

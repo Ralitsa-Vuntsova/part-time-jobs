@@ -14,15 +14,14 @@ import { jobOfferService } from '../../services/job-offer-service';
 import { serviceOfferService } from '../../services/service-offer-service';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { ErrorContainer } from '../error-container';
-import { ApplyDialog } from './apply-dialog';
-import { FormattedDate } from '../formatted-date';
-import { DateFormats } from '../../libs/dates';
+import { ApplyButton } from './apply-button';
 import { useTranslation } from 'react-i18next';
 import { ArchiveReason } from '@shared/enums';
 import { ArchiveDialog } from './archive-dialog';
 import { UnarchiveDialog } from './unarchive-dialog';
-import { AdDetailsContent } from './details/content';
-import { AdDetailsFooter } from './details/footer';
+import { AdDetailsContent } from './content';
+import { AdDetailsFooter } from './footer';
+import { HeaderButtons } from './header-buttons';
 
 const styles = makeStyles({
   header: {
@@ -47,10 +46,6 @@ const styles = makeStyles({
   },
   button: {
     maxWidth: 'fit-content',
-    alignSelf: 'center',
-  },
-  typography: {
-    color: (theme) => theme.palette.primary.main,
     alignSelf: 'center',
   },
 });
@@ -85,7 +80,8 @@ export function AdDetails({
   const application = applications.find(
     (app) => app.createdBy === userData._id && app.adId === ad._id
   );
-  const alreadyAppliedByCurrentUser = !!application;
+  const isMyAccomplishmentsView =
+    ad.archiveReason === ArchiveReason.Done && ad.createdBy !== userData._id;
 
   const {
     trigger: archive,
@@ -125,66 +121,29 @@ export function AdDetails({
 
       <Box sx={styles.flexColumn}>
         {currentUser?._id === ad.createdBy && (
-          <>
-            <Button
-              variant="contained"
-              sx={styles.button}
-              onClick={() => setOpenEditDialog(true)}
-              disabled={!!ad.archiveReason || alreadyApplied}
-            >
-              {t('edit')}
-            </Button>
-
-            {!!ad.archiveReason && ad.archiveReason === ArchiveReason.Done && (
-              <Typography sx={styles.typography}>{t('completed')}</Typography>
-            )}
-
-            {!!ad.archiveReason &&
-              ad.archiveReason === ArchiveReason.Unpublishing && (
-                <Button
-                  variant="outlined"
-                  sx={styles.button}
-                  onClick={() => setOpenUnarchiveDialog(true)}
-                >
-                  {t('unarchive')}
-                </Button>
-              )}
-
-            {!ad.archiveReason && (
-              <Button
-                variant="outlined"
-                sx={styles.button}
-                onClick={() => setOpenArchiveDialog(true)}
-              >
-                {t('archive')}
-              </Button>
-            )}
-          </>
+          <HeaderButtons
+            archiveReason={ad.archiveReason}
+            alreadyApplied={alreadyApplied}
+            onEdit={() => setOpenEditDialog(true)}
+            onArchive={() => setOpenArchiveDialog(true)}
+            onUnarchive={() => setOpenUnarchiveDialog(true)}
+          />
         )}
 
         <AdDetailsContent ad={ad} type={type} />
 
-        {currentUser?._id !== ad.createdBy && type === AdType.Job && (
-          <>
-            <Button
-              variant="contained"
-              sx={styles.button}
-              onClick={() => setOpenApplyDialog(true)}
-              disabled={alreadyAppliedByCurrentUser}
-            >
-              {t('apply')}
-            </Button>
-
-            {alreadyAppliedByCurrentUser && (
-              <Box sx={styles.flexRow}>
-                <Typography>{t('already-applied')}</Typography>
-                <FormattedDate variant="body1" format={DateFormats.Preview}>
-                  {application.createdAt}
-                </FormattedDate>
-              </Box>
-            )}
-          </>
-        )}
+        {currentUser?._id !== ad.createdBy &&
+          type === AdType.Job &&
+          !isMyAccomplishmentsView && (
+            <ApplyButton
+              openApplyDialog={openApplyDialog}
+              application={application}
+              onApply={() => setOpenApplyDialog(true)}
+              onClose={() => setOpenApplyDialog(false)}
+              onChange={onChange}
+              ad={ad as JobOfferDto}
+            />
+          )}
 
         <AdDetailsFooter ad={ad} />
       </Box>
@@ -218,15 +177,6 @@ export function AdDetails({
         onClose={() => setOpenEditDialog(false)}
         onChange={onChange}
       />
-
-      {type === AdType.Job && (
-        <ApplyDialog
-          open={openApplyDialog}
-          onClose={() => setOpenApplyDialog(false)}
-          ad={ad as JobOfferDto}
-          onChange={onChange}
-        />
-      )}
     </>
   );
 }

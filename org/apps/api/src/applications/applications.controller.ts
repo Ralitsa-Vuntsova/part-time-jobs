@@ -9,6 +9,7 @@ export class ApplicationsController {
   constructor(private appService: ApplicationsService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   list() {
     return this.appService.list();
   }

@@ -38,8 +38,8 @@ export class UsersController {
     return { status: 'OK' };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async editUser(@Param('id') id: string, @Body() user: EditUserDto) {
     const userToBeEdited = await this.usersService.getFullUserObject(id);
     const editedUser = { ...userToBeEdited, ...user };
@@ -50,6 +50,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: string) {
     await this.usersService.delete(id);
 
