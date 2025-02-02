@@ -15,7 +15,6 @@ import { serviceOfferService } from '../../services/service-offer-service';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { ErrorContainer } from '../error-container';
 import { ApplyButton } from './apply-button';
-import { useTranslation } from 'react-i18next';
 import { ArchiveReason } from '@shared/enums';
 import { ArchiveDialog } from './archive-dialog';
 import { UnarchiveDialog } from './unarchive-dialog';
