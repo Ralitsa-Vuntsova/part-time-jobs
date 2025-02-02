@@ -2,7 +2,6 @@ import { Box, Button, Typography } from '@mui/material';
 import { ApplyDialog } from './apply-dialog';
 import { FormattedDate } from '../../formatted-date';
 import { ApplicationDto, JobOfferDto } from '@shared/data-objects';
-import { AdType } from '../../../libs/ad-helper-functions';
 import { DateFormats } from '../../../libs/dates';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '../../../libs/make-styles';

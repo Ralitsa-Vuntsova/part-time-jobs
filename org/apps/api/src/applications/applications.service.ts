@@ -6,7 +6,6 @@ import {
   Application,
   ApplicationDocument,
   ApplicationDto,
-  ApplicationResponse,
   CreateApplicationDto,
 } from '@shared/data-objects';
 

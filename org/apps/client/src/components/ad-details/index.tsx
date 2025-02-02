@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import {
   ApplicationDto,
   JobOfferDto,
@@ -73,8 +73,6 @@ export function AdDetails({
   const [archiveReason, setArchiveReason] = useState<ArchiveReason>(
     ArchiveReason.Done
   );
-
-  const { t } = useTranslation();
 
   const alreadyApplied = !!applications.find((app) => app.adId === ad._id);
   const application = applications.find(
