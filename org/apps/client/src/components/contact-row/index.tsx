@@ -1,5 +1,4 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { ServiceOfferCreationSchema } from '../../validation-schemas/service-offer-creation-schema';
 import { Box, TextField } from '@mui/material';
 import { makeStyles } from '../../libs/make-styles';
 import { useTranslation } from 'react-i18next';

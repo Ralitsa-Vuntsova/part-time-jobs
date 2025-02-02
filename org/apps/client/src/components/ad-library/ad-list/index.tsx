@@ -20,7 +20,6 @@ import { filterAds, Filters } from '../../../libs/ad-helper-functions';
 import { useSearchParams } from 'react-router-dom';
 import { toCurrency } from '../../../libs/to-currency';
 import { useTranslation } from 'react-i18next';
-import { add } from 'lodash';
 
 const PAGE_SIZE = 12;
 

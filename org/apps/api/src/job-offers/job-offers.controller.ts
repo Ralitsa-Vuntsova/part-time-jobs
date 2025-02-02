@@ -56,6 +56,7 @@ export class JobOffersController {
   @UseGuards(JwtAuthGuard)
   async unarchive(@Param('id') id: string, @User() user: AuthUser) {
     const adToBeEdited = await this.getById(id);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { archiveReason, ...rest } = adToBeEdited;
 
     await this.adsService.edit(id, rest, user);
