@@ -6,7 +6,8 @@ The goal of the system is to significantly simplify the process of offering and 
 
 - Post service ads with minimal effort.
 - Apply for service ads through a simple and transparent process.
-  The system is designed to minimize the effort for both users seeking service providers and those offering their skills. The job poster can quickly and easily publish ads for the services they need, while job seekers have access to a structured list of ads and can apply for those that match their skills and preferences with minimal actions.
+
+The system is designed to minimize the effort for both users seeking service providers and those offering their skills. The job poster can quickly and easily publish ads for the services they need, while job seekers have access to a structured list of ads and can apply for those that match their skills and preferences with minimal actions.
 
 ### Prerequisites:
 
