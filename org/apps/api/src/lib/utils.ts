@@ -1,5 +1,5 @@
 import { isPlainObject } from 'lodash';
-import { Document, HydratedDocument } from 'mongoose';
+import { Document } from 'mongoose';
 
 interface Constructable<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
