@@ -16,15 +16,18 @@ export class ApplicationsService {
     private appModel: ExtendedModel<ApplicationDocument>
   ) {}
 
-  list() {
+  list(): Promise<ApplicationDto[]> {
     return this.appModel.find();
   }
 
-  listByIds(applicationIds: string[], userId: string) {
+  listByIds(
+    applicationIds: string[],
+    userId: string
+  ): Promise<ApplicationDto[]> {
     return this.appModel.find({ _id: applicationIds, createdBy: userId });
   }
 
-  create(app: CreateApplicationDto, userId: string) {
+  create(app: CreateApplicationDto, userId: string): Promise<ApplicationDto> {
     return dbToInstance(
       ApplicationDto,
       this.appModel.createExtended(app, userId)

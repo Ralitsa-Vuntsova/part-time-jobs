@@ -16,19 +16,19 @@ export class JobOffersService {
     @InjectModel(JobOffer.name) private adModel: ExtendedModel<JobOfferDocument>
   ) {}
 
-  findById(id: string) {
+  findById(id: string): Promise<JobOfferDto> {
     return dbToInstance(JobOfferDto, this.adModel.findById(id));
   }
 
-  list() {
+  list(): Promise<JobOfferDto[]> {
     return this.adModel.find();
   }
 
-  create(ad: CreateJobOfferDto, userId: string) {
+  create(ad: CreateJobOfferDto, userId: string): Promise<JobOfferDto> {
     return dbToInstance(JobOfferDto, this.adModel.createExtended(ad, userId));
   }
 
-  async edit(id: string, ad: JobOfferDto, user: AuthUser) {
+  edit(id: string, ad: JobOfferDto, user: AuthUser): Promise<JobOfferDto> {
     return dbToInstance(
       JobOfferDto,
       this.adModel.findOneAndReplace({ _id: id }, ad, {

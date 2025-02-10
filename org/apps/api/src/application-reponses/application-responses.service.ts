@@ -17,15 +17,18 @@ export class ApplicationResponsesService {
     private appResponseModel: ExtendedModel<ApplicationResponseDocument>
   ) {}
 
-  list() {
+  list(): Promise<ApplicationResponseDto[]> {
     return this.appResponseModel.find();
   }
 
-  async listAccepted() {
-    return await this.appResponseModel.find({ response: Response.Accepted });
+  listAccepted(): Promise<ApplicationResponseDto[]> {
+    return this.appResponseModel.find({ response: Response.Accepted });
   }
 
-  create(app: CreateApplicationResponseDto, userId: string) {
+  create(
+    app: CreateApplicationResponseDto,
+    userId: string
+  ): Promise<ApplicationResponseDto> {
     return dbToInstance(
       ApplicationResponseDto,
       this.appResponseModel.createExtended(app, userId)

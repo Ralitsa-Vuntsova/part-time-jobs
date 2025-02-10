@@ -88,7 +88,7 @@ export function AdList({
     justifyContent: 'space-between',
   };
 
-  // TODO [future]: Fix types
+  // TODO [future]: Fix ad types across the app
   const data = useMemo(() => {
     return type === AdType.Job ? filterAds(jobs, filters) : services;
   }, [filters, type]);

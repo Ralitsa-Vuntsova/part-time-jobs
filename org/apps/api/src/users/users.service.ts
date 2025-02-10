@@ -45,7 +45,7 @@ export class UsersService {
     );
   }
 
-  async create(user: CreateUserDto) {
+  async create(user: CreateUserDto): Promise<UserDto> {
     const salt = await genSalt();
     const hashedPassword = await hash(user.password, salt);
 
@@ -55,7 +55,7 @@ export class UsersService {
     );
   }
 
-  edit(user: UserDto) {
+  edit(user: UserDto): Promise<UserDto> {
     return dbToInstance(
       UserDto,
       this.userModel.findOneAndReplace({ _id: user._id }, user, {
