@@ -34,6 +34,7 @@ export class ServiceOffersController {
       return ad;
     }
 
+    // Handles user not having permission to ad
     throw new NotFoundException(`Advertisement with ID ${id} not found!`);
   }
 

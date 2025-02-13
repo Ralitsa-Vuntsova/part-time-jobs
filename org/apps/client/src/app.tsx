@@ -23,6 +23,7 @@ import { UserPreferencesProvider } from './hooks/use-user-preferences';
 import { useState } from 'react';
 import { MyAccomplishments } from './pages/my-accomplishments';
 import { Applications } from './pages/applications';
+import { PersonalRatings } from './pages/personal-ratings';
 
 export function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -57,6 +58,15 @@ export function App() {
             element={
               <PrivateRoute>
                 <EditProfile />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="personal-ratings"
+            element={
+              <PrivateRoute>
+                <PersonalRatings />
               </PrivateRoute>
             }
           />

@@ -47,6 +47,7 @@ export class JobOffersController {
       await this.applicationsService.listByIds(applications, user.userId)
     ).map(({ adId }) => adId);
 
+    // Handles user not having permission to ad
     if (!ads.includes(id)) {
       throw new NotFoundException(`Advertisement with ID ${id} not found!`);
     }

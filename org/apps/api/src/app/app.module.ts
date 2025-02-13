@@ -11,6 +11,7 @@ import { JobOffersModule } from '../job-offers/job-offers.module';
 import { ServiceOffersModule } from '../service-offers/service-offers.module';
 import { ApplicationsModule } from '../applications/applications.module';
 import { ApplicationResponsesModule } from '../application-reponses/application-responses.module';
+import { PersonalRatingsModule } from '../personal-ratings/personal-ratings.module';
 
 const { host, name, schema } = config.get('db');
 
@@ -28,6 +29,7 @@ const { host, name, schema } = config.get('db');
     JobOffersModule,
     ApplicationsModule,
     ApplicationResponsesModule,
+    PersonalRatingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

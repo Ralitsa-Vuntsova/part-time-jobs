@@ -107,5 +107,12 @@
   "decline-application": "Decline Application",
   "decline-application-question": "Are you sure you want to decline? This action cannot be undone.",
   "accept-application-question": "How many people are you hiring to perform the service?",
-  "applications-list": "Here is a list of the applications for your ads:"
+  "applications-list": "Here is a list of the applications for your ads:",
+  "personal-rating": "Personal Rating",
+  "add": "Add",
+  "comment": "Comment",
+  "personal-ratings": "Personal Ratings",
+  "personal-ratings-list": "Here is a list of the personal ratings you have submitted:",
+  "no-ratings": "Currently there are no ratings",
+  "user": "User:"
 }

@@ -1,13 +1,12 @@
 import { Box, Pagination } from '@mui/material';
 import {
-  ApplicationDto,
-  ApplicationResponseDto,
   JobOfferDto,
+  PersonalRatingDto,
   UserProfile,
 } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useState } from 'react';
-import { ApplicationCard } from './card';
+import { RatingCard } from './card';
 import {
   getDisplayedData,
   getPageElementsCount,
@@ -33,37 +32,26 @@ const styles = makeStyles({
 });
 
 interface Props {
-  applications: ApplicationDto[];
+  ratings: PersonalRatingDto[];
   users: UserProfile[];
   ads: JobOfferDto[];
-  applicationResponses: ApplicationResponseDto[];
-  onChange: () => void;
 }
 
-export function ApplicationList({
-  applications,
-  users,
-  ads,
-  applicationResponses,
-  onChange,
-}: Props) {
+export function RatingList({ ratings, users, ads }: Props) {
   const [page, setPage] = useState(0);
 
-  const displayedData = getDisplayedData(applications, page, PAGE_SIZE);
+  // TODO: Extract pagination functions in a common place
+  const displayedData = getDisplayedData(ratings, page, PAGE_SIZE);
 
   return (
     <Box sx={styles.flexColumn}>
       <Box sx={styles.list}>
-        {displayedData.map((application) => (
-          <ApplicationCard
-            key={application._id}
-            application={application}
-            user={users.find(({ _id }) => _id === application.createdBy)}
-            ad={ads.find(({ _id }) => _id === application.adId)}
-            applicationResponse={applicationResponses.find(
-              ({ applicationId }) => applicationId === application._id
-            )}
-            onChange={onChange}
+        {displayedData.map((rating) => (
+          <RatingCard
+            key={rating._id}
+            rating={rating}
+            users={users}
+            ad={ads.find(({ _id }) => _id === rating.adId)}
           />
         ))}
       </Box>
@@ -72,7 +60,7 @@ export function ApplicationList({
       <Pagination
         page={page + 1}
         onChange={(_, newPage) => setPage(newPage - 1)}
-        count={getPageElementsCount(applications, PAGE_SIZE)}
+        count={getPageElementsCount(ratings, PAGE_SIZE)}
         sx={styles.pagination}
       />
     </Box>

@@ -20,6 +20,10 @@ import { filterAds, Filters } from '../../../libs/ad-helper-functions';
 import { useSearchParams } from 'react-router-dom';
 import { toCurrency } from '../../../libs/to-currency';
 import { useTranslation } from 'react-i18next';
+import {
+  getDisplayedData,
+  getPageElementsCount,
+} from '../../../libs/pagination-helper-functions';
 
 const PAGE_SIZE = 12;
 
@@ -90,10 +94,11 @@ export function AdList({
 
   // TODO [future]: Fix ad types across the app
   const data = useMemo(() => {
+    // Filters will be applied only to jobs
     return type === AdType.Job ? filterAds(jobs, filters) : services;
   }, [filters, type]);
 
-  const displayedData = data.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const displayedData = getDisplayedData(data, page, PAGE_SIZE);
 
   // Update filters when URL changes
   useEffect(() => {
@@ -209,11 +214,11 @@ export function AdList({
           ))}
         </Box>
 
-        {/* TODO [future]: Consider supporting server-side pagination */}
+        {/* TODO [future]: Support server-side pagination */}
         <Pagination
           page={page + 1}
           onChange={(_, newPage) => setPage(newPage - 1)}
-          count={Math.ceil(data.length / PAGE_SIZE)}
+          count={getPageElementsCount(data, PAGE_SIZE)}
         />
       </Box>
     </Box>

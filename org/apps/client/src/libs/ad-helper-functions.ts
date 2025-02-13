@@ -16,7 +16,6 @@ export enum AdType {
   Service = 'Service',
 }
 
-// TODO [future]: Refactor
 export function sortJobs(ads: JobOfferDto[], isAsc: boolean) {
   return ads.sort((a, b) => {
     const firstDate = new Date(a.createdAt).getTime();
@@ -35,28 +34,10 @@ export function sortServices(ads: ServiceOfferDto[], isAsc: boolean) {
   });
 }
 
-// TODO [future]: Refactor
 export function filterJobsByTerm(jobs: JobOfferDto[], searchTerm: string) {
   const query = searchTerm.toLowerCase();
 
-  return jobs
-    .filter((job) => job.name.toLowerCase().includes(query))
-    .sort(({ name: n1 }, { name: n2 }) => {
-      const isExactMatch = (name: string) =>
-        name.toLowerCase().startsWith(query);
-
-      const isFirstExactMatch = isExactMatch(n1);
-      const isSecondExactMatch = isExactMatch(n2);
-
-      if (
-        (isFirstExactMatch && !isSecondExactMatch) ||
-        (!isFirstExactMatch && isSecondExactMatch)
-      ) {
-        return isFirstExactMatch ? -1 : 1;
-      }
-
-      return n1.localeCompare(n2);
-    });
+  return jobs.filter((job) => job.name.toLowerCase().includes(query));
 }
 
 export function filterServicesByTerm(
@@ -65,24 +46,9 @@ export function filterServicesByTerm(
 ) {
   const query = searchTerm.toLowerCase();
 
-  return services
-    .filter((service) => service.name.toLowerCase().includes(query))
-    .sort(({ name: n1 }, { name: n2 }) => {
-      const isExactMatch = (name: string) =>
-        name.toLowerCase().startsWith(query);
-
-      const isFirstExactMatch = isExactMatch(n1);
-      const isSecondExactMatch = isExactMatch(n2);
-
-      if (
-        (isFirstExactMatch && !isSecondExactMatch) ||
-        (!isFirstExactMatch && isSecondExactMatch)
-      ) {
-        return isFirstExactMatch ? -1 : 1;
-      }
-
-      return n1.localeCompare(n2);
-    });
+  return services.filter((service) =>
+    service.name.toLowerCase().includes(query)
+  );
 }
 
 // TODO [future]: Refactor using reduce
@@ -129,7 +95,7 @@ export function filterAds(ads: JobOfferDto[], filters: Filters): JobOfferDto[] {
   return tempAds;
 }
 
-// TODO [future]: Consider adding search term and page number
+// TODO [future]: Consider adding search term and page number, same for updateUrl
 export function updateFilters(searchParams: URLSearchParams) {
   const searchPersonNumber = searchParams.get('personNumber');
   const searchCurrency = searchParams.get('priceCurrency');
@@ -146,7 +112,6 @@ export function updateFilters(searchParams: URLSearchParams) {
   };
 }
 
-// TODO [future]: Consider adding search term and page number
 export function updateUrl(filters: Filters) {
   const params = new URLSearchParams();
 

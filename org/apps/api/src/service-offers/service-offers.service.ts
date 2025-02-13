@@ -17,22 +17,26 @@ export class ServiceOffersService {
     private adModel: ExtendedModel<ServiceOfferDocument>
   ) {}
 
-  findById(id: string) {
+  findById(id: string): Promise<ServiceOfferDto> {
     return dbToInstance(ServiceOfferDto, this.adModel.findById(id));
   }
 
-  list() {
+  list(): Promise<ServiceOfferDto[]> {
     return this.adModel.find();
   }
 
-  create(ad: CreateServiceOfferDto, userId: string) {
+  create(ad: CreateServiceOfferDto, userId: string): Promise<ServiceOfferDto> {
     return dbToInstance(
       ServiceOfferDto,
       this.adModel.createExtended(ad, userId)
     );
   }
 
-  async edit(id: string, ad: ServiceOfferDto, user: AuthUser) {
+  async edit(
+    id: string,
+    ad: ServiceOfferDto,
+    user: AuthUser
+  ): Promise<ServiceOfferDto> {
     return dbToInstance(
       ServiceOfferDto,
       this.adModel.findOneAndReplace({ _id: id }, ad, {

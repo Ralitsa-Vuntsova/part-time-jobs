@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 
 const styles = makeStyles({
   root: {
@@ -82,6 +83,11 @@ export function TopBar({ isDarkMode, toggleTheme }: Props) {
                     label: t('edit-profile'),
                     onClick: () => navigate('edit-profile'),
                     icon: <ManageAccountsIcon />,
+                  },
+                  {
+                    label: t('personal-ratings'),
+                    onClick: () => navigate('personal-ratings'),
+                    icon: <ThumbsUpDownIcon />,
                   },
                   {
                     label: isDarkMode ? t('light') : t('dark'),
