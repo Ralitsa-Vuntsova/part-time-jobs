@@ -15,7 +15,7 @@ import {
 import { CreateAdButton } from './create-ad-button';
 import { AdList } from './ad-list';
 import { makeStyles } from '../../libs/make-styles';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
 import { AdType } from '../../libs/ad-helper-functions';
 import SearchIcon from '@mui/icons-material/Search';

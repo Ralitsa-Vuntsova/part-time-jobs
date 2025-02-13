@@ -1,8 +1,6 @@
-import { useRef } from 'react';
 import { useCurrentUser } from '../../hooks/use-current-user';
 import {
   AsyncDataLoader,
-  AsyncDataLoaderAPI,
   LOADING_PROPS,
 } from '../../components/async-data-loader';
 import { useTranslation } from 'react-i18next';

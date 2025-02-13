@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
-import { filterApplicationsByTerm } from '../../libs/application-helper-functions';
 import { makeStyles } from '../../libs/make-styles';
 import { NoRatings } from './no-ratings';
 import { filterRatingsByTerm } from '../../libs/rating-helper-functions';
