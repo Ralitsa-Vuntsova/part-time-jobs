@@ -6,5 +6,6 @@ export * from './job-offer.dto';
 export * from './personal-rating.dto';
 export * from './person-number.dto';
 export * from './price.dto';
+export * from './public-rating.dto';
 export * from './service-offer.dto';
 export * from './user.dto';

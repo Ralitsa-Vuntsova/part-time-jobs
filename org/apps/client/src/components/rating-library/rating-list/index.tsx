@@ -35,7 +35,6 @@ interface Props {
 export function RatingList({ ratings, ads }: Props) {
   const [page, setPage] = useState(0);
 
-  // TODO: Extract pagination functions in a common place
   const displayedData = getDisplayedData(ratings, page, PAGE_SIZE);
 
   return (

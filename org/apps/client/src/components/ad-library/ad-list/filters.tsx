@@ -34,13 +34,13 @@ const styles = makeStyles({
 interface Props {
   filters: Filters;
   onFiltersChange: (filters: Filters) => void;
-  showArchived?: boolean;
+  showArchivedButton?: boolean;
 }
 
 export function AdListFilters({
   filters,
   onFiltersChange,
-  showArchived,
+  showArchivedButton = false,
 }: Props) {
   const { t } = useTranslation();
 
@@ -139,15 +139,15 @@ export function AdListFilters({
         </Box>
       </Box>
 
-      {showArchived && (
+      {showArchivedButton && (
         <FormControlLabel
           control={
             <Checkbox
-              checked={filters.showArchived}
+              checked={filters.showArchivedButton}
               onChange={(e) =>
                 onFiltersChange({
                   ...filters,
-                  showArchived: Boolean(e.target.checked),
+                  showArchivedButton: Boolean(e.target.checked),
                 })
               }
             />

@@ -58,7 +58,7 @@ interface Props {
   showToggleButton?: boolean;
   label?: string;
   isAccomplishment?: boolean;
-  showArchived?: boolean;
+  showArchivedButton?: boolean;
 }
 
 // TODO [future]: Extract common library component
@@ -69,7 +69,7 @@ export function AdLibrary({
   showToggleButton = true,
   label,
   isAccomplishment = false,
-  showArchived = false,
+  showArchivedButton = false,
 }: Props) {
   const { isGrid, isAsc, type, setPreferences } = useUserPreferences();
 
@@ -166,7 +166,7 @@ export function AdLibrary({
             type={type}
             label={label}
             isAccomplishment={isAccomplishment}
-            showArchived={showArchived}
+            showArchivedButton={showArchivedButton}
           />
         </>
       )}

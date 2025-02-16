@@ -34,17 +34,17 @@ export function MyAccomplishments() {
     >
       {([jobs, applications, applicationResponses]) => {
         // TODO [future]: Filter server-side
+        const acceptedResponses = applicationResponses.filter(
+          (r) => r.response === ApplicationResponse.Accepted
+        );
         const acceptedApplications = applications
-          .filter((app) => {
-            const appResponse = applicationResponses.find(
-              (response) => response.applicationId === app._id
-            );
-
-            return (
-              appResponse?.response === ApplicationResponse.Accepted &&
-              app.createdBy === currentUser._id
-            );
-          })
+          .filter((app) =>
+            acceptedResponses.some(
+              (response) =>
+                response.applicationId === app._id &&
+                app.createdBy === currentUser._id
+            )
+          )
           .map(({ adId }) => adId);
 
         return (

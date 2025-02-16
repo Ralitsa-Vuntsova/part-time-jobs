@@ -46,7 +46,7 @@ export interface Props {
   type: AdType;
   label?: string;
   isAccomplishment?: boolean;
-  showArchived?: boolean;
+  showArchivedButton?: boolean;
 }
 
 export function AdList({
@@ -56,7 +56,7 @@ export function AdList({
   type,
   label,
   isAccomplishment = false,
-  showArchived = false,
+  showArchivedButton = false,
 }: Props) {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState<Filters>({});
@@ -89,11 +89,11 @@ export function AdList({
 
   return (
     <Box sx={rootStyles}>
-      {type === AdType.Job && (
+      {type === AdType.Job && jobs.length > 0 && (
         <AdListFilters
           filters={filters}
           onFiltersChange={(filters) => setFilters(filters)}
-          showArchived={showArchived}
+          showArchivedButton={showArchivedButton}
         />
       )}
 

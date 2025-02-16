@@ -10,6 +10,7 @@ const styles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
     gap: 2,
   },
   mainColor: {
@@ -17,7 +18,7 @@ const styles = makeStyles({
   },
 });
 
-// TODO [future]: Extract in a common place in order to be reused
+// TODO [future]: Extract NoData component in a common place in order to be reused
 export function NoRatings() {
   const { t } = useTranslation();
 

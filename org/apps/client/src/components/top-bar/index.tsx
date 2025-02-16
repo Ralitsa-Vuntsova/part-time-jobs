@@ -80,7 +80,7 @@ export function TopBar({ isDarkMode, toggleTheme }: Props) {
                 label={user.username}
                 menuItems={[
                   {
-                    label: t('edit-profile'),
+                    label: t('profile'),
                     onClick: () => navigate('edit-profile'),
                     icon: <ManageAccountsIcon />,
                   },

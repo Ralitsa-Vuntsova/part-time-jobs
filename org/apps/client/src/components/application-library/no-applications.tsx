@@ -10,6 +10,7 @@ const styles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
     gap: 2,
   },
   mainColor: {

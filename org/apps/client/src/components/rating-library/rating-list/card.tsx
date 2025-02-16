@@ -4,8 +4,7 @@ import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../../../hooks/use-current-user';
-import { useServicePerformer } from '../../../hooks/use-service-performer';
-import { useUserCreator } from '../../../hooks/use-ad-creator';
+import { useUserById } from '../../../hooks/use-user-by-id';
 
 const styles = makeStyles({
   flexColumn: {
@@ -47,8 +46,6 @@ interface Props {
 }
 
 export function RatingCard({ rating, ad }: Props) {
-  const currentUser = useCurrentUser();
-
   const navigate = useNavigate();
 
   const { t } = useTranslation();
@@ -57,13 +54,7 @@ export function RatingCard({ rating, ad }: Props) {
     return null;
   }
 
-  const adCreator = useUserCreator(ad.createdBy);
-  const servicePerformer = useServicePerformer(ad._id);
-
-  // Gets the user which the rating was submitted for
-  // TODO [future]: Consider storing the user id in the db
-  const user =
-    currentUser?._id === adCreator?._id ? servicePerformer : adCreator;
+  const user = useUserById(rating.userId);
 
   return (
     <Card sx={styles.list}>

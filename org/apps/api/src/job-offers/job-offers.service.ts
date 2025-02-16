@@ -20,6 +20,10 @@ export class JobOffersService {
     return dbToInstance(JobOfferDto, this.adModel.findById(id));
   }
 
+  findByUser(userId: string): Promise<JobOfferDto[]> {
+    return this.adModel.find({ createdBy: userId });
+  }
+
   list(): Promise<JobOfferDto[]> {
     return this.adModel.find();
   }

@@ -3,7 +3,6 @@ import {
   ApplicationResponseDto,
   JobOfferDto,
   PersonalRatingDto,
-  ResultUserDto,
   UserProfile,
 } from '@shared/data-objects';
 
@@ -25,27 +24,13 @@ export function filterRatingsByTerm(
   ratings: PersonalRatingDto[],
   ads: JobOfferDto[],
   users: UserProfile[],
-  currentUser: ResultUserDto | undefined,
-  applications: ApplicationDto[] | undefined,
-  applicationResponses: ApplicationResponseDto[] | undefined,
   searchTerm: string
 ) {
   const query = searchTerm.toLowerCase();
 
   return ratings.filter((rating) => {
     const ad = ads.find(({ _id }) => _id === rating.adId);
-    const adCreator = users.find(({ _id }) => _id === ad?.createdBy);
-    const servicePerformer = getServicePerformer(
-      rating.adId,
-      users,
-      applications,
-      applicationResponses
-    );
-
-    // Gets the user which the rating was submitted for
-    // TODO [future]: Consider storing the user id in the db
-    const user =
-      currentUser?._id === adCreator?._id ? servicePerformer : adCreator;
+    const user = users.find(({ _id }) => _id === rating.userId);
 
     return (
       ad?.name.toLowerCase().includes(query) ||

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { ApplicationDto, JobOfferDto } from '@shared/data-objects';
-import { useUserCreator } from '../../../hooks/use-ad-creator';
+import { useUserById } from '../../../hooks/use-user-by-id';
 
 const styles = makeStyles({
   flexRow: {
@@ -46,7 +46,7 @@ export function ApplicationCardContent({ ad, application }: Props) {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const user = useUserCreator(application.createdBy);
+  const user = useUserById(application.createdBy);
 
   const revealButtonStyles = { ...styles.mainColor, ...styles.button };
 
@@ -56,7 +56,7 @@ export function ApplicationCardContent({ ad, application }: Props) {
         {`${user?.firstName} ${user?.lastName}`}
       </Typography>
 
-      {/* TODO [future]: Consider adding contacts */}
+      {/* TODO [future]: Consider adding contacts instead of user profile data */}
       <Box sx={styles.flexRow}>
         {showEmail ? (
           <Typography sx={styles.secondaryColor}>{user?.email}</Typography>

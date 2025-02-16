@@ -55,6 +55,12 @@ export class JobOffersController {
     return ad;
   }
 
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  getByUser(@Body() user: { userId: string }): Promise<JobOfferDto[]> {
+    return this.adsService.findByUser(user.userId);
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
   list() {

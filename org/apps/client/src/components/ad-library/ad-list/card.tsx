@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { PersonalRatingDialog } from '../../personal-rating-dialog';
 import { ArchiveReason } from '@shared/enums';
+import { PrivateRatingDialog } from '../../public-rating-dialog';
 
 const styles = makeStyles({
   flexColumn: {
@@ -23,7 +24,6 @@ const styles = makeStyles({
   flexRow: {
     display: 'flex',
     flexDirection: ['column', 'row'],
-    gap: 1,
   },
   mainColor: {
     color: (theme) => theme.palette.primary.main,
@@ -55,6 +55,7 @@ interface Props {
 export function AdCard({ ad, isGrid, type, isAccomplishment = false }: Props) {
   const [openPersonalRatingDialog, setOpenPersonalRatingDialog] =
     useState(false);
+  const [openPublicRatingDialog, setOpenPublicRatingDialog] = useState(false);
 
   const navigate = useNavigate();
 
@@ -88,26 +89,30 @@ export function AdCard({ ad, isGrid, type, isAccomplishment = false }: Props) {
           >
             {t('learn-more')}
           </Button>
-          {isAccomplishment && (
-            <Button
-              size="small"
-              sx={styles.mainColor}
-              onClick={() => setOpenPersonalRatingDialog(true)}
-            >
-              {t('personal-rating')}
-            </Button>
-          )}
-          {ad.archiveReason === ArchiveReason.Done && !isAccomplishment && (
-            <>
-              <Button
-                size="small"
-                sx={styles.mainColor}
-                onClick={() => setOpenPersonalRatingDialog(true)}
-              >
-                {t('personal-rating')}
-              </Button>
-              <Typography sx={styles.grayColor}>{t('archived')}</Typography>
-            </>
+
+          {(ad.archiveReason === ArchiveReason.Done && !isAccomplishment) ||
+            (isAccomplishment && (
+              <>
+                <Button
+                  size="small"
+                  sx={styles.mainColor}
+                  onClick={() => setOpenPublicRatingDialog(true)}
+                >
+                  {t('add-public-rating')}
+                </Button>
+
+                <Button
+                  size="small"
+                  sx={styles.mainColor}
+                  onClick={() => setOpenPersonalRatingDialog(true)}
+                >
+                  {t('add-personal-rating')}
+                </Button>
+              </>
+            ))}
+
+          {!isAccomplishment && !!ad.archiveReason && (
+            <Typography sx={styles.grayColor}>{t('archived')}</Typography>
           )}
         </CardActions>
       </Card>
@@ -115,7 +120,13 @@ export function AdCard({ ad, isGrid, type, isAccomplishment = false }: Props) {
       <PersonalRatingDialog
         open={openPersonalRatingDialog}
         onClose={() => setOpenPersonalRatingDialog(false)}
-        adId={ad._id}
+        ad={ad as JobOfferDto}
+      />
+
+      <PrivateRatingDialog
+        open={openPublicRatingDialog}
+        onClose={() => setOpenPublicRatingDialog(false)}
+        ad={ad as JobOfferDto}
       />
     </>
   );

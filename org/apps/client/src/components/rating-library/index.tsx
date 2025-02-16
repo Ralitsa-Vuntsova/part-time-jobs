@@ -1,6 +1,4 @@
 import {
-  ApplicationDto,
-  ApplicationResponseDto,
   JobOfferDto,
   PersonalRatingDto,
   UserProfile,
@@ -13,7 +11,6 @@ import { makeStyles } from '../../libs/make-styles';
 import { NoRatings } from './no-ratings';
 import { filterRatingsByTerm } from '../../libs/rating-helper-functions';
 import { RatingList } from './rating-list';
-import { useCurrentUser } from '../../hooks/use-current-user';
 
 const styles = makeStyles({
   flexColumn: {
@@ -28,23 +25,12 @@ const styles = makeStyles({
 
 interface Props {
   ratings: PersonalRatingDto[];
-  applications: ApplicationDto[];
-  applicationResponses: ApplicationResponseDto[];
   users: UserProfile[];
   ads: JobOfferDto[];
   label?: string;
 }
 
-export function RatingLibrary({
-  ratings,
-  applications,
-  applicationResponses,
-  users,
-  ads,
-  label,
-}: Props) {
-  const currentUser = useCurrentUser();
-
+export function RatingLibrary({ ratings, users, ads, label }: Props) {
   const [searchResults, setSearchResults] =
     useState<PersonalRatingDto[]>(ratings);
 
@@ -62,15 +48,7 @@ export function RatingLibrary({
             sx={styles.textField}
             onChange={(e) => {
               setSearchResults(
-                filterRatingsByTerm(
-                  ratings,
-                  ads,
-                  users,
-                  currentUser,
-                  applications,
-                  applicationResponses,
-                  e.target.value
-                )
+                filterRatingsByTerm(ratings, ads, users, e.target.value)
               );
             }}
             slotProps={{

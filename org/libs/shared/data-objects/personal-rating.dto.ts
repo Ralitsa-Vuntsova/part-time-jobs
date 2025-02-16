@@ -19,6 +19,11 @@ export class PersonalRating extends BaseDto {
   @IsString()
   @IsNotEmpty()
   adId!: string;
+
+  @Prop()
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
 }
 
 export const PersonalRatingSchema =

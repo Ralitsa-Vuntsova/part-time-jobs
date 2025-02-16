@@ -31,7 +31,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorContainer } from '../../error-container';
 import { ApplicationCardContent } from './card-content';
 import { shouldDisableApplicationResponse } from '../../../libs/application-helper-functions';
-import { useUserCreator } from '../../../hooks/use-ad-creator';
 
 const styles = makeStyles({
   flexColumn: {
@@ -42,6 +41,9 @@ const styles = makeStyles({
   },
   mainColor: {
     color: (theme) => theme.palette.primary.main,
+  },
+  grayColor: {
+    color: (theme) => theme.palette.info.main,
   },
   list: {
     display: 'inline-block',
@@ -144,6 +146,12 @@ export function ApplicationCard({
               >
                 {t('decline')}
               </Button>
+
+              {disableReponding && (
+                <Typography sx={styles.grayColor}>
+                  {t('already-responded')}
+                </Typography>
+              )}
             </>
           )}
         </CardActions>
