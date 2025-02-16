@@ -3,7 +3,6 @@ import { JobOffer, PersonalRatingDto } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useCurrentUser } from '../../../hooks/use-current-user';
 import { useUserById } from '../../../hooks/use-user-by-id';
 
 const styles = makeStyles({
