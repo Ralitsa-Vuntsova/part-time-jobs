@@ -1,10 +1,11 @@
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
-import { JobOffer, PersonalRatingDto, UserProfile } from '@shared/data-objects';
+import { JobOffer, PersonalRatingDto } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../../../hooks/use-current-user';
 import { useServicePerformer } from '../../../hooks/use-service-performer';
+import { useUserCreator } from '../../../hooks/use-ad-creator';
 
 const styles = makeStyles({
   flexColumn: {
@@ -42,11 +43,10 @@ const styles = makeStyles({
 
 interface Props {
   rating: PersonalRatingDto;
-  users: UserProfile[];
   ad: JobOffer | undefined;
 }
 
-export function RatingCard({ rating, users, ad }: Props) {
+export function RatingCard({ rating, ad }: Props) {
   const currentUser = useCurrentUser();
 
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ export function RatingCard({ rating, users, ad }: Props) {
     return null;
   }
 
-  const adCreator = users.find(({ _id }) => _id === ad.createdBy);
+  const adCreator = useUserCreator(ad.createdBy);
   const servicePerformer = useServicePerformer(ad._id);
 
   // Gets the user which the rating was submitted for

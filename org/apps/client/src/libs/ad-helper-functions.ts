@@ -9,6 +9,7 @@ export interface Filters {
   priceFrom?: number;
   priceTo?: number;
   priceCurrency?: Currency;
+  showArchived?: boolean;
 }
 
 export enum AdType {
@@ -90,6 +91,10 @@ export function filterAds(ads: JobOfferDto[], filters: Filters): JobOfferDto[] {
         price.value >= Number(filters.priceFrom) &&
         price.value <= Number(filters.priceTo)
     );
+  }
+
+  if (filters.showArchived) {
+    tempAds = tempAds.filter(({ archiveReason }) => !!archiveReason);
   }
 
   return tempAds;

@@ -22,7 +22,7 @@ export const darkPalette = createPalette({
   text: {
     primary: '#202020', // almost black
     secondary: '#2d2d2d', // almost black
-    disabled: '#20202861', // light gray
+    disabled: '#20202830', // light gray
   },
   ...basePalette,
 });

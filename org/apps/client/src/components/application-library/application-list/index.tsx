@@ -3,7 +3,6 @@ import {
   ApplicationDto,
   ApplicationResponseDto,
   JobOfferDto,
-  UserProfile,
 } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useState } from 'react';
@@ -34,7 +33,6 @@ const styles = makeStyles({
 
 interface Props {
   applications: ApplicationDto[];
-  users: UserProfile[];
   ads: JobOfferDto[];
   applicationResponses: ApplicationResponseDto[];
   onChange: () => void;
@@ -42,7 +40,6 @@ interface Props {
 
 export function ApplicationList({
   applications,
-  users,
   ads,
   applicationResponses,
   onChange,
@@ -58,11 +55,9 @@ export function ApplicationList({
           <ApplicationCard
             key={application._id}
             application={application}
-            user={users.find(({ _id }) => _id === application.createdBy)}
             ad={ads.find(({ _id }) => _id === application.adId)}
-            applicationResponse={applicationResponses.find(
-              ({ applicationId }) => applicationId === application._id
-            )}
+            applications={applications}
+            applicationResponses={applicationResponses}
             onChange={onChange}
           />
         ))}

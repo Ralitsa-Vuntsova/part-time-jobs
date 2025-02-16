@@ -30,6 +30,7 @@ export function MyAds() {
             jobs={jobs.filter((ad) => ad.createdBy === currentUser._id)}
             services={services.filter((ad) => ad.createdBy === currentUser._id)}
             showCreateButton={false}
+            showArchived={true}
             label="ads-list"
           />
         );

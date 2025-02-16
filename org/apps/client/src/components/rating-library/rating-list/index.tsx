@@ -1,9 +1,5 @@
 import { Box, Pagination } from '@mui/material';
-import {
-  JobOfferDto,
-  PersonalRatingDto,
-  UserProfile,
-} from '@shared/data-objects';
+import { JobOfferDto, PersonalRatingDto } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useState } from 'react';
 import { RatingCard } from './card';
@@ -33,11 +29,10 @@ const styles = makeStyles({
 
 interface Props {
   ratings: PersonalRatingDto[];
-  users: UserProfile[];
   ads: JobOfferDto[];
 }
 
-export function RatingList({ ratings, users, ads }: Props) {
+export function RatingList({ ratings, ads }: Props) {
   const [page, setPage] = useState(0);
 
   // TODO: Extract pagination functions in a common place
@@ -50,7 +45,6 @@ export function RatingList({ ratings, users, ads }: Props) {
           <RatingCard
             key={rating._id}
             rating={rating}
-            users={users}
             ad={ads.find(({ _id }) => _id === rating.adId)}
           />
         ))}

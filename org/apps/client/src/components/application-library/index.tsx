@@ -81,7 +81,6 @@ export function ApplicationLibrary({
 
           <ApplicationList
             applications={searchResults}
-            users={users}
             ads={ads}
             applicationResponses={applicationResponses}
             onChange={onChange}

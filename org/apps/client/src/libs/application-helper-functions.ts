@@ -1,4 +1,11 @@
-import { ApplicationDto, JobOfferDto, UserProfile } from '@shared/data-objects';
+import {
+  ApplicationDto,
+  ApplicationResponseDto,
+  JobOfferDto,
+  UserProfile,
+} from '@shared/data-objects';
+import { ApplicationResponse } from '@shared/enums';
+import { sumBy } from 'lodash';
 
 export function filterApplicationsByTerm(
   applications: ApplicationDto[],
@@ -18,4 +25,25 @@ export function filterApplicationsByTerm(
       user?.lastName.toLowerCase().includes(query)
     );
   });
+}
+
+export function shouldDisableApplicationResponse(
+  ad: JobOfferDto | undefined,
+  application: ApplicationDto,
+  applications: ApplicationDto[],
+  applicationResponses: ApplicationResponseDto[]
+) {
+  const adApplicationIds = applications
+    .filter((app) => app._id !== application._id && ad?._id === app.adId)
+    .map(({ _id }) => _id);
+  const existingResponses = applicationResponses.filter(
+    (r) =>
+      adApplicationIds.includes(r.applicationId) &&
+      r.response === ApplicationResponse.Accepted
+  );
+  const acceptedNumber = sumBy(existingResponses, (r) => r.personNumber ?? 0);
+
+  return ad?.personNumber.notSure
+    ? false
+    : acceptedNumber + application.personNumber > (ad?.personNumber.value ?? 0);
 }

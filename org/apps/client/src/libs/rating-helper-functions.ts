@@ -1,34 +1,45 @@
 import {
+  ApplicationDto,
+  ApplicationResponseDto,
   JobOfferDto,
   PersonalRatingDto,
+  ResultUserDto,
   UserProfile,
 } from '@shared/data-objects';
-import { useCurrentUser } from '../hooks/use-current-user';
-import { useApplications } from '../hooks/use-applications';
-import { useApplicationResponses } from '../hooks/use-application-responses';
+
+export function getServicePerformer(
+  adId: string,
+  users: UserProfile[] | undefined,
+  applications: ApplicationDto[] | undefined,
+  applicationResponses: ApplicationResponseDto[] | undefined
+) {
+  const adApplication = applications?.find((a) => a.adId === adId);
+  const servicePerformerId = applicationResponses?.find(
+    (response) => response.applicationId === adApplication?._id
+  )?.createdBy;
+
+  return users?.find(({ _id }) => _id === servicePerformerId);
+}
 
 export function filterRatingsByTerm(
   ratings: PersonalRatingDto[],
   ads: JobOfferDto[],
   users: UserProfile[],
+  currentUser: ResultUserDto | undefined,
+  applications: ApplicationDto[] | undefined,
+  applicationResponses: ApplicationResponseDto[] | undefined,
   searchTerm: string
 ) {
   const query = searchTerm.toLowerCase();
 
-  const currentUser = useCurrentUser();
-  const { data: applications } = useApplications();
-  const { data: applicationResponses } = useApplicationResponses();
-
   return ratings.filter((rating) => {
     const ad = ads.find(({ _id }) => _id === rating.adId);
-    const adApplication = applications?.find((a) => a.adId === rating.adId);
-    const servicePerformerId = applicationResponses?.find(
-      (response) => response.applicationId === adApplication?._id
-    )?.createdBy;
-
     const adCreator = users.find(({ _id }) => _id === ad?.createdBy);
-    const servicePerformer = users.find(
-      ({ _id }) => _id === servicePerformerId
+    const servicePerformer = getServicePerformer(
+      rating.adId,
+      users,
+      applications,
+      applicationResponses
     );
 
     // Gets the user which the rating was submitted for

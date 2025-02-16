@@ -58,8 +58,10 @@ interface Props {
   showToggleButton?: boolean;
   label?: string;
   isAccomplishment?: boolean;
+  showArchived?: boolean;
 }
 
+// TODO [future]: Extract common library component
 export function AdLibrary({
   jobs,
   services = [],
@@ -67,6 +69,7 @@ export function AdLibrary({
   showToggleButton = true,
   label,
   isAccomplishment = false,
+  showArchived = false,
 }: Props) {
   const { isGrid, isAsc, type, setPreferences } = useUserPreferences();
 
@@ -80,8 +83,8 @@ export function AdLibrary({
   );
 
   useEffect(() => {
-    setSearchJobs(sortJobs(searchJobs, isAsc));
-    setSearchServices(sortServices(searchServices, isAsc));
+    setSearchJobs(sortJobs(jobs, isAsc));
+    setSearchServices(sortServices(services, isAsc));
   }, [isAsc]);
 
   const selectedType = type === AdType.Job ? AdType.Service : AdType.Job;
@@ -163,6 +166,7 @@ export function AdLibrary({
             type={type}
             label={label}
             isAccomplishment={isAccomplishment}
+            showArchived={showArchived}
           />
         </>
       )}

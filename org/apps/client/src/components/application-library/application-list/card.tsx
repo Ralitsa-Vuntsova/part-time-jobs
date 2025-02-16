@@ -9,7 +9,6 @@ import {
   ApplicationDto,
   ApplicationResponseDto,
   JobOffer,
-  UserProfile,
 } from '@shared/data-objects';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
@@ -31,6 +30,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorContainer } from '../../error-container';
 import { ApplicationCardContent } from './card-content';
+import { shouldDisableApplicationResponse } from '../../../libs/application-helper-functions';
+import { useUserCreator } from '../../../hooks/use-ad-creator';
 
 const styles = makeStyles({
   flexColumn: {
@@ -50,29 +51,27 @@ const styles = makeStyles({
 
 interface Props {
   application: ApplicationDto;
-  user: UserProfile | undefined;
   ad: JobOffer | undefined;
-  applicationResponse: ApplicationResponseDto | undefined;
+  applications: ApplicationDto[];
+  applicationResponses: ApplicationResponseDto[];
   onChange: () => void;
 }
 
 export function ApplicationCard({
   application,
-  user,
   ad,
-  applicationResponse,
+  applications,
+  applicationResponses,
   onChange,
 }: Props) {
+  if (!ad) {
+    return null;
+  }
+
   const [openAcceptDialog, setOpenAcceptDialog] = useState(false);
   const [openDeclineDialog, setOpenDeclineDialog] = useState(false);
 
-  const labelTypograpgyStyles = { ...styles.mainColor, pl: 1 };
-
   const { t } = useTranslation();
-
-  if (!user || !ad) {
-    return null;
-  }
 
   const form = useForm<ApplicationResponseSchema>({
     defaultValues: {
@@ -93,17 +92,26 @@ export function ApplicationCard({
     }
   );
 
+  const labelTypograpgyStyles = { ...styles.mainColor, pl: 1 };
+
+  const applicationResponse = applicationResponses.find(
+    ({ applicationId }) => applicationId === application._id
+  );
+
+  const disableReponding = shouldDisableApplicationResponse(
+    ad,
+    application,
+    applications,
+    applicationResponses
+  );
+
   const onSubmit = form.handleSubmit(trigger);
 
   return (
     <FormProvider {...form}>
       <Card sx={styles.list}>
         <CardContent sx={styles.flexColumn}>
-          <ApplicationCardContent
-            application={application}
-            ad={ad}
-            user={user}
-          />
+          <ApplicationCardContent application={application} ad={ad} />
         </CardContent>
         <CardActions>
           {applicationResponse?.response ? (
@@ -121,6 +129,7 @@ export function ApplicationCard({
                   form.setValue('response', ApplicationResponse.Accepted);
                   setOpenAcceptDialog(true);
                 }}
+                disabled={disableReponding}
               >
                 {t('accept')}
               </Button>
@@ -131,6 +140,7 @@ export function ApplicationCard({
                   form.setValue('response', ApplicationResponse.Declined);
                   setOpenDeclineDialog(true);
                 }}
+                disabled={disableReponding}
               >
                 {t('decline')}
               </Button>

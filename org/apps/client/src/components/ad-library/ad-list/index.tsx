@@ -1,29 +1,21 @@
 import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
 import { AdCard } from './card';
-import {
-  Autocomplete,
-  Box,
-  FormControl,
-  Pagination,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Pagination, Typography } from '@mui/material';
 import { makeStyles } from '../../../libs/make-styles';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AdType,
   updateFilters,
   updateUrl,
 } from '../../../libs/ad-helper-functions';
-import { Currency } from '@shared/enums';
 import { filterAds, Filters } from '../../../libs/ad-helper-functions';
 import { useSearchParams } from 'react-router-dom';
-import { toCurrency } from '../../../libs/to-currency';
 import { useTranslation } from 'react-i18next';
 import {
   getDisplayedData,
   getPageElementsCount,
 } from '../../../libs/pagination-helper-functions';
+import { AdListFilters } from './filters';
 
 const PAGE_SIZE = 12;
 
@@ -45,16 +37,6 @@ const styles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
   },
-  flexRow: {
-    display: 'flex',
-    flexDirection: ['column', 'row'],
-    gap: 1,
-  },
-  input: {
-    '.MuiInput-root': {
-      height: 'auto',
-    },
-  },
 });
 
 export interface Props {
@@ -64,6 +46,7 @@ export interface Props {
   type: AdType;
   label?: string;
   isAccomplishment?: boolean;
+  showArchived?: boolean;
 }
 
 export function AdList({
@@ -73,6 +56,7 @@ export function AdList({
   type,
   label,
   isAccomplishment = false,
+  showArchived = false,
 }: Props) {
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState<Filters>({});
@@ -87,17 +71,10 @@ export function AdList({
     gap: 1,
     alignItems: 'center',
   };
-  const spacedBetweenFlexRowStyles = {
-    ...styles.flexRow,
-    justifyContent: 'space-between',
-  };
 
   // TODO [future]: Fix ad types across the app
-  const data = useMemo(() => {
-    // Filters will be applied only to jobs
-    return type === AdType.Job ? filterAds(jobs, filters) : services;
-  }, [filters, type]);
-
+  // Filters will be applied only to jobs
+  const data = type === AdType.Job ? filterAds(jobs, filters) : services;
   const displayedData = getDisplayedData(data, page, PAGE_SIZE);
 
   // Update filters when URL changes
@@ -108,96 +85,17 @@ export function AdList({
   // Update URL when filters change
   useEffect(() => {
     setSearchParams(updateUrl(filters));
-  }, [filters, setSearchParams]);
+  }, [filters]);
 
   return (
     <Box sx={rootStyles}>
-      <Box sx={styles.flexColumn}>
-        <Typography variant="h5">{t('filters')}</Typography>
-
-        <Box sx={spacedBetweenFlexRowStyles}>
-          <Box sx={styles.flexRow}>
-            <TextField
-              label={t('location')}
-              variant="standard"
-              value={filters.location}
-              sx={styles.input}
-              onChange={(e) =>
-                setFilters({ ...filters, location: String(e.target.value) })
-              }
-            />
-
-            <TextField
-              label={t('number-people')}
-              type="number"
-              variant="standard"
-              value={filters.personNumber}
-              sx={styles.input}
-              onChange={(e) =>
-                setFilters({ ...filters, personNumber: Number(e.target.value) })
-              }
-            />
-
-            <TextField
-              label={t('qualification')}
-              variant="standard"
-              value={filters.qualification}
-              sx={styles.input}
-              onChange={(e) =>
-                setFilters({
-                  ...filters,
-                  qualification: String(e.target.value),
-                })
-              }
-            />
-          </Box>
-
-          <Box sx={styles.flexRow}>
-            <FormControl sx={{ width: '100px' }}>
-              <Autocomplete
-                options={Object.values(Currency)}
-                onChange={(_, selected) =>
-                  setFilters({
-                    ...filters,
-                    priceCurrency: toCurrency(selected),
-                  })
-                }
-                value={filters.priceCurrency}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label={t('currency')}
-                    variant="standard"
-                  />
-                )}
-                sx={styles.input}
-              />
-            </FormControl>
-
-            <TextField
-              label={t('price-from')}
-              type="number"
-              variant="standard"
-              value={filters.priceFrom}
-              sx={styles.input}
-              onChange={(e) =>
-                setFilters({ ...filters, priceFrom: Number(e.target.value) })
-              }
-            />
-
-            <TextField
-              label={t('price-to')}
-              type="number"
-              variant="standard"
-              value={filters.priceTo}
-              sx={styles.input}
-              onChange={(e) =>
-                setFilters({ ...filters, priceTo: Number(e.target.value) })
-              }
-            />
-          </Box>
-        </Box>
-      </Box>
+      {type === AdType.Job && (
+        <AdListFilters
+          filters={filters}
+          onFiltersChange={(filters) => setFilters(filters)}
+          showArchived={showArchived}
+        />
+      )}
 
       {label && <Typography>{t(label)}</Typography>}
 

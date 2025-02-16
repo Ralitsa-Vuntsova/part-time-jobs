@@ -114,5 +114,7 @@
   "personal-ratings": "Personal Ratings",
   "personal-ratings-list": "Here is a list of the personal ratings you have submitted:",
   "no-ratings": "Currently there are no ratings",
-  "user": "User:"
+  "user": "User:",
+  "show-archived": "Show archived ads only",
+  "no-phone": "User does not have phone number"
 }

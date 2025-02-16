@@ -3,7 +3,8 @@ import { makeStyles } from '../../../libs/make-styles';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { ApplicationDto, JobOfferDto, UserProfile } from '@shared/data-objects';
+import { ApplicationDto, JobOfferDto } from '@shared/data-objects';
+import { useUserCreator } from '../../../hooks/use-ad-creator';
 
 const styles = makeStyles({
   flexRow: {
@@ -36,27 +37,29 @@ const styles = makeStyles({
 interface Props {
   ad: JobOfferDto;
   application: ApplicationDto;
-  user: UserProfile;
 }
 
-export function ApplicationCardContent({ ad, application, user }: Props) {
+export function ApplicationCardContent({ ad, application }: Props) {
   const [showEmail, setShowEmail] = useState(false);
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const user = useUserCreator(application.createdBy);
+
   const revealButtonStyles = { ...styles.mainColor, ...styles.button };
 
   return (
     <>
       <Typography gutterBottom variant="h5" component="div">
-        {`${user.firstName} ${user.lastName}`}
+        {`${user?.firstName} ${user?.lastName}`}
       </Typography>
 
+      {/* TODO [future]: Consider adding contacts */}
       <Box sx={styles.flexRow}>
         {showEmail ? (
-          <Typography sx={styles.secondaryColor}>{user.email}</Typography>
+          <Typography sx={styles.secondaryColor}>{user?.email}</Typography>
         ) : (
           <Button sx={revealButtonStyles} onClick={() => setShowEmail(true)}>
             {t('reveal-email')}
@@ -64,7 +67,9 @@ export function ApplicationCardContent({ ad, application, user }: Props) {
         )}
 
         {showPhoneNumber ? (
-          <Typography sx={styles.secondaryColor}>{user.phoneNumber}</Typography>
+          <Typography sx={styles.secondaryColor}>
+            {user?.phoneNumber ? user?.phoneNumber : t('no-phone')}
+          </Typography>
         ) : (
           <Button
             sx={revealButtonStyles}

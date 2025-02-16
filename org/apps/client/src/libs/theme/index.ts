@@ -1,4 +1,4 @@
-import { createTheme, lighten } from '@mui/material/styles';
+import { createTheme, darken, lighten } from '@mui/material/styles';
 import { fontStyleOptions } from './font-styles';
 import { lightPalette } from './light-palette';
 import { constructVariants } from './typography-variants';
@@ -101,7 +101,10 @@ const constructComponents = (theme: Theme) => {
               height: 'auto',
             },
             '&.Mui-disabled': {
-              backgroundColor: lighten(baseTheme.palette.info.main, 0.9),
+              backgroundColor:
+                theme === Theme.Light
+                  ? lighten(baseTheme.palette.info.main, 0.9)
+                  : darken(baseTheme.palette.text.disabled, 0),
             },
             '.MuiOutlinedInput-notchedOutline': {
               borderColor: baseTheme.palette.action.active,
