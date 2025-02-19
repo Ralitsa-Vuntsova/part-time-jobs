@@ -7,7 +7,9 @@ import {
 import { EditProfileForm } from './form';
 import { DeleteProfileButton } from './delete-button';
 import { makeStyles } from '../../libs/make-styles';
-import { Box } from '@mui/material';
+import { Box, Rating } from '@mui/material';
+import { RatingAccordion } from '../../components/rating-accordion';
+import { useUserRating } from '../../hooks/use-user-rating';
 
 const styles = makeStyles({
   flexColumn: {
@@ -25,6 +27,8 @@ export function EditProfile() {
     return null;
   }
 
+  const { averageRating, ratings } = useUserRating(currentUser?._id);
+
   return (
     <AsyncDataLoader
       dataLoader={({ signal }) => userService.getById(currentUser._id, signal)}
@@ -34,6 +38,14 @@ export function EditProfile() {
         <Box sx={styles.flexColumn}>
           <EditProfileForm userData={userData} />
           <DeleteProfileButton userData={userData} />
+
+          {ratings.length > 0 && (
+            <>
+              {/* TODO [future]: Display how many people rated */}
+              <Rating value={averageRating} readOnly />
+              <RatingAccordion expanded={true} ratings={ratings} />
+            </>
+          )}
         </Box>
       )}
     </AsyncDataLoader>

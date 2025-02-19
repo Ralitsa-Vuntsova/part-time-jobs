@@ -73,8 +73,8 @@ export function defaultValues(userData: UserProfile, ad?: JobOfferDto) {
       {
         name: userData.username,
         email: userData.email,
-        phoneNumber: userData.phoneNumber,
-        address: userData.address,
+        phoneNumber: userData.phoneNumber ?? '',
+        address: userData.address ?? '',
       },
     ],
     dateTime: ad?.dateTime ?? '',

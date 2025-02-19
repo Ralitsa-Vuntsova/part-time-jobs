@@ -21,6 +21,11 @@ import { UnarchiveDialog } from './unarchive-dialog';
 import { AdDetailsContent } from './content';
 import { AdDetailsFooter } from './footer';
 import { HeaderButtons } from './header-buttons';
+import { PersonalRatingDialog } from '../personal-rating-dialog';
+import { PublicRatingDialog } from '../public-rating-dialog';
+import { useServicePerformers } from '../../hooks/use-service-performers';
+import { useUserById } from '../../hooks/use-user-by-id';
+import { sortBy } from 'lodash';
 
 const styles = makeStyles({
   header: {
@@ -65,10 +70,16 @@ export function AdDetails({
   onChange,
 }: Props) {
   const currentUser = useCurrentUser();
+  const servicePerformers = useServicePerformers(ad._id);
+
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openApplyDialog, setOpenApplyDialog] = useState(false);
   const [openArchiveDialog, setOpenArchiveDialog] = useState(false);
   const [openUnarchiveDialog, setOpenUnarchiveDialog] = useState(false);
+  const [openPersonalRatingDialog, setOpenPersonalRatingDialog] =
+    useState(false);
+  const [openPublicRatingDialog, setOpenPublicRatingDialog] = useState(false);
+
   const [archiveReason, setArchiveReason] = useState<ArchiveReason>(
     ArchiveReason.Done
   );
@@ -124,6 +135,8 @@ export function AdDetails({
             onEdit={() => setOpenEditDialog(true)}
             onArchive={() => setOpenArchiveDialog(true)}
             onUnarchive={() => setOpenUnarchiveDialog(true)}
+            onPublicRate={() => setOpenPublicRatingDialog(true)}
+            onPrivateRate={() => setOpenPersonalRatingDialog(true)}
           />
         )}
 
@@ -174,6 +187,24 @@ export function AdDetails({
         onClose={() => setOpenEditDialog(false)}
         onChange={onChange}
       />
+
+      {servicePerformers && (
+        <>
+          <PersonalRatingDialog
+            open={openPersonalRatingDialog}
+            onClose={() => setOpenPersonalRatingDialog(false)}
+            ad={ad as JobOfferDto}
+            users={sortBy(servicePerformers)}
+          />
+
+          <PublicRatingDialog
+            open={openPublicRatingDialog}
+            onClose={() => setOpenPublicRatingDialog(false)}
+            ad={ad as JobOfferDto}
+            users={sortBy(servicePerformers)}
+          />
+        </>
+      )}
     </>
   );
 }

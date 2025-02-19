@@ -77,7 +77,7 @@ export function ApplicationCard({
 
   const form = useForm<ApplicationResponseSchema>({
     defaultValues: {
-      personNumber: 0,
+      personNumber: 1,
       response: ApplicationResponse.Declined,
     },
     resolver: zodResolver(applicationResponseSchema),

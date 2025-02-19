@@ -13,9 +13,9 @@ export class PersonalRatingService {
     });
   }
 
-  create(personalRating: CreatePersonalRatingDto, abortSignal: AbortSignal) {
+  create(personalRatings: CreatePersonalRatingDto[], abortSignal: AbortSignal) {
     return this.http.post('personal-ratings', {
-      body: personalRating,
+      body: personalRatings,
       abortSignal,
     });
   }

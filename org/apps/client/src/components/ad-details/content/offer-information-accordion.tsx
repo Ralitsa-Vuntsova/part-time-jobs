@@ -4,6 +4,7 @@ import { AccordionSummaryWithLeftIcon } from '../../accordion-summary-with-left-
 import { LabeledControl } from '../../labeled-control';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
+import { paymentToTranslateKey } from '@shared/enums';
 
 const styles = makeStyles({
   input: {
@@ -115,7 +116,9 @@ export function OfferInformationAccordion({ ad }: Props) {
               <>
                 <Typography>{ad.price.value}</Typography>
                 <Typography>{ad.price.currency}</Typography>
-                <Typography>{ad.price.payment}</Typography>
+                <Typography>
+                  {t(paymentToTranslateKey[ad.price.payment])}
+                </Typography>
               </>
             )}
           </Box>

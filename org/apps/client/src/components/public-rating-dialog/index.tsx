@@ -1,22 +1,28 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Rating,
-  TextField,
+  Divider,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '../../libs/make-styles';
 import { LoadingButton } from '../loading-button';
-import { useState } from 'react';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { ErrorContainer } from '../error-container';
 import { publicRatingService } from '../../services/public-rating-service';
-import { useCurrentUser } from '../../hooks/use-current-user';
-import { useServicePerformer } from '../../hooks/use-service-performer';
-import { JobOfferDto } from '@shared/data-objects';
+import { JobOfferDto, UserProfile } from '@shared/data-objects';
+import {
+  defaultRatings,
+  publicRatingsSchema,
+  PublicRatingsSchema,
+  toCreatePublicRatingDto,
+} from '../../validation-schemas/public-rating-schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, useForm } from 'react-hook-form';
+import { PublicRatingControls } from './controls';
 
 const styles = makeStyles({
   title: {
@@ -30,8 +36,7 @@ const styles = makeStyles({
   flexColumn: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    gap: 2,
+    gap: 3,
   },
   input: {
     width: '100%',
@@ -42,91 +47,82 @@ interface Props {
   open: boolean;
   onClose: () => unknown;
   ad: JobOfferDto;
+  users: UserProfile[];
 }
 
-interface PrivateRating {
-  comment?: string;
-  rateValue?: number;
-}
-
-export function PrivateRatingDialog({ open, onClose, ad }: Props) {
-  const currentUser = useCurrentUser();
-
-  const [rating, setRating] = useState<PrivateRating>();
-
+export function PublicRatingDialog({ open, onClose, ad, users }: Props) {
   const { t } = useTranslation();
 
-  const servicePerformer = useServicePerformer(ad._id);
-
-  const userId =
-    currentUser?._id === ad?.createdBy ? servicePerformer?._id : ad?.createdBy;
-
-  if (!userId) {
-    return null;
-  }
-
-  const { trigger, loading, error } = useAsyncAction(async ({ signal }) => {
-    await publicRatingService.create(
-      {
-        comment: rating?.comment ?? '',
-        rateValue: rating?.rateValue ?? 0,
-        adId: ad._id,
-        userId,
-      },
-      signal
-    );
-
-    setRating(undefined);
-    onClose();
+  const form = useForm<PublicRatingsSchema>({
+    defaultValues: {
+      ratings: defaultRatings(users),
+    },
+    resolver: zodResolver(publicRatingsSchema),
   });
 
+  const { trigger, loading, error } = useAsyncAction(
+    async ({ signal }, publicRatings: PublicRatingsSchema) => {
+      const ratings = publicRatings.ratings.map((r) =>
+        toCreatePublicRatingDto(r, ad._id)
+      );
+
+      await publicRatingService.create(ratings, signal);
+
+      onClose();
+    }
+  );
+
+  const onSubmit = form.handleSubmit(trigger);
+
   return (
-    <Dialog open={open} onSubmit={trigger} onClose={onClose} fullWidth>
-      <DialogTitle sx={styles.title}>{t('public-rating')}</DialogTitle>
+    <FormProvider {...form}>
+      <Dialog
+        open={open}
+        onSubmit={onSubmit}
+        onClose={() => {
+          onClose();
+          form.reset();
+        }}
+        fullWidth
+        component="form"
+      >
+        <DialogTitle sx={styles.title}>{t('public-rating')}</DialogTitle>
 
-      <DialogContent sx={styles.flexColumn}>
-        <TextField
-          label={`${t('comment')}*`}
-          multiline
-          rows={5}
-          sx={styles.input}
-          onChange={(e) =>
-            setRating({ ...rating, comment: String(e.target.value) })
-          }
-        />
+        <DialogContent sx={styles.flexColumn}>
+          {users.map(
+            (user, index) =>
+              user && (
+                <Box key={user?._id} sx={styles.flexColumn}>
+                  <PublicRatingControls index={index} user={user} />
+                  <Divider />
+                </Box>
+              )
+          )}
+        </DialogContent>
 
-        <Rating
-          value={rating?.rateValue}
-          onChange={(_, newValue) => {
-            setRating({ ...rating, rateValue: Number(newValue) });
-          }}
-        />
-      </DialogContent>
+        <DialogActions sx={styles.flexRow}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              onClose();
+              form.reset();
+            }}
+          >
+            {t('cancel')}
+          </Button>
 
-      <DialogActions sx={styles.flexRow}>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            onClose();
-            setRating(undefined);
-          }}
-        >
-          {t('cancel')}
-        </Button>
+          <LoadingButton
+            loading={loading}
+            variant="contained"
+            type="submit"
+            color="primary"
+          >
+            {t('add')}
+          </LoadingButton>
+        </DialogActions>
 
-        <LoadingButton
-          loading={loading}
-          variant="contained"
-          type="submit"
-          color="primary"
-          onClick={trigger}
-          disabled={!rating?.comment || !rating.rateValue}
-        >
-          {t('add')}
-        </LoadingButton>
-      </DialogActions>
-
-      {error ? <ErrorContainer>{error}</ErrorContainer> : null}
-    </Dialog>
+        {error ? <ErrorContainer>{error}</ErrorContainer> : null}
+      </Dialog>
+    </FormProvider>
   );
 }

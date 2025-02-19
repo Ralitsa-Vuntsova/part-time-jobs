@@ -1,21 +1,28 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
+  Divider,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '../../libs/make-styles';
 import { LoadingButton } from '../loading-button';
-import { useState } from 'react';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { personalRatingService } from '../../services/personal-rating-service';
 import { ErrorContainer } from '../error-container';
-import { JobOfferDto } from '@shared/data-objects';
-import { useCurrentUser } from '../../hooks/use-current-user';
-import { useServicePerformer } from '../../hooks/use-service-performer';
+import { JobOfferDto, UserProfile } from '@shared/data-objects';
+import {
+  defaultRatings,
+  personalRatingsSchema,
+  PersonalRatingsSchema,
+  toCreatePersonalRatingDto,
+} from '../../validation-schemas/personal-rating-schema';
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { PersonalRatingControls } from './controls';
 
 const styles = makeStyles({
   title: {
@@ -26,6 +33,11 @@ const styles = makeStyles({
     gap: 2,
     justifyContent: 'center',
   },
+  flexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 3,
+  },
   input: {
     width: '100%',
   },
@@ -35,75 +47,82 @@ interface Props {
   open: boolean;
   onClose: () => unknown;
   ad: JobOfferDto;
+  users: UserProfile[];
 }
 
-export function PersonalRatingDialog({ open, onClose, ad }: Props) {
-  const [comment, setComment] = useState<string>();
-
+export function PersonalRatingDialog({ open, onClose, ad, users }: Props) {
   const { t } = useTranslation();
 
-  const currentUser = useCurrentUser();
-  const servicePerformer = useServicePerformer(ad._id);
-
-  const userId =
-    currentUser?._id === ad?.createdBy ? servicePerformer?._id : ad?.createdBy;
-
-  if (!userId) {
-    return null;
-  }
-
-  const { trigger, loading, error } = useAsyncAction(async ({ signal }) => {
-    await personalRatingService.create(
-      {
-        comment: comment ?? '',
-        adId: ad._id,
-        userId,
-      },
-      signal
-    );
-
-    setComment(undefined);
-    onClose();
+  const form = useForm<PersonalRatingsSchema>({
+    defaultValues: {
+      ratings: defaultRatings(users),
+    },
+    resolver: zodResolver(personalRatingsSchema),
   });
 
+  const { trigger, loading, error } = useAsyncAction(
+    async ({ signal }, persosnalRatings: PersonalRatingsSchema) => {
+      const ratings = persosnalRatings.ratings.map((r) =>
+        toCreatePersonalRatingDto(r, ad._id)
+      );
+
+      await personalRatingService.create(ratings, signal);
+
+      onClose();
+    }
+  );
+
+  const onSubmit = form.handleSubmit(trigger);
+
   return (
-    <Dialog open={open} onSubmit={trigger} onClose={onClose} fullWidth>
-      <DialogTitle sx={styles.title}>{t('personal-rating')}</DialogTitle>
+    <FormProvider {...form}>
+      <Dialog
+        open={open}
+        onSubmit={onSubmit}
+        onClose={() => {
+          onClose();
+          form.reset();
+        }}
+        fullWidth
+        component="form"
+      >
+        <DialogTitle sx={styles.title}>{t('personal-rating')}</DialogTitle>
 
-      <DialogContent>
-        <TextField
-          label={`${t('comment')}*`}
-          multiline
-          rows={5}
-          sx={styles.input}
-          onChange={(e) => setComment(String(e.target.value))}
-        />
-      </DialogContent>
+        <DialogContent sx={styles.flexColumn}>
+          {users.map(
+            (user, index) =>
+              user && (
+                <Box key={user?._id} sx={styles.flexColumn}>
+                  <PersonalRatingControls index={index} user={user} />
+                  <Divider />
+                </Box>
+              )
+          )}
+        </DialogContent>
 
-      <DialogActions sx={styles.flexRow}>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            onClose();
-            setComment(undefined);
-          }}
-        >
-          {t('cancel')}
-        </Button>
+        <DialogActions sx={styles.flexRow}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              onClose();
+              form.reset();
+            }}
+          >
+            {t('cancel')}
+          </Button>
 
-        <LoadingButton
-          loading={loading}
-          variant="contained"
-          type="submit"
-          color="primary"
-          onClick={trigger}
-          disabled={!comment}
-        >
-          {t('add')}
-        </LoadingButton>
-      </DialogActions>
+          <LoadingButton
+            loading={loading}
+            variant="contained"
+            type="submit"
+            color="primary"
+          >
+            {t('add')}
+          </LoadingButton>
+        </DialogActions>
 
-      {error ? <ErrorContainer>{error}</ErrorContainer> : null}
-    </Dialog>
+        {error ? <ErrorContainer>{error}</ErrorContainer> : null}
+      </Dialog>
+    </FormProvider>
   );
 }

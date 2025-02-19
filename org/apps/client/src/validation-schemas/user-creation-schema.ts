@@ -14,7 +14,7 @@ export const userCreationSchema = z.object({
   }),
   confirmPassword: notEmpty,
   firstName: longString,
-  lastName: longString,
+  lastName: notEmpty,
   email: z.string().email(),
 });
 

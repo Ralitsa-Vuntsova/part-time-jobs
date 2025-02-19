@@ -21,7 +21,13 @@ You need to have the following installed on your machine:
 
 ### Setup:
 
-Firstly, install all npm packages:
+Firstly, add values to the following variables in your .env file:
+- PTJ_DB_NAME - name for you local DB
+- PTJ_JWT_SECRET - generate random JTW secret
+
+Then create a database in MongoDB Compass with the name you provided for PTJ_DB_NAME.
+
+Secondly, install all npm packages:
 
 ```
 npm install

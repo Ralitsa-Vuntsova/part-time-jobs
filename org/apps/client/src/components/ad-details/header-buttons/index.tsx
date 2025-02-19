@@ -1,12 +1,22 @@
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { ArchiveReason } from '@shared/enums';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
+  flexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 1,
+    alignItems: 'center',
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: ['column', 'row'],
+    gap: 1,
+  },
   button: {
-    maxWidth: 'fit-content',
-    alignSelf: 'center',
+    color: (theme) => theme.palette.primary.main,
   },
   typography: {
     color: (theme) => theme.palette.primary.main,
@@ -20,6 +30,8 @@ interface Props {
   onEdit: () => void;
   onArchive: () => void;
   onUnarchive: () => void;
+  onPrivateRate: () => void;
+  onPublicRate: () => void;
 }
 
 export function HeaderButtons({
@@ -28,35 +40,50 @@ export function HeaderButtons({
   onEdit,
   onArchive,
   onUnarchive,
+  onPrivateRate,
+  onPublicRate,
 }: Props) {
   const { t } = useTranslation();
 
   return (
-    <>
-      <Button
-        variant="contained"
-        sx={styles.button}
-        onClick={onEdit}
-        disabled={!!archiveReason || alreadyApplied}
-      >
-        {t('edit')}
-      </Button>
-
-      {!!archiveReason && archiveReason === ArchiveReason.Done && (
-        <Typography sx={styles.typography}>{t('completed')}</Typography>
-      )}
-
-      {!!archiveReason && archiveReason === ArchiveReason.Unpublishing && (
-        <Button variant="outlined" sx={styles.button} onClick={onUnarchive}>
-          {t('unarchive')}
+    <Box sx={styles.flexColumn}>
+      <Box sx={styles.flexRow}>
+        <Button
+          variant="contained"
+          onClick={onEdit}
+          disabled={!!archiveReason || alreadyApplied}
+        >
+          {t('edit')}
         </Button>
-      )}
 
-      {!archiveReason && (
-        <Button variant="outlined" sx={styles.button} onClick={onArchive}>
-          {t('archive')}
-        </Button>
+        {archiveReason === ArchiveReason.Done && (
+          <Typography sx={styles.typography}>{t('completed')}</Typography>
+        )}
+
+        {archiveReason === ArchiveReason.Unpublishing && (
+          <Button variant="outlined" onClick={onUnarchive}>
+            {t('unarchive')}
+          </Button>
+        )}
+
+        {!archiveReason && (
+          <Button variant="outlined" onClick={onArchive}>
+            {t('archive')}
+          </Button>
+        )}
+      </Box>
+
+      {archiveReason === ArchiveReason.Done && (
+        <Box sx={styles.flexRow}>
+          <Button size="small" onClick={onPublicRate} sx={styles.button}>
+            {t('add-public-rating')}
+          </Button>
+
+          <Button size="small" onClick={onPrivateRate} sx={styles.button}>
+            {t('add-personal-rating')}
+          </Button>
+        </Box>
       )}
-    </>
+    </Box>
   );
 }

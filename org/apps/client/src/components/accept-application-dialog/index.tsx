@@ -88,7 +88,7 @@ export function AcceptApplicationDialog({
                 <Select
                   label={t('number-people')}
                   {...field}
-                  value={field.value ?? ''}
+                  value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 >
                   {personNumberOptions.map((value) => (

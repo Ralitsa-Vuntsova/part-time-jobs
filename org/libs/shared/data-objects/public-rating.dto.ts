@@ -24,5 +24,3 @@ export class CreatePublicRatingDto extends OmitType(PublicRating, [
   'createdBy',
   'updatedBy',
 ]) {}
-
-export class EditPublicRatingDto extends PartialType(PublicRatingDto) {}

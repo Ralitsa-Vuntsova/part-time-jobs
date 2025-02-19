@@ -1,10 +1,18 @@
-import { Box, Button, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  Rating,
+  Typography,
+} from '@mui/material';
 import { makeStyles } from '../../../libs/make-styles';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { ApplicationDto, JobOfferDto } from '@shared/data-objects';
-import { useUserById } from '../../../hooks/use-user-by-id';
+import { useUserRating } from '../../../hooks/use-user-rating';
 
 const styles = makeStyles({
   flexRow: {
@@ -12,6 +20,11 @@ const styles = makeStyles({
     flexDirection: ['column', 'row'],
     gap: 1,
     alignItems: ['start', 'center'],
+  },
+  flexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 1,
   },
   mainColor: {
     color: (theme) => theme.palette.primary.main,
@@ -32,6 +45,10 @@ const styles = makeStyles({
     p: 0,
     textAlign: 'left',
   },
+  rating: {
+    fontStyle: 'italic',
+    fontSize: '0.875rem',
+  },
 });
 
 interface Props {
@@ -42,24 +59,29 @@ interface Props {
 export function ApplicationCardContent({ ad, application }: Props) {
   const [showEmail, setShowEmail] = useState(false);
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const user = useUserById(application.createdBy);
+  const { user, averageRating, ratings } = useUserRating(application.createdBy);
 
   const revealButtonStyles = { ...styles.mainColor, ...styles.button };
 
+  if (!user) {
+    return null;
+  }
+
   return (
-    <>
+    <Box sx={styles.flexColumn}>
       <Typography gutterBottom variant="h5" component="div">
-        {`${user?.firstName} ${user?.lastName}`}
+        {`${user.firstName} ${user.lastName}`}
       </Typography>
 
       {/* TODO [future]: Consider adding contacts instead of user profile data */}
       <Box sx={styles.flexRow}>
         {showEmail ? (
-          <Typography sx={styles.secondaryColor}>{user?.email}</Typography>
+          <Typography sx={styles.secondaryColor}>{user.email}</Typography>
         ) : (
           <Button sx={revealButtonStyles} onClick={() => setShowEmail(true)}>
             {t('reveal-email')}
@@ -68,7 +90,7 @@ export function ApplicationCardContent({ ad, application }: Props) {
 
         {showPhoneNumber ? (
           <Typography sx={styles.secondaryColor}>
-            {user?.phoneNumber ? user?.phoneNumber : t('no-phone')}
+            {user.phoneNumber ? user.phoneNumber : t('no-phone')}
           </Typography>
         ) : (
           <Button
@@ -109,6 +131,30 @@ export function ApplicationCardContent({ ad, application }: Props) {
           {application.reason}
         </Typography>
       </Box>
-    </>
+
+      {ratings.length > 0 && (
+        <Box sx={styles.flexRow}>
+          {/* TODO [future]: Display how many people rated */}
+          <Rating value={averageRating} readOnly />
+          <Button
+            size="small"
+            sx={styles.mainColor}
+            onClick={() => setShowFeedback(!showFeedback)}
+          >
+            {showFeedback ? t('hide-feedback') : t('show-feedback')}
+          </Button>
+        </Box>
+      )}
+
+      {/* TODO [future]: Add button Show more */}
+      {showFeedback &&
+        ratings.slice(0, 5).map((r) => (
+          // TODO [future]: Display the name of the person who rated
+          <Box key={r._id}>
+            <Typography sx={styles.rating}>{r.comment}</Typography>
+            <Divider />
+          </Box>
+        ))}
+    </Box>
   );
 }

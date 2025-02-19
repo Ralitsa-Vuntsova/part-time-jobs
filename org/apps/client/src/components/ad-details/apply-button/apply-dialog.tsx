@@ -61,8 +61,6 @@ interface Props {
 export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
   const { t } = useTranslation();
 
-  console.log('ad', ad);
-
   const form = useForm<ApplicationSchema>({
     defaultValues: {
       reason: '',
@@ -207,7 +205,7 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
                       label={`${t('number-people')}*`}
                       error={invalid}
                       {...field}
-                      value={field.value ?? ''}
+                      value={field.value ?? 1}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     >
                       {personNumberOptions.map((value) => (

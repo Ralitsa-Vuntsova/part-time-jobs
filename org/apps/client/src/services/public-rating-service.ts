@@ -10,9 +10,9 @@ export class PublicRatingService {
     });
   }
 
-  create(publicRating: CreatePublicRatingDto, abortSignal: AbortSignal) {
+  create(publicRatings: CreatePublicRatingDto[], abortSignal: AbortSignal) {
     return this.http.post('public-ratings', {
-      body: publicRating,
+      body: publicRatings,
       abortSignal,
     });
   }

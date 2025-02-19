@@ -16,7 +16,14 @@ export class PublicRatingsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() publicRating: CreatePublicRatingDto, @User() user: AuthUser) {
-    return this.publicRatingService.create(publicRating, user.userId);
+  create(
+    @Body() publicRatings: CreatePublicRatingDto[],
+    @User() user: AuthUser
+  ) {
+    return Promise.all(
+      publicRatings.map((rating) =>
+        this.publicRatingService.create(rating, user.userId)
+      )
+    );
   }
 }

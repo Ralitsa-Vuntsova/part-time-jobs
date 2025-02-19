@@ -120,5 +120,9 @@
   "show-archived": "Show archived ads only",
   "no-phone": "User does not have phone number",
   "already-responded": "You have already accepted for max number of people",
-  "public-rating": "Public Rating"
+  "public-rating": "Public Rating",
+  "created-by": "Created by:",
+  "feedback": "Feedback",
+  "show-feedback": "Show feedback",
+  "hide-feedback": "Hide feedback"
 }
