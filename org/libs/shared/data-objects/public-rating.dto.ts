@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { OmitType, PartialType } from '@nestjs/swagger';
+import { OmitType } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { PersonalRating } from './personal-rating.dto';

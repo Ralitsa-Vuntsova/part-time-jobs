@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Divider,
-  Rating,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Divider, Rating, Typography } from '@mui/material';
 import { makeStyles } from '../../../libs/make-styles';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

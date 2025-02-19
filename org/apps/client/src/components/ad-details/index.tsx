@@ -24,7 +24,6 @@ import { HeaderButtons } from './header-buttons';
 import { PersonalRatingDialog } from '../personal-rating-dialog';
 import { PublicRatingDialog } from '../public-rating-dialog';
 import { useServicePerformers } from '../../hooks/use-service-performers';
-import { useUserById } from '../../hooks/use-user-by-id';
 import { sortBy } from 'lodash';
 
 const styles = makeStyles({
