@@ -68,6 +68,7 @@ export function PersonalRatingDialog({ open, onClose, ad, users }: Props) {
 
       await personalRatingService.create(ratings, signal);
 
+      form.reset();
       onClose();
     }
   );

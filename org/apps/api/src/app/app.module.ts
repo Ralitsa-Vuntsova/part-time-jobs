@@ -13,6 +13,7 @@ import { ApplicationsModule } from '../applications/applications.module';
 import { ApplicationResponsesModule } from '../application-reponses/application-responses.module';
 import { PersonalRatingsModule } from '../personal-ratings/personal-ratings.module';
 import { PublicRatingsModule } from '../public-ratings/public-ratings.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 const { host, name, schema } = config.get('db');
 
@@ -32,6 +33,7 @@ const { host, name, schema } = config.get('db');
     ApplicationResponsesModule,
     PersonalRatingsModule,
     PublicRatingsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

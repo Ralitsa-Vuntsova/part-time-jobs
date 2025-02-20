@@ -60,7 +60,7 @@ export class ServiceOffersController {
     const adToBeEdited = await this.adsService.findById(id);
     const editedAd = { ...adToBeEdited, ...ad };
 
-    await this.adsService.edit(id, editedAd, user);
+    await this.adsService.edit(id, editedAd, user.userId);
 
     return { status: 'OK' };
   }
@@ -72,7 +72,7 @@ export class ServiceOffersController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { archiveReason, ...rest } = adToBeEdited;
 
-    await this.adsService.edit(id, rest, user);
+    await this.adsService.edit(id, rest, user.userId);
 
     return { status: 'OK' };
   }

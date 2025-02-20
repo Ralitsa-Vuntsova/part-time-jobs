@@ -31,6 +31,7 @@ export function Applications() {
       }
       api={api}
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
+      loadOptions={{ clearDataOnReload: false }}
     >
       {([jobs, applications, users, applicationResponses]) => {
         const currentUserAds = jobs.filter(

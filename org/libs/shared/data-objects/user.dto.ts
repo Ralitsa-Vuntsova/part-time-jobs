@@ -56,6 +56,7 @@ export class EditUserDto extends OmitType(User, ['username', 'password']) {}
 
 export class LoginUserDto extends PickType(User, ['username', 'password']) {}
 
+// TODO [future]: Return first name and last name instead of username
 export class ResultUserDto extends PickType(User, [
   '_id',
   'username',

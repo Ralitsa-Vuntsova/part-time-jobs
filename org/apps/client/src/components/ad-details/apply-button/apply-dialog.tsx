@@ -27,6 +27,9 @@ import { LabeledControl } from '../../labeled-control';
 import { JobOfferDto } from '@shared/data-objects';
 import { times } from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { notificationService } from '../../../services/notification-service';
+import { toNotificationForApplying } from '../../../libs/notification-helper-functions';
+import { useUserById } from '../../../hooks/use-user-by-id';
 
 const styles = makeStyles({
   title: {
@@ -56,10 +59,13 @@ interface Props {
   onClose: () => void;
   ad: JobOfferDto;
   onChange: () => void;
+  userId: string;
 }
 
-export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
+export function ApplyDialog({ open, onClose, ad, onChange, userId }: Props) {
   const { t } = useTranslation();
+
+  const user = useUserById(userId); // the current user
 
   const form = useForm<ApplicationSchema>({
     defaultValues: {
@@ -71,10 +77,20 @@ export function ApplyDialog({ open, onClose, ad, onChange }: Props) {
     resolver: zodResolver(applicationSchema),
   });
 
+  const {
+    perform: performApplying,
+    loading: loadingApplying,
+    error: errorApplying,
+  } = useAsyncAction(async ({ signal }, app: ApplicationSchema) => {
+    await applicationService.apply(toCreateApplicationDto(ad._id, app), signal);
+  });
+
   const { trigger, loading, error } = useAsyncAction(
     async ({ signal }, app: ApplicationSchema) => {
-      await applicationService.apply(
-        toCreateApplicationDto(ad._id, app),
+      await performApplying(app);
+
+      await notificationService.create(
+        toNotificationForApplying(ad, user, ad.createdBy),
         signal
       );
 

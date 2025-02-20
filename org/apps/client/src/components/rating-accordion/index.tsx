@@ -13,10 +13,13 @@ import { useTranslation } from 'react-i18next';
 
 const styles = makeStyles({
   accordion: {
-    width: '50%',
+    width: ['100%', '50%'],
     alignSelf: 'center',
     '& .MuiAccordionSummary-root': {
       bgcolor: (theme) => theme.palette.info.light,
+    },
+    '& .MuiAccordionDetails-root': {
+      overflow: 'auto',
     },
   },
   summary: {

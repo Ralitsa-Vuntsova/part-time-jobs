@@ -5,6 +5,7 @@ import { ApplicationDto, JobOfferDto } from '@shared/data-objects';
 import { DateFormats } from '../../../libs/dates';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '../../../libs/make-styles';
+import { useCurrentUser } from '../../../hooks/use-current-user';
 
 const styles = makeStyles({
   flexRow: {
@@ -38,6 +39,8 @@ export function ApplyButton({
   onChange,
   ad,
 }: Props) {
+  const currentUser = useCurrentUser();
+
   const { t } = useTranslation();
 
   return (
@@ -60,12 +63,15 @@ export function ApplyButton({
         </Box>
       )}
 
-      <ApplyDialog
-        open={openApplyDialog}
-        onClose={onClose}
-        ad={ad}
-        onChange={onChange}
-      />
+      {currentUser && (
+        <ApplyDialog
+          open={openApplyDialog}
+          onClose={onClose}
+          ad={ad}
+          onChange={onChange}
+          userId={currentUser._id}
+        />
+      )}
     </>
   );
 }

@@ -124,5 +124,12 @@
   "created-by": "Създадена от:",
   "feedback": "Обратна връзка",
   "show-feedback": "Покажи обратна връзка",
-  "hide-feedback": "Скрий обратна връзка"
+  "hide-feedback": "Скрий обратна връзка",
+  "show-more": "Покажи повече",
+  "1-day-ago": "преди ден",
+  "1-hour-ago": "преди час",
+  "1-minute-ago": "преди минута",
+  "days-ago": "преди {{days}} дена",
+  "hours-ago": "преди {{hours}} часа",
+  "minutes-ago": "преди {{minutes}} минути"
 }

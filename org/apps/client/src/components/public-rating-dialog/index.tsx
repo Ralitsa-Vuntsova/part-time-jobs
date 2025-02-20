@@ -68,6 +68,7 @@ export function PublicRatingDialog({ open, onClose, ad, users }: Props) {
 
       await publicRatingService.create(ratings, signal);
 
+      form.reset();
       onClose();
     }
   );

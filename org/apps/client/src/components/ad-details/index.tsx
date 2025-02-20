@@ -7,7 +7,6 @@ import {
 } from '@shared/data-objects';
 import { makeStyles } from '../../libs/make-styles';
 import { AdType } from '../../libs/ad-helper-functions';
-import { useCurrentUser } from '../../hooks/use-current-user';
 import { useState } from 'react';
 import { EditAdDialog } from './edit-dialog';
 import { jobOfferService } from '../../services/job-offer-service';
@@ -68,7 +67,6 @@ export function AdDetails({
   type,
   onChange,
 }: Props) {
-  const currentUser = useCurrentUser();
   const servicePerformers = useServicePerformers(ad._id);
 
   const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -127,9 +125,9 @@ export function AdDetails({
       </Typography>
 
       <Box sx={styles.flexColumn}>
-        {currentUser?._id === ad.createdBy && (
+        {userData._id === ad.createdBy && (
           <HeaderButtons
-            archiveReason={ad.archiveReason}
+            ad={ad}
             alreadyApplied={alreadyApplied}
             onEdit={() => setOpenEditDialog(true)}
             onArchive={() => setOpenArchiveDialog(true)}
@@ -141,7 +139,7 @@ export function AdDetails({
 
         <AdDetailsContent ad={ad} type={type} />
 
-        {currentUser?._id !== ad.createdBy &&
+        {userData._id !== ad.createdBy &&
           type === AdType.Job &&
           !isMyAccomplishmentsView && (
             <ApplyButton

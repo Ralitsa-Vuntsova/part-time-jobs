@@ -2,6 +2,8 @@ import { Box, Button, Typography } from '@mui/material';
 import { ArchiveReason } from '@shared/enums';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
+import { useAdAcceptedApplications } from '../../../hooks/use-ad-application-responses';
+import { JobOfferDto, ServiceOfferDto } from '@shared/data-objects';
 
 const styles = makeStyles({
   flexColumn: {
@@ -25,7 +27,7 @@ const styles = makeStyles({
 });
 
 interface Props {
-  archiveReason?: ArchiveReason;
+  ad: JobOfferDto | ServiceOfferDto;
   alreadyApplied: boolean;
   onEdit: () => void;
   onArchive: () => void;
@@ -35,7 +37,7 @@ interface Props {
 }
 
 export function HeaderButtons({
-  archiveReason,
+  ad,
   alreadyApplied,
   onEdit,
   onArchive,
@@ -45,45 +47,48 @@ export function HeaderButtons({
 }: Props) {
   const { t } = useTranslation();
 
+  const adAcceptedApplications = useAdAcceptedApplications(ad._id);
+
   return (
     <Box sx={styles.flexColumn}>
       <Box sx={styles.flexRow}>
         <Button
           variant="contained"
           onClick={onEdit}
-          disabled={!!archiveReason || alreadyApplied}
+          disabled={!!ad.archiveReason || alreadyApplied}
         >
           {t('edit')}
         </Button>
 
-        {archiveReason === ArchiveReason.Done && (
+        {ad.archiveReason === ArchiveReason.Done && (
           <Typography sx={styles.typography}>{t('completed')}</Typography>
         )}
 
-        {archiveReason === ArchiveReason.Unpublishing && (
+        {ad.archiveReason === ArchiveReason.Unpublishing && (
           <Button variant="outlined" onClick={onUnarchive}>
             {t('unarchive')}
           </Button>
         )}
 
-        {!archiveReason && (
+        {!ad.archiveReason && (
           <Button variant="outlined" onClick={onArchive}>
             {t('archive')}
           </Button>
         )}
       </Box>
 
-      {archiveReason === ArchiveReason.Done && (
-        <Box sx={styles.flexRow}>
-          <Button size="small" onClick={onPublicRate} sx={styles.button}>
-            {t('add-public-rating')}
-          </Button>
+      {ad.archiveReason === ArchiveReason.Done &&
+        !!adAcceptedApplications?.length && (
+          <Box sx={styles.flexRow}>
+            <Button size="small" onClick={onPublicRate} sx={styles.button}>
+              {t('add-public-rating')}
+            </Button>
 
-          <Button size="small" onClick={onPrivateRate} sx={styles.button}>
-            {t('add-personal-rating')}
-          </Button>
-        </Box>
-      )}
+            <Button size="small" onClick={onPrivateRate} sx={styles.button}>
+              {t('add-personal-rating')}
+            </Button>
+          </Box>
+        )}
     </Box>
   );
 }

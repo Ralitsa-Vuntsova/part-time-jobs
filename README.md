@@ -27,19 +27,19 @@ Firstly, add values to the following variables in your .env file:
 
 Then create a database in MongoDB Compass with the name you provided for PTJ_DB_NAME.
 
-Secondly, install all npm packages:
+Secondly, navigate to `org` directory and install all npm packages:
 
 ```
 npm install
 ```
 
-To start the server, run the following command (org level):
+To start the server, run the following command:
 
 ```
 npm run start:api
 ```
 
-To start the client, run the following command (org level):
+To start the client, run the following command:
 
 ```
 npm run start:client

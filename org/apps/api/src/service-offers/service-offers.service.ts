@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { dbToInstance } from '../lib/utils';
 import { ExtendedModel } from '../lib/db-utils/extended-model';
 import {
-  AuthUser,
   CreateServiceOfferDto,
   ServiceOffer,
   ServiceOfferDocument,
@@ -32,16 +31,16 @@ export class ServiceOffersService {
     );
   }
 
-  async edit(
+  edit(
     id: string,
     ad: ServiceOfferDto,
-    user: AuthUser
+    userId: string
   ): Promise<ServiceOfferDto> {
     return dbToInstance(
       ServiceOfferDto,
       this.adModel.findOneAndReplace({ _id: id }, ad, {
         returnDocument: 'after',
-        user: user.userId,
+        user: userId,
       })
     );
   }

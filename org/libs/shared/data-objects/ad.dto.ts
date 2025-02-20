@@ -10,7 +10,7 @@ import { BaseDto } from './base.dto';
 import { Prop } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
 import { ContactDto } from './contact.dto';
-import { ArchiveReason } from '@shared/enums';
+import { ArchiveReason } from '../enums/archive-enums';
 
 export class AdDto extends BaseDto {
   @IsNotEmpty()

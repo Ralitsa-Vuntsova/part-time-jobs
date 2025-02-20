@@ -27,11 +27,10 @@ const styles = makeStyles({
 });
 
 interface Props {
-  isDarkMode: boolean;
   toggleTheme: () => void;
 }
 
-export function DrawerLayout({ isDarkMode, toggleTheme }: Props) {
+export function DrawerLayout({ toggleTheme }: Props) {
   const sections = useSections();
   const breakpoint = useResponsive();
 
@@ -57,7 +56,7 @@ export function DrawerLayout({ isDarkMode, toggleTheme }: Props) {
         closeDrawer={() => setOpen(false)}
       />
       <Box sx={styles.main}>
-        <TopBar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+        <TopBar toggleTheme={toggleTheme} />
         <Box component="main" sx={styles.contentWrapper}>
           <Outlet />
         </Box>

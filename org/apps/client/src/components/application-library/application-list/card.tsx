@@ -31,6 +31,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorContainer } from '../../error-container';
 import { ApplicationCardContent } from './card-content';
 import { shouldDisableApplicationResponse } from '../../../libs/application-helper-functions';
+import { notificationService } from '../../../services/notification-service';
+import { useUserById } from '../../../hooks/use-user-by-id';
+import { toNotificationForResponse } from '../../../libs/notification-helper-functions';
 
 const styles = makeStyles({
   flexColumn: {
@@ -38,6 +41,11 @@ const styles = makeStyles({
     flexDirection: 'column',
     alignContent: 'space-between',
     gap: 1,
+  },
+  responsiveFlexRow: {
+    display: 'flex',
+    flexDirection: ['column', null, null, 'row'],
+    alignItems: 'start',
   },
   mainColor: {
     color: (theme) => theme.palette.primary.main,
@@ -73,6 +81,8 @@ export function ApplicationCard({
   const [openAcceptDialog, setOpenAcceptDialog] = useState(false);
   const [openDeclineDialog, setOpenDeclineDialog] = useState(false);
 
+  const user = useUserById(ad.createdBy); // the current user
+
   const { t } = useTranslation();
 
   const form = useForm<ApplicationResponseSchema>({
@@ -83,13 +93,35 @@ export function ApplicationCard({
     resolver: zodResolver(applicationResponseSchema),
   });
 
-  const { trigger, loading, error } = useAsyncAction(
+  const {
+    perform: performResponse,
+    loading: loadingResponse,
+    error: errorResponse,
+  } = useAsyncAction(
     async ({ signal }, applicationResponse: ApplicationResponseSchema) => {
       await applicationResponseService.create(
         toCreateApplicationResponseDto(application._id, applicationResponse),
         signal
       );
+    }
+  );
 
+  const { trigger, loading, error } = useAsyncAction(
+    async ({ signal }, applicationResponse: ApplicationResponseSchema) => {
+      await performResponse(applicationResponse);
+
+      await notificationService.create(
+        toNotificationForResponse(
+          ad,
+          user,
+          application.createdBy,
+          applicationResponse.response === ApplicationResponse.Accepted
+        ),
+        signal
+      );
+
+      setOpenAcceptDialog(false);
+      setOpenDeclineDialog(false);
       onChange();
     }
   );
@@ -115,7 +147,7 @@ export function ApplicationCard({
         <CardContent sx={styles.flexColumn}>
           <ApplicationCardContent application={application} ad={ad} />
         </CardContent>
-        <CardActions>
+        <CardActions sx={styles.responsiveFlexRow}>
           {applicationResponse?.response ? (
             <Typography sx={labelTypograpgyStyles}>
               {t(
@@ -126,7 +158,7 @@ export function ApplicationCard({
             <>
               <Button
                 size="small"
-                sx={styles.mainColor}
+                sx={{ ...styles.mainColor, ml: 1 }}
                 onClick={() => {
                   form.setValue('response', ApplicationResponse.Accepted);
                   setOpenAcceptDialog(true);
@@ -135,6 +167,7 @@ export function ApplicationCard({
               >
                 {t('accept')}
               </Button>
+
               <Button
                 size="small"
                 sx={styles.mainColor}
@@ -157,12 +190,13 @@ export function ApplicationCard({
         </CardActions>
       </Card>
 
+      {errorResponse ? <ErrorContainer>{errorResponse}</ErrorContainer> : null}
       {error ? <ErrorContainer>{error}</ErrorContainer> : null}
 
       <AcceptApplicationDialog
         open={openAcceptDialog}
         onSubmit={onSubmit}
-        loading={loading}
+        loading={loadingResponse || loading}
         onClose={() => setOpenAcceptDialog(false)}
         personNumber={application.personNumber}
       />
@@ -172,8 +206,8 @@ export function ApplicationCard({
         title={t('decline-application')}
         onConfirm={onSubmit}
         confirmLabel={t('decline')}
-        confirmLoading={loading}
-        onCancel={() => setOpenDeclineDialog(false)}
+        confirmLoading={loadingResponse || loading}
+        onClose={() => setOpenDeclineDialog(false)}
         cancelLabel={t('cancel')}
       >
         <Typography>{t('decline-application-question')}</Typography>

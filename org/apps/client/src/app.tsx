@@ -30,20 +30,18 @@ export function App() {
     return localStorage.getItem('theme') === 'dark';
   });
 
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    localStorage.setItem('theme', newMode ? 'dark' : 'light');
-  };
+  const toggleTheme = () =>
+    setIsDarkMode((prev) => {
+      const newMode = !prev;
+      localStorage.setItem('theme', newMode ? 'dark' : 'light');
+
+      return newMode;
+    });
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
-        <Route
-          element={
-            <DrawerLayout isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-          }
-        >
+        <Route element={<DrawerLayout toggleTheme={toggleTheme} />}>
           <Route
             index
             element={

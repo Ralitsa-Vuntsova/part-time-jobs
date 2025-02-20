@@ -1,4 +1,4 @@
-import { Button, Fade, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -29,15 +29,7 @@ export function CreateAdButton() {
       >
         {t('create-ad')}
       </Button>
-      <Menu
-        MenuListProps={{
-          'aria-labelledby': 'fade-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-      >
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem
           onClick={() => {
             navigate('seek-service');

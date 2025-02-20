@@ -119,7 +119,7 @@ export function AcceptApplicationDialog({
           variant="contained"
           loading={loading}
           sx={styles.button}
-          onClick={() => onSubmit()}
+          onClick={onSubmit}
         >
           {t('accept')}
         </LoadingButton>

@@ -3,6 +3,7 @@ export * from './application-response.dto';
 export * from './contact.dto';
 export * from './date-time.dto';
 export * from './job-offer.dto';
+export * from './notification.dto';
 export * from './personal-rating.dto';
 export * from './person-number.dto';
 export * from './price.dto';

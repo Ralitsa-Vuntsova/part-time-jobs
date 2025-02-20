@@ -1,19 +1,20 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
 import { makeStyles } from '../../libs/make-styles';
-import { useCurrentUser } from '../../hooks/use-current-user';
 import { UserMenu } from './user-menu';
 import { Breakpoint, useResponsive } from '../../hooks/use-responsive';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { useNavigate } from 'react-router-dom';
 import { ErrorContainer } from '../error-container';
 import { authService } from '../../services/auth-service';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { LanguageSwitcher } from '../language-switcher';
 import { useTranslation } from 'react-i18next';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import { Notifications } from '../notifications';
+import { useNotifications } from '../../hooks/use-notifications';
+import { useCurrentUser } from '../../hooks/use-current-user';
 
 const styles = makeStyles({
   root: {
@@ -38,18 +39,16 @@ const styles = makeStyles({
     display: 'flex',
     alignItems: 'center',
   },
-  notification: {
-    color: (theme) => theme.palette.warning.main,
-  },
 });
 
 interface Props {
-  isDarkMode: boolean;
   toggleTheme: () => void;
 }
 
-export function TopBar({ isDarkMode, toggleTheme }: Props) {
+export function TopBar({ toggleTheme }: Props) {
   const user = useCurrentUser();
+
+  const { data: initialNotifications, reload } = useNotifications();
 
   const isSM = useResponsive() < Breakpoint.SM;
   const navigate = useNavigate();
@@ -63,6 +62,8 @@ export function TopBar({ isDarkMode, toggleTheme }: Props) {
     }
   );
 
+  const isDarkMode = localStorage.getItem('theme') === 'dark';
+
   return (
     <AppBar sx={styles.root}>
       <Toolbar sx={styles.toolbar}>
@@ -71,7 +72,12 @@ export function TopBar({ isDarkMode, toggleTheme }: Props) {
             {!isSM && (
               <>
                 <LanguageSwitcher />
-                <NotificationsIcon sx={styles.notification} />
+                {initialNotifications && (
+                  <Notifications
+                    initialNotifications={initialNotifications}
+                    onChange={() => reload(() => {})}
+                  />
+                )}
               </>
             )}
 
