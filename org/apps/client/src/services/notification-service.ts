@@ -11,6 +11,7 @@ export class NotificationService {
     query: { userId: authService.persistedUser?._id },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   listenForNotifications(callback: (notification: any) => void) {
     this.socket.on('newNotification', callback);
   }

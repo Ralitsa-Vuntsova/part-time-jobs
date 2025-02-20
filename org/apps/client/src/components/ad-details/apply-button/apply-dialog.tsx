@@ -254,13 +254,16 @@ export function ApplyDialog({ open, onClose, ad, onChange, userId }: Props) {
           <LoadingButton
             type="submit"
             variant="contained"
-            loading={loading}
+            loading={loadingApplying || loading}
             sx={styles.button}
           >
             {t('apply')}
           </LoadingButton>
         </DialogActions>
 
+        {errorApplying ? (
+          <ErrorContainer>{errorApplying}</ErrorContainer>
+        ) : null}
         {error ? <ErrorContainer>{error}</ErrorContainer> : null}
       </Dialog>
     </FormProvider>

@@ -26,6 +26,7 @@ export class NotificationGateway
 
   handleDisconnect(client: Socket) {
     const userId = [...this.users.entries()].find(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([_, socketId]) => socketId === client.id
     )?.[0];
 
