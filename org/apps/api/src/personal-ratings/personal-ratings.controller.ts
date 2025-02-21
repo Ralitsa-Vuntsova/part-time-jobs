@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthUser, CreatePersonalRatingDto } from '@shared/data-objects';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../decorators/user-decorator';
@@ -8,10 +8,10 @@ import { PersonalRatingsService } from './personal-ratings.service';
 export class PersonalRatingsController {
   constructor(private personalRatingService: PersonalRatingsService) {}
 
-  @Get()
+  @Get('/users/:userId')
   @UseGuards(JwtAuthGuard)
-  list() {
-    return this.personalRatingService.list();
+  listForUser(@Param('userId') userId: string) {
+    return this.personalRatingService.listForUser(userId);
   }
 
   @Post()

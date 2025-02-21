@@ -7,10 +7,13 @@ import {
 export class PersonalRatingService {
   private http = new HttpService();
 
-  listAll(abortSignal: AbortSignal) {
-    return this.http.get<PersonalRatingDto[]>('personal-ratings', {
-      abortSignal,
-    });
+  listForUser(userId: string, abortSignal: AbortSignal) {
+    return this.http.get<PersonalRatingDto[]>(
+      `personal-ratings/users/${userId}`,
+      {
+        abortSignal,
+      }
+    );
   }
 
   create(personalRatings: CreatePersonalRatingDto[], abortSignal: AbortSignal) {

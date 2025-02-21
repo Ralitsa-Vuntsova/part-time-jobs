@@ -21,6 +21,7 @@ export class ApplicationResponsesService {
     return this.appResponseModel.find();
   }
 
+  // TODO: List for specific ads only
   listAccepted(): Promise<ApplicationResponseDto[]> {
     return this.appResponseModel.find({ response: Response.Accepted });
   }

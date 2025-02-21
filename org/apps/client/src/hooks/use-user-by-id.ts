@@ -1,7 +1,6 @@
-import { useUsers } from './use-users';
+import { userService } from '../services/user-service';
+import { useAsync } from './use-async';
 
 export function useUserById(id: string) {
-  const { data: users } = useUsers();
-
-  return users?.find(({ _id }) => _id === id);
+  return useAsync(async ({ signal }) => userService.getById(id, signal), []);
 }

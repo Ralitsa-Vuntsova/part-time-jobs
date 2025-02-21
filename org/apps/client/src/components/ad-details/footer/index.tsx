@@ -28,7 +28,7 @@ interface Props {
   ad: JobOfferDto | ServiceOfferDto;
 }
 
-// TODO [future]: Translate dates
+// TODO: Translate dates
 export function AdDetailsFooter({ ad }: Props) {
   const { t } = useTranslation();
 

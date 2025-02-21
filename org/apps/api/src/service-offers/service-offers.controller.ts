@@ -1,8 +1,8 @@
 import {
   Body,
   Controller,
+  ForbiddenException,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -12,11 +12,11 @@ import {
   AuthUser,
   CreateServiceOfferDto,
   EditServiceOfferDto,
-  ServiceOfferDto,
 } from '@shared/data-objects';
 import { ServiceOffersService } from './service-offers.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../decorators/user-decorator';
+import { union } from 'lodash';
 
 @Controller('service-offers')
 export class ServiceOffersController {
@@ -24,24 +24,27 @@ export class ServiceOffersController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  async getById(
-    @Param('id') id: string,
-    @User() user: AuthUser
-  ): Promise<ServiceOfferDto> {
+  async getById(@Param('id') id: string, @User() user: AuthUser) {
     const ad = await this.adsService.findById(id);
 
     if (ad.createdBy === user.userId || !ad.archiveReason) {
       return ad;
     }
 
-    // Handles user not having permission to ad
-    throw new NotFoundException(`Advertisement with ID ${id} not found!`);
+    throw new ForbiddenException('Cannot fetch advertisement, no permissions');
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  list() {
-    return this.adsService.list();
+  async list(@User() user: AuthUser) {
+    const ads = await this.adsService.list();
+
+    const createdByUserAds = ads.filter(
+      ({ createdBy }) => createdBy === user.userId
+    );
+    const activeAds = ads.filter(({ archiveReason }) => !archiveReason);
+
+    return union(createdByUserAds, activeAds);
   }
 
   @Post()
@@ -58,6 +61,11 @@ export class ServiceOffersController {
     @User() user: AuthUser
   ) {
     const adToBeEdited = await this.adsService.findById(id);
+
+    if (adToBeEdited.createdBy !== user.userId) {
+      throw new ForbiddenException('Cannot modify ad, no permissions');
+    }
+
     const editedAd = { ...adToBeEdited, ...ad };
 
     await this.adsService.edit(id, editedAd, user.userId);
@@ -69,6 +77,11 @@ export class ServiceOffersController {
   @UseGuards(JwtAuthGuard)
   async unarchive(@Param('id') id: string, @User() user: AuthUser) {
     const adToBeEdited = await this.adsService.findById(id);
+
+    if (adToBeEdited.createdBy !== user.userId) {
+      throw new ForbiddenException('Cannot unarchive ad, no permissions');
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { archiveReason, ...rest } = adToBeEdited;
 

@@ -12,15 +12,6 @@ export class JobOfferService {
     return this.http.get<JobOfferDto>(`job-offers/${id}`, { abortSignal });
   }
 
-  getByUser(userId: string, abortSignal: AbortSignal) {
-    return this.http.get<JobOfferDto[]>(`job-offers`, {
-      body: {
-        userId,
-      },
-      abortSignal,
-    });
-  }
-
   listAll(abortSignal: AbortSignal) {
     return this.http.get<JobOfferDto[]>('job-offers', { abortSignal });
   }

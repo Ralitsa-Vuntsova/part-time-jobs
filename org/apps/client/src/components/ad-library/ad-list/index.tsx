@@ -72,7 +72,7 @@ export function AdList({
     alignItems: 'center',
   };
 
-  // TODO [future]: Fix ad types across the app
+  // TODO: Fix ad types across the app
   // Filters will be applied only to jobs
   const data = type === AdType.Job ? filterAds(jobs, filters) : services;
   const displayedData = getDisplayedData(data, page, PAGE_SIZE);
@@ -112,7 +112,7 @@ export function AdList({
           ))}
         </Box>
 
-        {/* TODO [future]: Support server-side pagination */}
+        {/* TODO: Support server-side pagination */}
         <Pagination
           page={page + 1}
           onChange={(_, newPage) => setPage(newPage - 1)}

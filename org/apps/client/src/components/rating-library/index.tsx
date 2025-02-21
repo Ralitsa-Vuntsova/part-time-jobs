@@ -1,8 +1,4 @@
-import {
-  JobOfferDto,
-  PersonalRatingDto,
-  UserProfile,
-} from '@shared/data-objects';
+import { JobOfferDto, PersonalRatingDto } from '@shared/data-objects';
 import { useState } from 'react';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,6 +7,7 @@ import { makeStyles } from '../../libs/make-styles';
 import { NoRatings } from './no-ratings';
 import { filterRatingsByTerm } from '../../libs/rating-helper-functions';
 import { RatingList } from './rating-list';
+import { useUsers } from '../../hooks/use-users';
 
 const styles = makeStyles({
   flexColumn: {
@@ -25,16 +22,17 @@ const styles = makeStyles({
 
 interface Props {
   ratings: PersonalRatingDto[];
-  users: UserProfile[];
   ads: JobOfferDto[];
   label?: string;
 }
 
-export function RatingLibrary({ ratings, users, ads, label }: Props) {
+export function RatingLibrary({ ratings, ads, label }: Props) {
   const [searchResults, setSearchResults] =
     useState<PersonalRatingDto[]>(ratings);
 
   const { t } = useTranslation();
+
+  const { data: users } = useUsers(ratings.map(({ userId }) => userId));
 
   return (
     <Box sx={styles.flexColumn}>
@@ -48,7 +46,7 @@ export function RatingLibrary({ ratings, users, ads, label }: Props) {
             sx={styles.textField}
             onChange={(e) => {
               setSearchResults(
-                filterRatingsByTerm(ratings, ads, users, e.target.value)
+                filterRatingsByTerm(ratings, ads, users ?? [], e.target.value)
               );
             }}
             slotProps={{

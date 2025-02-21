@@ -81,7 +81,7 @@ export function ApplicationCard({
   const [openAcceptDialog, setOpenAcceptDialog] = useState(false);
   const [openDeclineDialog, setOpenDeclineDialog] = useState(false);
 
-  const user = useUserById(ad.createdBy); // the current user
+  const { data: user } = useUserById(ad.createdBy); // the current user
 
   const { t } = useTranslation();
 

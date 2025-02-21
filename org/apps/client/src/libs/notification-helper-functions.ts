@@ -6,7 +6,7 @@ import {
 import { getTimeFromNow, TimeType } from './format-date';
 import i18n from 'i18next';
 
-// TODO [future]: Translate notifications
+// TODO: Translate notifications
 export function toNotificationForResponse(
   ad: JobOfferDto,
   creator: UserProfile | undefined,

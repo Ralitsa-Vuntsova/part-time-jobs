@@ -16,8 +16,10 @@ export class PersonalRatingsService {
     private personalRatingModel: ExtendedModel<PersonalRatingDocument>
   ) {}
 
-  list(): Promise<PersonalRatingDto[]> {
-    return this.personalRatingModel.find();
+  listForUser(userId: string): Promise<PersonalRatingDto[]> {
+    return this.personalRatingModel
+      .find({ createdBy: userId })
+      .sort({ createdAt: -1 });
   }
 
   create(

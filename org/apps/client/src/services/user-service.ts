@@ -16,8 +16,11 @@ export class UserService {
     });
   }
 
-  listAll(abortSignal: AbortSignal) {
-    return this.http.get<UserProfile[]>('users', { abortSignal });
+  listByIds(ids: string[], abortSignal: AbortSignal) {
+    return this.http.get<UserProfile[]>('users', {
+      query: { ids: ids.join(',') },
+      abortSignal,
+    });
   }
 
   createUser(user: CreateUserDto, abortSignal: AbortSignal) {

@@ -1,18 +1,15 @@
-import { ApplicationResponse } from '@shared/enums';
 import { useApplicationResponses } from './use-application-responses';
 import { useApplications } from './use-applications';
+import { getAdApplicationResponses } from '../libs/application-helper-functions';
 
 export function useAdAcceptedApplications(adId: string) {
   const { data: applications } = useApplications();
   const { data: applicationResponses } = useApplicationResponses();
 
-  const adApplicationsIds = applications
-    ?.filter((a) => a.adId === adId)
-    .map(({ _id }) => _id);
-  const adApplicationResponses = applicationResponses?.filter(
-    (response) =>
-      adApplicationsIds?.includes(response.applicationId) &&
-      response.response === ApplicationResponse.Accepted
+  const adApplicationResponses = getAdApplicationResponses(
+    adId,
+    applications,
+    applicationResponses
   );
 
   return applications?.filter((app) =>

@@ -1,16 +1,19 @@
-import { CreateUserDto, EditUserDto } from '@shared/data-objects';
+import { AuthUser, CreateUserDto, EditUserDto } from '@shared/data-objects';
 import { UsersService } from './users.service';
 import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { User } from '../decorators/user-decorator';
 
 @Controller('users')
 export class UsersController {
@@ -27,8 +30,8 @@ export class UsersController {
   }
 
   @Get()
-  getAll() {
-    return this.usersService.listAll();
+  getUsersByIds(@Query('ids') ids: string) {
+    return this.usersService.list(ids.split(','));
   }
 
   @Post('register')
@@ -40,7 +43,15 @@ export class UsersController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  async editUser(@Param('id') id: string, @Body() user: EditUserDto) {
+  async editUser(
+    @Param('id') id: string,
+    @Body() user: EditUserDto,
+    @User() requestUser: AuthUser
+  ) {
+    if (id !== requestUser.userId) {
+      throw new ForbiddenException('Cannot modify user, no permissions');
+    }
+
     const userToBeEdited = await this.usersService.getFullUserObject(id);
     const editedUser = { ...userToBeEdited, ...user };
 
@@ -51,7 +62,11 @@ export class UsersController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string, @User() requestUser: AuthUser) {
+    if (id !== requestUser.userId) {
+      throw new ForbiddenException('Cannot delete user, no permissions');
+    }
+
     await this.usersService.delete(id);
 
     return { status: 'OK' };

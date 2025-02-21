@@ -41,7 +41,7 @@ export function EditProfile() {
 
           {ratings.length > 0 && (
             <>
-              {/* TODO [future]: Display how many people rated */}
+              {/* TODO: Display how many people rated */}
               <Rating value={averageRating} readOnly />
               <RatingAccordion expanded={true} ratings={ratings} />
             </>

@@ -53,7 +53,7 @@ export function RatingCard({ rating, ad }: Props) {
     return null;
   }
 
-  const user = useUserById(rating.userId);
+  const { data: user } = useUserById(rating.userId);
 
   return (
     <Card sx={styles.list}>

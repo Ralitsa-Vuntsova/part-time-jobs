@@ -23,7 +23,6 @@ import { HeaderButtons } from './header-buttons';
 import { PersonalRatingDialog } from '../personal-rating-dialog';
 import { PublicRatingDialog } from '../public-rating-dialog';
 import { useServicePerformers } from '../../hooks/use-service-performers';
-import { sortBy } from 'lodash';
 
 const styles = makeStyles({
   header: {
@@ -191,14 +190,14 @@ export function AdDetails({
             open={openPersonalRatingDialog}
             onClose={() => setOpenPersonalRatingDialog(false)}
             ad={ad as JobOfferDto}
-            users={sortBy(servicePerformers)}
+            userIds={servicePerformers}
           />
 
           <PublicRatingDialog
             open={openPublicRatingDialog}
             onClose={() => setOpenPublicRatingDialog(false)}
             ad={ad as JobOfferDto}
-            users={sortBy(servicePerformers)}
+            userIds={servicePerformers}
           />
         </>
       )}

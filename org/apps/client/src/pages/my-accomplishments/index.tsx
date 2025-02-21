@@ -32,8 +32,8 @@ export function MyAccomplishments() {
       }}
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
     >
+      {/* TODO: Filter server-side */}
       {([jobs, applications, applicationResponses]) => {
-        // TODO [future]: Filter server-side
         const acceptedResponses = applicationResponses.filter(
           (r) => r.response === ApplicationResponse.Accepted
         );

@@ -70,7 +70,7 @@ export function ApplicationCardContent({ ad, application }: Props) {
         {`${user.firstName} ${user.lastName}`}
       </Typography>
 
-      {/* TODO [future]: Consider adding contacts instead of user profile data */}
+      {/* TODO: Consider adding contacts instead of user profile data */}
       <Box sx={styles.flexRow}>
         {showEmail ? (
           <Typography sx={styles.secondaryColor}>{user.email}</Typography>
@@ -126,7 +126,7 @@ export function ApplicationCardContent({ ad, application }: Props) {
 
       {ratings.length > 0 && (
         <Box sx={styles.flexRow}>
-          {/* TODO [future]: Display how many people rated */}
+          {/* TODO: Display how many people rated */}
           <Rating value={averageRating} readOnly />
           <Button
             size="small"
@@ -138,10 +138,10 @@ export function ApplicationCardContent({ ad, application }: Props) {
         </Box>
       )}
 
-      {/* TODO [future]: Add button Show more */}
+      {/* TODO: Add button Show more */}
       {showFeedback &&
         ratings.slice(0, 5).map((r) => (
-          // TODO [future]: Display the name of the person who rated
+          // TODO: Display the name of the person who rated
           <Box key={r._id}>
             <Typography sx={styles.rating}>{r.comment}</Typography>
             <Divider />

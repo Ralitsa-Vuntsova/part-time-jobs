@@ -14,7 +14,6 @@ import { useState } from 'react';
 import { PersonalRatingDialog } from '../../personal-rating-dialog';
 import { ArchiveReason } from '@shared/enums';
 import { PublicRatingDialog } from '../../public-rating-dialog';
-import { useUserById } from '../../../hooks/use-user-by-id';
 
 const styles = makeStyles({
   flexColumn: {
@@ -57,8 +56,6 @@ export function AdCard({ ad, isGrid, type, isAccomplishment = false }: Props) {
   const [openPersonalRatingDialog, setOpenPersonalRatingDialog] =
     useState(false);
   const [openPublicRatingDialog, setOpenPublicRatingDialog] = useState(false);
-
-  const adCreator = useUserById(ad.createdBy);
 
   const navigate = useNavigate();
 
@@ -123,23 +120,19 @@ export function AdCard({ ad, isGrid, type, isAccomplishment = false }: Props) {
         </CardActions>
       </Card>
 
-      {adCreator && (
-        <>
-          <PersonalRatingDialog
-            open={openPersonalRatingDialog}
-            onClose={() => setOpenPersonalRatingDialog(false)}
-            ad={ad as JobOfferDto}
-            users={[adCreator]}
-          />
+      <PersonalRatingDialog
+        open={openPersonalRatingDialog}
+        onClose={() => setOpenPersonalRatingDialog(false)}
+        ad={ad as JobOfferDto}
+        userIds={[ad.createdBy]}
+      />
 
-          <PublicRatingDialog
-            open={openPublicRatingDialog}
-            onClose={() => setOpenPublicRatingDialog(false)}
-            ad={ad as JobOfferDto}
-            users={[adCreator]}
-          />
-        </>
-      )}
+      <PublicRatingDialog
+        open={openPublicRatingDialog}
+        onClose={() => setOpenPublicRatingDialog(false)}
+        ad={ad as JobOfferDto}
+        userIds={[ad.createdBy]}
+      />
     </>
   );
 }

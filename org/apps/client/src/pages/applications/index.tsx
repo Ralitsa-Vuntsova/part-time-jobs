@@ -9,7 +9,6 @@ import { useCurrentUser } from '../../hooks/use-current-user';
 import { applicationResponseService } from '../../services/application-response-service';
 import { applicationService } from '../../services/application-service';
 import { jobOfferService } from '../../services/job-offer-service';
-import { userService } from '../../services/user-service';
 import { useTranslation } from 'react-i18next';
 
 export function Applications() {
@@ -25,7 +24,6 @@ export function Applications() {
         Promise.all([
           jobOfferService.listAll(signal),
           applicationService.listAll(signal),
-          userService.listAll(signal),
           applicationResponseService.listAll(signal),
         ])
       }
@@ -33,7 +31,8 @@ export function Applications() {
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
       loadOptions={{ clearDataOnReload: false }}
     >
-      {([jobs, applications, users, applicationResponses]) => {
+      {/* TODO: Filter server-side */}
+      {([jobs, applications, applicationResponses]) => {
         const currentUserAds = jobs.filter(
           ({ createdBy }) => createdBy === currentUser?._id
         );
@@ -43,7 +42,6 @@ export function Applications() {
             applications={applications.filter(({ adId }) =>
               currentUserAds.map(({ _id }) => _id).includes(adId)
             )}
-            users={users}
             ads={currentUserAds}
             applicationResponses={applicationResponses.filter(
               ({ createdBy }) => createdBy === currentUser?._id

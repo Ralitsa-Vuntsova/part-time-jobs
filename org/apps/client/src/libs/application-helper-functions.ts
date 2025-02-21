@@ -47,3 +47,19 @@ export function shouldDisableApplicationResponse(
     ? false
     : acceptedNumber + application.personNumber > (ad?.personNumber.value ?? 0);
 }
+
+export function getAdApplicationResponses(
+  adId: string,
+  applications: ApplicationDto[] | undefined,
+  applicationResponses: ApplicationResponseDto[] | undefined
+) {
+  const adApplicationsIds = applications
+    ?.filter((a) => a.adId === adId)
+    .map(({ _id }) => _id);
+
+  return applicationResponses?.filter(
+    (response) =>
+      adApplicationsIds?.includes(response.applicationId) &&
+      response.response === ApplicationResponse.Accepted
+  );
+}

@@ -1,12 +1,11 @@
 import { sumBy } from 'lodash';
 import { usePublicRatings } from './use-public-ratings';
-import { useUsers } from './use-users';
+import { useUserById } from './use-user-by-id';
 
 export function useUserRating(userId: string) {
   const { data: publicRatings } = usePublicRatings();
-  const { data: users } = useUsers();
+  const { data: user } = useUserById(userId);
 
-  const user = users?.find(({ _id }) => _id === userId);
   const userRatings = publicRatings?.filter((r) => r.userId === userId);
 
   if (!userRatings || userRatings.length === 0) {

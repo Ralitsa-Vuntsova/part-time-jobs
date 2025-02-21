@@ -2,7 +2,6 @@ import {
   ApplicationDto,
   ApplicationResponseDto,
   JobOfferDto,
-  UserProfile,
 } from '@shared/data-objects';
 import { NoApplications } from './no-applications';
 import { useState } from 'react';
@@ -12,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { ApplicationList } from './application-list';
 import { filterApplicationsByTerm } from '../../libs/application-helper-functions';
 import { makeStyles } from '../../libs/make-styles';
+import { useUsers } from '../../hooks/use-users';
 
 const styles = makeStyles({
   flexColumn: {
@@ -26,7 +26,6 @@ const styles = makeStyles({
 
 interface Props {
   applications: ApplicationDto[];
-  users: UserProfile[];
   ads: JobOfferDto[];
   applicationResponses: ApplicationResponseDto[];
   label?: string;
@@ -35,7 +34,6 @@ interface Props {
 
 export function ApplicationLibrary({
   applications,
-  users,
   ads,
   applicationResponses,
   label,
@@ -45,6 +43,11 @@ export function ApplicationLibrary({
     useState<ApplicationDto[]>(applications);
 
   const { t } = useTranslation();
+
+  const { data: users } = useUsers(
+    applications.map(({ createdBy }) => createdBy)
+  );
+  console.log('users', users);
 
   return (
     <Box sx={styles.flexColumn}>
@@ -61,7 +64,7 @@ export function ApplicationLibrary({
                 filterApplicationsByTerm(
                   applications,
                   ads,
-                  users,
+                  users ?? [],
                   e.target.value
                 )
               );

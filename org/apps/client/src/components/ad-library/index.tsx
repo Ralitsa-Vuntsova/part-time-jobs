@@ -61,7 +61,7 @@ interface Props {
   showArchivedButton?: boolean;
 }
 
-// TODO [future]: Extract common library component
+// TODO: Extract common library component
 export function AdLibrary({
   jobs,
   services = [],

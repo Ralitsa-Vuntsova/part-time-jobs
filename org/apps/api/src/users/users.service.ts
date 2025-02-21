@@ -27,8 +27,8 @@ export class UsersService {
     return dbToInstance(UserDto, this.userModel.findOne({ _id: id }));
   }
 
-  async listAll(): Promise<UserProfile[]> {
-    return (await this.userModel.find({})).map((user) => ({
+  async list(ids: string[]): Promise<UserProfile[]> {
+    return (await this.userModel.find({ _id: { $in: ids } })).map((user) => ({
       _id: user._id,
       username: user.username,
       firstName: user.firstName,

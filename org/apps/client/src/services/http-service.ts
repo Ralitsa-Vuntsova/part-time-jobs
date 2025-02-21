@@ -60,7 +60,7 @@ export class HttpService {
       }
     );
 
-    // TODO [future]: Better error handling
+    // TODO: Better error handling
     if (response.status === 404) {
       throw new Error('Not Found');
     }

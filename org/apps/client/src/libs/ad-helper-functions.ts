@@ -52,7 +52,7 @@ export function filterServicesByTerm(
   );
 }
 
-// TODO [future]: Refactor using reduce
+// TODO: Refactor using reduce
 export function filterAds(ads: JobOfferDto[], filters: Filters): JobOfferDto[] {
   let tempAds = ads;
 
@@ -100,7 +100,7 @@ export function filterAds(ads: JobOfferDto[], filters: Filters): JobOfferDto[] {
   return tempAds;
 }
 
-// TODO [future]: Consider adding search term and page number, same for updateUrl
+// TODO: Consider adding search term and page number, same for updateUrl
 export function updateFilters(searchParams: URLSearchParams) {
   const searchPersonNumber = searchParams.get('personNumber');
   const searchCurrency = searchParams.get('priceCurrency');

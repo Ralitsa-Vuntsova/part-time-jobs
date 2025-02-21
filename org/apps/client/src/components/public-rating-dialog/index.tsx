@@ -13,7 +13,7 @@ import { LoadingButton } from '../loading-button';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { ErrorContainer } from '../error-container';
 import { publicRatingService } from '../../services/public-rating-service';
-import { JobOfferDto, UserProfile } from '@shared/data-objects';
+import { JobOfferDto } from '@shared/data-objects';
 import {
   defaultRatings,
   publicRatingsSchema,
@@ -23,6 +23,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { PublicRatingControls } from './controls';
+import { useUsers } from '../../hooks/use-users';
+import { sortBy } from 'lodash';
 
 const styles = makeStyles({
   title: {
@@ -47,15 +49,17 @@ interface Props {
   open: boolean;
   onClose: () => unknown;
   ad: JobOfferDto;
-  users: UserProfile[];
+  userIds: string[];
 }
 
-export function PublicRatingDialog({ open, onClose, ad, users }: Props) {
+export function PublicRatingDialog({ open, onClose, ad, userIds }: Props) {
   const { t } = useTranslation();
+
+  const { data: users } = useUsers(userIds);
 
   const form = useForm<PublicRatingsSchema>({
     defaultValues: {
-      ratings: defaultRatings(users),
+      ratings: defaultRatings(users ?? []),
     },
     resolver: zodResolver(publicRatingsSchema),
   });
@@ -75,6 +79,8 @@ export function PublicRatingDialog({ open, onClose, ad, users }: Props) {
 
   const onSubmit = form.handleSubmit(trigger);
 
+  const sortedUsers = sortBy(users);
+
   return (
     <FormProvider {...form}>
       <Dialog
@@ -90,7 +96,7 @@ export function PublicRatingDialog({ open, onClose, ad, users }: Props) {
         <DialogTitle sx={styles.title}>{t('public-rating')}</DialogTitle>
 
         <DialogContent sx={styles.flexColumn}>
-          {users.map(
+          {sortedUsers.map(
             (user, index) =>
               user && (
                 <Box key={user?._id} sx={styles.flexColumn}>

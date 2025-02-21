@@ -18,7 +18,7 @@ const styles = makeStyles({
   },
 });
 
-// TODO [future]: Extract NoData component in a common place in order to be reused
+// TODO: Extract NoData component in a common place in order to be reused
 export function NoRatings() {
   const { t } = useTranslation();
 

@@ -24,6 +24,7 @@ export function MyAds() {
       }
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
     >
+      {/* TODO: Filter server-side */}
       {([jobs, services]) => {
         return (
           <AdLibrary

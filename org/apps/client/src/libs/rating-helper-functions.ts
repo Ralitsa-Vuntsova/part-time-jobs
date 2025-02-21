@@ -5,31 +5,24 @@ import {
   PersonalRatingDto,
   UserProfile,
 } from '@shared/data-objects';
-import { ApplicationResponse } from '@shared/enums';
+import { getAdApplicationResponses } from './application-helper-functions';
 
-export function getServicePerformers(
+export function getServicePerformerIds(
   adId: string,
-  users: UserProfile[] | undefined,
   applications: ApplicationDto[] | undefined,
   applicationResponses: ApplicationResponseDto[] | undefined
 ) {
-  const adApplicationsIds = applications
-    ?.filter((a) => a.adId === adId)
-    .map(({ _id }) => _id);
-  const adApplicationResponses = applicationResponses?.filter(
-    (response) =>
-      adApplicationsIds?.includes(response.applicationId) &&
-      response.response === ApplicationResponse.Accepted
+  const adApplicationResponses = getAdApplicationResponses(
+    adId,
+    applications,
+    applicationResponses
   );
 
   const acceptedApplications = applications?.filter((app) =>
     adApplicationResponses?.some((res) => res.applicationId === app._id)
   );
-  const servicePerformers = acceptedApplications?.map(
-    ({ createdBy }) => createdBy
-  );
 
-  return users?.filter(({ _id }) => servicePerformers?.includes(_id));
+  return acceptedApplications?.map(({ createdBy }) => createdBy);
 }
 
 export function filterRatingsByTerm(

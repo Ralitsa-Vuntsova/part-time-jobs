@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { getTimePassed } from '../../libs/notification-helper-functions';
 
-const DISPLAY_NOTIFICATION_COUNT = 5;
+const NUMBER_OF_DISPLAYED_NOTIFICATION = 5;
 
 const styles = makeStyles({
   icon: {
@@ -63,7 +63,9 @@ export function Notifications({ initialNotifications, onChange }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [notifications, setNotifications] =
     useState<NotificationDto[]>(initialNotifications);
-  const [displayCount, setDisplayCount] = useState(DISPLAY_NOTIFICATION_COUNT);
+  const [displayCount, setDisplayCount] = useState(
+    NUMBER_OF_DISPLAYED_NOTIFICATION
+  );
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -75,9 +77,11 @@ export function Notifications({ initialNotifications, onChange }: Props) {
 
   useEffect(() => {
     if (currentUser?._id) {
-      notificationService.listenForNotifications((newNotification) =>
-        setNotifications((prev) => uniq([newNotification, ...prev]))
-      );
+      notificationService.listenForNotifications((newNotification) => {
+        if (newNotification.userId === currentUser._id) {
+          setNotifications((prev) => uniq([newNotification, ...prev]));
+        }
+      });
     }
   }, [currentUser?._id]);
 
@@ -113,7 +117,7 @@ export function Notifications({ initialNotifications, onChange }: Props) {
           open={open}
           onClose={() => {
             handleClose();
-            setDisplayCount(DISPLAY_NOTIFICATION_COUNT);
+            setDisplayCount(NUMBER_OF_DISPLAYED_NOTIFICATION);
           }}
           sx={styles.menu}
         >
@@ -127,7 +131,7 @@ export function Notifications({ initialNotifications, onChange }: Props) {
                   if (!n.isRead) {
                     markAsRead(n._id);
                     handleClose();
-                    setDisplayCount(DISPLAY_NOTIFICATION_COUNT);
+                    setDisplayCount(NUMBER_OF_DISPLAYED_NOTIFICATION);
                   }
                   if (n.redirectUrl) {
                     navigate(n.redirectUrl);
@@ -142,10 +146,10 @@ export function Notifications({ initialNotifications, onChange }: Props) {
             );
           })}
 
-          {displayedNotifications.length >= displayCount && (
+          {displayedNotifications.length > displayCount && (
             <MenuItem
               onClick={() =>
-                setDisplayCount(displayCount + DISPLAY_NOTIFICATION_COUNT)
+                setDisplayCount(displayCount + NUMBER_OF_DISPLAYED_NOTIFICATION)
               }
             >
               <Typography sx={styles.showMore} variant="subtitle1">

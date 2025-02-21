@@ -1,8 +1,8 @@
 import {
   Body,
   Controller,
+  ForbiddenException,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -12,13 +12,13 @@ import {
   AuthUser,
   CreateJobOfferDto,
   EditJobOfferDto,
-  JobOfferDto,
 } from '@shared/data-objects';
 import { JobOffersService } from './job-offers.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../decorators/user-decorator';
 import { ApplicationsService } from '../applications/applications.service';
 import { ApplicationResponsesService } from '../application-reponses/application-responses.service';
+import { union } from 'lodash';
 
 @Controller('job-offers')
 export class JobOffersController {
@@ -30,41 +30,45 @@ export class JobOffersController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  async getById(
-    @Param('id') id: string,
-    @User() user: AuthUser
-  ): Promise<JobOfferDto> {
+  async getById(@Param('id') id: string, @User() user: AuthUser) {
     const ad = await this.adsService.findById(id);
 
     if (ad.createdBy === user.userId || !ad.archiveReason) {
       return ad;
     }
 
-    const applications = (
-      await this.applicationResponsesService.listAccepted()
-    ).map(({ applicationId }) => applicationId);
-    const ads = (
-      await this.applicationsService.listByIds(applications, user.userId)
-    ).map(({ adId }) => adId);
+    const completedByUserAdIds = await this.getCompletedByUserAdIds(
+      user.userId
+    );
 
     // Handles user not having permission to ad
-    if (!ads.includes(id)) {
-      throw new NotFoundException(`Advertisement with ID ${id} not found!`);
+    if (!completedByUserAdIds.includes(id)) {
+      throw new ForbiddenException(
+        'Cannot fetch advertisement, no permissions'
+      );
     }
 
     return ad;
   }
 
-  @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  getByUser(@Body() user: { userId: string }): Promise<JobOfferDto[]> {
-    return this.adsService.findByUser(user.userId);
-  }
-
   @Get()
   @UseGuards(JwtAuthGuard)
-  list() {
-    return this.adsService.list();
+  async list(@User() user: AuthUser) {
+    const ads = await this.adsService.list();
+
+    const completedByUserAdIds = await this.getCompletedByUserAdIds(
+      user.userId
+    );
+
+    const createdByUserAds = ads.filter(
+      ({ createdBy }) => createdBy === user.userId
+    );
+    const completedByUserAds = ads.filter(({ _id }) =>
+      completedByUserAdIds.includes(_id.toString())
+    );
+    const activeAds = ads.filter(({ archiveReason }) => !archiveReason);
+
+    return union(createdByUserAds, completedByUserAds, activeAds);
   }
 
   @Post()
@@ -81,6 +85,11 @@ export class JobOffersController {
     @User() user: AuthUser
   ) {
     const adToBeEdited = await this.adsService.findById(id);
+
+    if (adToBeEdited.createdBy !== user.userId) {
+      throw new ForbiddenException('Cannot modify ad, no permissions');
+    }
+
     const editedAd = { ...adToBeEdited, ...ad };
 
     await this.adsService.edit(id, editedAd, user);
@@ -92,11 +101,26 @@ export class JobOffersController {
   @UseGuards(JwtAuthGuard)
   async unarchive(@Param('id') id: string, @User() user: AuthUser) {
     const adToBeEdited = await this.adsService.findById(id);
+
+    if (adToBeEdited.createdBy !== user.userId) {
+      throw new ForbiddenException('Cannot unarchive ad, no permissions');
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { archiveReason, ...rest } = adToBeEdited;
 
     await this.adsService.edit(id, rest, user);
 
     return { status: 'OK' };
+  }
+
+  async getCompletedByUserAdIds(userId: string) {
+    const acceptedApplicationIds = (
+      await this.applicationResponsesService.listAccepted()
+    ).map(({ applicationId }) => applicationId);
+
+    return (
+      await this.applicationsService.listByIds(acceptedApplicationIds, userId)
+    ).map(({ adId }) => adId);
   }
 }

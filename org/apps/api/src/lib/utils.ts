@@ -6,6 +6,7 @@ interface Constructable<T> {
   new (...args: any): T;
 }
 
+// TODO: dbToListInstance
 export async function dbToInstance<
   T extends object,
   D extends (Document & T) | null

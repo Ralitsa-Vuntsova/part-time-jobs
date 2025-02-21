@@ -17,7 +17,7 @@ export class PublicRatingsService {
   ) {}
 
   list(): Promise<PublicRatingDto[]> {
-    return this.publicRatingModel.find();
+    return this.publicRatingModel.find().sort({ createdAt: -1 });
   }
 
   create(
