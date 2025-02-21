@@ -1,4 +1,3 @@
-import { useCurrentUser } from '../../hooks/use-current-user';
 import {
   AsyncDataLoader,
   LOADING_PROPS,
@@ -9,18 +8,13 @@ import { jobOfferService } from '../../services/job-offer-service';
 import { RatingLibrary } from '../../components/rating-library';
 
 export function PersonalRatings() {
-  const currentUser = useCurrentUser();
   const { t } = useTranslation();
-
-  if (!currentUser) {
-    return null;
-  }
 
   return (
     <AsyncDataLoader
       dataLoader={({ signal }) =>
         Promise.all([
-          personalRatingService.listForUser(currentUser._id, signal),
+          personalRatingService.listForUser(signal),
           jobOfferService.listAll(signal),
         ])
       }

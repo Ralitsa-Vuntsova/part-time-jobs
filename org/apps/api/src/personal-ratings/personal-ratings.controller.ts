@@ -8,10 +8,10 @@ import { PersonalRatingsService } from './personal-ratings.service';
 export class PersonalRatingsController {
   constructor(private personalRatingService: PersonalRatingsService) {}
 
-  @Get('/users/:userId')
+  @Get('/users')
   @UseGuards(JwtAuthGuard)
-  listForUser(@Param('userId') userId: string) {
-    return this.personalRatingService.listForUser(userId);
+  listForUser(@User() user: AuthUser) {
+    return this.personalRatingService.listForUser(user.userId);
   }
 
   @Post()
