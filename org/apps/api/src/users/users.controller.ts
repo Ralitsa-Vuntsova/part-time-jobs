@@ -31,6 +31,10 @@ export class UsersController {
 
   @Get()
   getUsersByIds(@Query('ids') ids: string) {
+    if (ids === '') {
+      return [];
+    }
+
     return this.usersService.list(ids.split(','));
   }
 

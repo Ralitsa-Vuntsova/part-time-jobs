@@ -47,7 +47,6 @@ export function ApplicationLibrary({
   const { data: users } = useUsers(
     applications.map(({ createdBy }) => createdBy)
   );
-  console.log('users', users);
 
   return (
     <Box sx={styles.flexColumn}>

@@ -13,7 +13,7 @@ import { LoadingButton } from '../loading-button';
 import { useAsyncAction } from '../../hooks/use-async-action';
 import { ErrorContainer } from '../error-container';
 import { publicRatingService } from '../../services/public-rating-service';
-import { JobOfferDto } from '@shared/data-objects';
+import { JobOfferDto, UserProfile } from '@shared/data-objects';
 import {
   defaultRatings,
   publicRatingsSchema,
@@ -23,7 +23,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { PublicRatingControls } from './controls';
-import { useUsers } from '../../hooks/use-users';
 import { sortBy } from 'lodash';
 
 const styles = makeStyles({
@@ -49,17 +48,15 @@ interface Props {
   open: boolean;
   onClose: () => unknown;
   ad: JobOfferDto;
-  userIds: string[];
+  users: UserProfile[];
 }
 
-export function PublicRatingDialog({ open, onClose, ad, userIds }: Props) {
+export function PublicRatingDialog({ open, onClose, ad, users }: Props) {
   const { t } = useTranslation();
-
-  const { data: users } = useUsers(userIds);
 
   const form = useForm<PublicRatingsSchema>({
     defaultValues: {
-      ratings: defaultRatings(users ?? []),
+      ratings: defaultRatings(users),
     },
     resolver: zodResolver(publicRatingsSchema),
   });

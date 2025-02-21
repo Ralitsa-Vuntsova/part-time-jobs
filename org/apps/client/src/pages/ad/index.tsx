@@ -12,6 +12,8 @@ import { useCurrentUser } from '../../hooks/use-current-user';
 import { useRef } from 'react';
 import { applicationService } from '../../services/application-service';
 import { AdDetails } from '../../components/ad-details';
+import { applicationResponseService } from '../../services/application-response-service';
+import { getServicePerformerIds } from '../../libs/rating-helper-functions';
 
 interface Props {
   type: AdType;
@@ -35,6 +37,7 @@ export function Ad({ type }: Props) {
             ? jobOfferService.getById(id, signal)
             : serviceOfferService.getById(id, signal),
           applicationService.listAll(signal),
+          applicationResponseService.listAll(signal),
           userService.getById(currentUser._id, signal),
         ])
       }
@@ -42,11 +45,18 @@ export function Ad({ type }: Props) {
       loadOptions={{ clearDataOnReload: false }}
       loadingProps={LOADING_PROPS.BLANK_PAGE_WITH_TOP_BAR}
     >
-      {([ad, applications, userData]) => (
+      {([ad, applications, applicationResponses, userData]) => (
         <AdDetails
           ad={ad}
           applications={applications}
           userData={userData}
+          servicePerformerIds={
+            getServicePerformerIds(
+              ad._id,
+              applications,
+              applicationResponses
+            ) ?? []
+          }
           type={type}
           onChange={api.current.reload}
         />

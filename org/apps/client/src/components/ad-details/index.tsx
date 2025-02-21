@@ -22,7 +22,7 @@ import { AdDetailsFooter } from './footer';
 import { HeaderButtons } from './header-buttons';
 import { PersonalRatingDialog } from '../personal-rating-dialog';
 import { PublicRatingDialog } from '../public-rating-dialog';
-import { useServicePerformers } from '../../hooks/use-service-performers';
+import { useUsers } from '../../hooks/use-users';
 
 const styles = makeStyles({
   header: {
@@ -55,6 +55,7 @@ interface Props {
   ad: JobOfferDto | ServiceOfferDto;
   applications: ApplicationDto[];
   userData: UserProfile;
+  servicePerformerIds: string[];
   type: AdType;
   onChange: () => void;
 }
@@ -63,10 +64,11 @@ export function AdDetails({
   ad,
   applications,
   userData,
+  servicePerformerIds,
   type,
   onChange,
 }: Props) {
-  const servicePerformers = useServicePerformers(ad._id);
+  const { data: users } = useUsers(servicePerformerIds);
 
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openApplyDialog, setOpenApplyDialog] = useState(false);
@@ -184,20 +186,20 @@ export function AdDetails({
         onChange={onChange}
       />
 
-      {servicePerformers && (
+      {users && (
         <>
           <PersonalRatingDialog
             open={openPersonalRatingDialog}
             onClose={() => setOpenPersonalRatingDialog(false)}
             ad={ad as JobOfferDto}
-            userIds={servicePerformers}
+            users={users}
           />
 
           <PublicRatingDialog
             open={openPublicRatingDialog}
             onClose={() => setOpenPublicRatingDialog(false)}
             ad={ad as JobOfferDto}
-            userIds={servicePerformers}
+            users={users}
           />
         </>
       )}
