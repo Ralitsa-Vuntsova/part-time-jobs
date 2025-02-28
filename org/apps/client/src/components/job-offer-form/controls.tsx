@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AccordionSummaryWithLeftIcon } from '../accordion-summary-with-left-icon';
+import { AccordionSummary } from '../accordion-summary';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { OfferInformationAccordion } from './offer-information-accordion';
 import { times } from 'lodash';
@@ -56,9 +56,9 @@ export function JobOfferControls() {
   return (
     <>
       <Accordion defaultExpanded>
-        <AccordionSummaryWithLeftIcon>
+        <AccordionSummary>
           <Typography>{t('description')}</Typography>
-        </AccordionSummaryWithLeftIcon>
+        </AccordionSummary>
         <AccordionDetails sx={styles.flexColumn}>
           <Controller
             name="name"
@@ -95,9 +95,9 @@ export function JobOfferControls() {
       <OfferInformationAccordion />
 
       <Accordion defaultExpanded>
-        <AccordionSummaryWithLeftIcon>
+        <AccordionSummary>
           <Typography>{t('contacts')}</Typography>
-        </AccordionSummaryWithLeftIcon>
+        </AccordionSummary>
         <AccordionDetails sx={styles.flexColumn}>
           {times(contacts.length, (index) => (
             <Box key={index} sx={styles.flexRow}>
@@ -125,9 +125,9 @@ export function JobOfferControls() {
       </Accordion>
 
       <Accordion defaultExpanded>
-        <AccordionSummaryWithLeftIcon>
+        <AccordionSummary>
           <Typography>{t('additional-information')}</Typography>
-        </AccordionSummaryWithLeftIcon>
+        </AccordionSummary>
         <AccordionDetails>
           <Controller
             name="additionalInformation"

@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
-  AccordionSummary,
+  AccordionSummary as MuiAccordionSummary,
   AccordionSummaryProps,
   SxProps,
   Theme,
@@ -22,13 +22,11 @@ const generateStyles = (externalStyles?: SxProps<Theme>) =>
     },
   });
 
-export function AccordionSummaryWithLeftIcon({
-  ...props
-}: AccordionSummaryProps) {
+export function AccordionSummary({ ...props }: AccordionSummaryProps) {
   const styles = generateStyles(props.sx);
 
   return (
-    <AccordionSummary
+    <MuiAccordionSummary
       {...props}
       expandIcon={<ExpandMoreIcon sx={styles.icon} />}
       sx={styles.accordionStyles}

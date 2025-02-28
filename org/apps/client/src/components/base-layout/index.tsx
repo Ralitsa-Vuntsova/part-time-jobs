@@ -17,6 +17,7 @@ interface Props {
   TopBar: JSX.Element;
 }
 
+// TODO: Move all layouts in one folder
 export function BaseLayout({ TopBar }: Props) {
   return (
     <Stack sx={styles.root}>

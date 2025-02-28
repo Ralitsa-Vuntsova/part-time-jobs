@@ -1,5 +1,5 @@
 import { Accordion, AccordionDetails, Typography } from '@mui/material';
-import { AccordionSummaryWithLeftIcon } from '../../accordion-summary-with-left-icon';
+import { AccordionSummary } from '../../accordion-summary';
 import { OfferInformationAccordion } from './offer-information-accordion';
 import { AdType } from '../../../libs/ad-helper-functions';
 import { ContactTable } from './contact-table';
@@ -17,9 +17,9 @@ export function AdDetailsContent({ ad, type }: Props) {
   return (
     <>
       <Accordion defaultExpanded>
-        <AccordionSummaryWithLeftIcon>
+        <AccordionSummary>
           <Typography>{t('description')}</Typography>
-        </AccordionSummaryWithLeftIcon>
+        </AccordionSummary>
         <AccordionDetails>
           <Typography>{ad.description}</Typography>
         </AccordionDetails>
@@ -30,9 +30,9 @@ export function AdDetailsContent({ ad, type }: Props) {
       )}
 
       <Accordion defaultExpanded>
-        <AccordionSummaryWithLeftIcon>
+        <AccordionSummary>
           <Typography>{t('contacts')}</Typography>
-        </AccordionSummaryWithLeftIcon>
+        </AccordionSummary>
         <AccordionDetails>
           <ContactTable contacts={ad.contacts} />
         </AccordionDetails>
@@ -40,9 +40,9 @@ export function AdDetailsContent({ ad, type }: Props) {
 
       {ad.additionalInformation && (
         <Accordion defaultExpanded>
-          <AccordionSummaryWithLeftIcon>
+          <AccordionSummary>
             <Typography>{t('additional-information')}</Typography>
-          </AccordionSummaryWithLeftIcon>
+          </AccordionSummary>
           <AccordionDetails>
             <Typography>{ad.additionalInformation}</Typography>
           </AccordionDetails>

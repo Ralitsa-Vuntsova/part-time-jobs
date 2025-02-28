@@ -23,7 +23,6 @@ const styles = makeStyles({
 interface AlertProps {
   open: boolean;
   title: string;
-  titleIcon?: ReactElement;
   children: ReactNode;
   onConfirm: () => unknown;
   confirmLabel?: string;

@@ -20,7 +20,7 @@ const styles = makeStyles({
   root: {
     position: 'sticky',
     background: (theme) =>
-      `linear-gradient(90deg, ${theme.palette.primary.light} 50%, ${theme.palette.primary.main} 85%)`,
+      `linear-gradient(90deg, ${theme.palette.primary.light} 50%, ${theme.palette.primary.main} 90%)`,
   },
   toolbar: {
     display: 'flex',

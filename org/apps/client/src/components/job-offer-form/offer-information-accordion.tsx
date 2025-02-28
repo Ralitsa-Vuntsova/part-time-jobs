@@ -5,7 +5,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AccordionSummaryWithLeftIcon } from '../accordion-summary-with-left-icon';
+import { AccordionSummary } from '../accordion-summary';
 import { LabeledControl } from '../labeled-control';
 import { Controller, useFormContext } from 'react-hook-form';
 import { makeStyles } from '../../libs/make-styles';
@@ -37,9 +37,9 @@ export function OfferInformationAccordion() {
 
   return (
     <Accordion defaultExpanded>
-      <AccordionSummaryWithLeftIcon>
+      <AccordionSummary>
         <Typography>{t('offer-information')}</Typography>
-      </AccordionSummaryWithLeftIcon>
+      </AccordionSummary>
       <AccordionDetails sx={styles.flexColumn}>
         <Controller
           name="dateTime"

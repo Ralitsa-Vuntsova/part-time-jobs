@@ -66,6 +66,7 @@ export function LabeledControl({
       </Box>
 
       {!isInline && withDivider && <Divider sx={{ my: 1 }} />}
+
       {children}
     </Box>
   );

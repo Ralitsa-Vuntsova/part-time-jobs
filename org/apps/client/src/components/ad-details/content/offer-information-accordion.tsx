@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, Box, Typography } from '@mui/material';
 import { JobOfferDto } from '@shared/data-objects';
-import { AccordionSummaryWithLeftIcon } from '../../accordion-summary-with-left-icon';
+import { AccordionSummary } from '../../accordion-summary';
 import { LabeledControl } from '../../labeled-control';
 import { makeStyles } from '../../../libs/make-styles';
 import { useTranslation } from 'react-i18next';
@@ -34,9 +34,9 @@ export function OfferInformationAccordion({ ad }: Props) {
 
   return (
     <Accordion defaultExpanded>
-      <AccordionSummaryWithLeftIcon>
+      <AccordionSummary>
         <Typography>{t('offer-information')}</Typography>
-      </AccordionSummaryWithLeftIcon>
+      </AccordionSummary>
       <AccordionDetails sx={styles.flexColumn}>
         <LabeledControl
           label={t('date-and-time')}
