@@ -19,8 +19,7 @@ import { useCurrentUser } from '../../hooks/use-current-user';
 const styles = makeStyles({
   root: {
     position: 'sticky',
-    background: (theme) =>
-      `linear-gradient(90deg, ${theme.palette.primary.light} 50%, ${theme.palette.primary.main} 90%)`,
+    background: (theme) => theme.palette.primary.light,
   },
   toolbar: {
     display: 'flex',
