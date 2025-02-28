@@ -5,7 +5,7 @@ import {
   Dialog,
   DialogTitle,
 } from '@mui/material';
-import { ReactElement, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { LoadingButton } from '../loading-button';
 import { makeStyles } from '../../libs/make-styles';
 
