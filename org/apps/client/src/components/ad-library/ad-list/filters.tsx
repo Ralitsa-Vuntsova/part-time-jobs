@@ -74,7 +74,7 @@ export function AdListFilters({
             onChange={(e) =>
               onFiltersChange({
                 ...filters,
-                personNumber: Number(e.target.value),
+                personNumber: parseInt(e.target.value),
               })
             }
           />
@@ -122,7 +122,10 @@ export function AdListFilters({
             value={filters.priceFrom}
             sx={styles.input}
             onChange={(e) =>
-              onFiltersChange({ ...filters, priceFrom: Number(e.target.value) })
+              onFiltersChange({
+                ...filters,
+                priceFrom: parseFloat(e.target.value),
+              })
             }
           />
 
@@ -133,7 +136,10 @@ export function AdListFilters({
             value={filters.priceTo}
             sx={styles.input}
             onChange={(e) =>
-              onFiltersChange({ ...filters, priceTo: Number(e.target.value) })
+              onFiltersChange({
+                ...filters,
+                priceTo: parseFloat(e.target.value),
+              })
             }
           />
         </Box>

@@ -78,7 +78,7 @@ export function ServiceOfferForm({ userData, ad }: Props) {
           loading={loading}
           sx={styles.button}
         >
-          Save
+          {t('save')}
         </LoadingButton>
       </Box>
     </FormProvider>

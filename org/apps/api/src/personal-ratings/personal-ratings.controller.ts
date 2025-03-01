@@ -8,7 +8,7 @@ import { PersonalRatingsService } from './personal-ratings.service';
 export class PersonalRatingsController {
   constructor(private personalRatingService: PersonalRatingsService) {}
 
-  @Get('/users')
+  @Get()
   @UseGuards(JwtAuthGuard)
   listForUser(@User() user: AuthUser) {
     return this.personalRatingService.listForUser(user.userId);

@@ -64,8 +64,9 @@ interface Props {
 
 export function ApplyDialog({ open, onClose, ad, onChange, userId }: Props) {
   const { t } = useTranslation();
+  console.log(userId);
 
-  const user = useUserById(userId); // the current user
+  const { data: user } = useUserById(userId); // the current user
 
   const form = useForm<ApplicationSchema>({
     defaultValues: {
@@ -198,7 +199,7 @@ export function ApplyDialog({ open, onClose, ad, onChange, userId }: Props) {
                     label={`${t('number-people')}*`}
                     type="number"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    onChange={(e) => field.onChange(parseInt(e.target.value))}
                     error={invalid}
                     helperText={error?.message}
                   />

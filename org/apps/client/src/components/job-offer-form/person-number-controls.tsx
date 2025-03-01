@@ -42,7 +42,7 @@ export function PersonNumberControls() {
               label={`${t('number-people')}*`}
               type="number"
               {...field}
-              onChange={(e) => field.onChange(Number(e.target.value))}
+              onChange={(e) => field.onChange(parseInt(e.target.value))}
               error={invalid}
               helperText={error?.message}
               sx={styles.smallInput}

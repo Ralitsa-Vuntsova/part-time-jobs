@@ -78,7 +78,7 @@ export function JobOfferForm({ ad, userData }: Props) {
           loading={loading}
           sx={styles.button}
         >
-          Save
+          {t('save')}
         </LoadingButton>
       </Box>
     </FormProvider>

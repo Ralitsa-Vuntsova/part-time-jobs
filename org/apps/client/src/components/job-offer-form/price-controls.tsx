@@ -41,7 +41,7 @@ export function PriceControls() {
             label={`${t('price')}*`}
             type="number"
             {...field}
-            onChange={(e) => field.onChange(Number(e.target.value))}
+            onChange={(e) => field.onChange(parseFloat(e.target.value))}
             error={invalid}
             helperText={error?.message}
             disabled={byNegotiation}
