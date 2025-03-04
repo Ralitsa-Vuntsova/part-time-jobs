@@ -21,9 +21,12 @@ You need to have the following installed on your machine:
 
 ### Setup:
 
-Firstly, add values to the following variables in your .env file:
+Firstly, add values to the following variables in an .env file, which needs to be created under `/org/apps/api` dir:
 - PTJ_DB_NAME - name for you local DB
 - PTJ_JWT_SECRET - generate random JTW secret
+
+Do the same for the client (`/org/apps/client`):
+- VITE_REACT_APP_SERVER_URL - the default value is 'http://localhost:3000'
 
 Then create a database in MongoDB Compass with the name you provided for PTJ_DB_NAME.
 
