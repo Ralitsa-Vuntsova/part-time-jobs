@@ -64,7 +64,6 @@ interface Props {
 
 export function ApplyDialog({ open, onClose, ad, onChange, userId }: Props) {
   const { t } = useTranslation();
-  console.log(userId);
 
   const { data: user } = useUserById(userId); // the current user
 
