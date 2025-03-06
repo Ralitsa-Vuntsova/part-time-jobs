@@ -36,7 +36,7 @@ export function RatingLibrary({ ratings, ads, label }: Props) {
 
   return (
     <Box sx={styles.flexColumn}>
-      {!searchResults.length ? (
+      {!ratings.length ? (
         <NoRatings />
       ) : (
         <>
