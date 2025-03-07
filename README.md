@@ -42,6 +42,8 @@ To start the server, run the following command:
 npm run start:api
 ```
 
+_Note: Starting the server automatically adds 3 users and 15 ads of each type._
+
 To start the client, run the following command:
 
 ```

@@ -14,6 +14,7 @@ import { ApplicationResponsesModule } from '../application-reponses/application-
 import { PersonalRatingsModule } from '../personal-ratings/personal-ratings.module';
 import { PublicRatingsModule } from '../public-ratings/public-ratings.module';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { SeedsModule } from '../seeds/seeds.module';
 
 const { host, name, schema } = config.get('db');
 
@@ -34,6 +35,7 @@ const { host, name, schema } = config.get('db');
     PersonalRatingsModule,
     PublicRatingsModule,
     NotificationsModule,
+    SeedsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

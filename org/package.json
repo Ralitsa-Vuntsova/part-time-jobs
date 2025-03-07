@@ -38,6 +38,7 @@
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "mongoose": "^8.8.1",
+    "nest-commander": "^3.16.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
