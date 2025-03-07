@@ -49,3 +49,8 @@ To start the client, run the following command:
 ```
 npm run start:client
 ```
+
+#### Test Users:
+1. username: user1, password: Pass123@
+2. username: user2, password: Pass123@
+3. username: user3, password: Pass123@
